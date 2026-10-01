@@ -78,9 +78,9 @@ export const content={
       "text": "For an unreliable main isolation valve."
     },
     {
-      "slug": "small-plumbing-jobs",
-      "name": "Small plumbing jobs",
-      "text": "For minor repairs found after inspection."
+      "slug": "landlords-agents",
+      "name": "Landlords and agents",
+      "text": "For property managers who need the inspection findings turned into a clear repair plan."
     }
   ],
   "guide": {
@@ -91,6 +91,12 @@ export const content={
     {
       "path": "/areas/putney/",
       "name": "Putney"
+    }
+  ],
+  "guides": [
+    {
+      "path": "/guides/lead-and-old-pipes/",
+      "name": "Lead and old pipes in Fulham homes"
     }
   ]
 };
