@@ -429,3 +429,34 @@ tbody th a{font-weight:900}
   .problem-grid{grid-template-columns:repeat(2,1fr)}
   .band{padding:54px 0}
 }
+
+
+/* V3 hub components */
+.feature-guide{
+  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;
+  margin:0 0 34px;padding:28px;background:var(--navy);color:#fff;text-decoration:none;
+  border:3px solid var(--navy);border-radius:18px;box-shadow:8px 8px 0 var(--royal)
+}
+.feature-guide small{display:block;color:#8DB6FF;text-transform:uppercase;letter-spacing:.14em;font-weight:900;margin-bottom:8px}
+.feature-guide strong{display:block;color:#fff;font:900 clamp(1.8rem,4vw,3.4rem)/.95 var(--display);letter-spacing:-.045em;max-width:15ch}
+.feature-guide em{display:block;color:#D5E5FF;font-style:normal;margin-top:10px}
+.feature-guide b{color:#fff;font-size:1rem}
+.feature-guide:hover{transform:translateY(-2px)}
+.feature-strip{
+  margin:36px 0 0;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:28px;
+  background:var(--royal);color:#fff;border:3px solid var(--navy);border-radius:18px;box-shadow:7px 7px 0 var(--navy)
+}
+.feature-strip h2{color:#fff;font-size:clamp(1.8rem,3.2vw,3rem);margin-bottom:8px}
+.feature-strip .eyebrow{color:#fff}
+.feature-strip p{margin-bottom:0;color:#EAF1FF;max-width:60ch}
+.hero-price-card{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;max-width:650px;margin:24px 0;
+  padding:15px 18px;background:#fff;color:var(--navy);border:3px solid var(--navy);border-radius:12px;box-shadow:6px 6px 0 rgba(7,27,54,.18)
+}
+.hero-price-card strong{font:900 2rem/1 var(--display);color:var(--royal)}
+.hero-price-card span{font-weight:800}
+.exclusion-wrap{margin-top:32px}
+@media(max-width:650px){
+  .feature-guide{grid-template-columns:1fr;padding:22px}
+  .feature-strip{display:grid;padding:22px}
+}
