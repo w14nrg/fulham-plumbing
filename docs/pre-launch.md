@@ -1,0 +1,22 @@
+# Pre-launch checklist
+
+- [ ] Keyword volumes sanity-checked in Keyword Planner; titles tuned if needed (still ≤60 characters)
+- [ ] Phone, WhatsApp, email, hours, availability note filled in
+- [ ] Plumber name, photo, start year, qualifications, insurance, G3 status
+- [ ] Services switched on/off to match what the plumber really does (macerators, unvented cylinders)
+- [ ] `typicalMinutes` confirmed by the plumber for every service
+- [ ] 30-minute rate, VAT status, parking policy, inspection price
+- [ ] Legal trading entity and company number
+- [ ] Map pins checked against a real map; every area `note` written by the plumber
+- [ ] Every service page's "In Fulham homes" note written by the plumber
+- [ ] Five area pages have plumber-written local content; checker shows no shared sentences
+- [ ] 20+ real job photos; 6 permissioned jobs before `recentJobs.indexable` becomes true
+- [ ] Google Business Profile: name exactly "Fulham Plumbing", primary category Plumber, services matching the enabled service pages, service areas = core + nearby, address hidden if customers don't visit, 20+ photos
+- [ ] Bing Places, Apple Business Connect, one review platform; identical name, phone, hours and area everywhere
+- [ ] Review request routine after every job (WhatsApp with direct Google review link)
+- [ ] Form endpoint tested, spam handling, confirmation message
+- [ ] Analytics with `call_click`, `whatsapp_click`, `form_submit`; cookie notice matches the real tools
+- [ ] Schema checked in Google's Rich Results Test with real data
+- [ ] Real-device checks: iPhone and Android, keyboard only, reduced motion, JavaScript switched off
+- [ ] `npm run check` passes with 0 errors and no placeholder warnings
+- [ ] `site.indexable` → true; rebuild; robots.txt now allows search engines and AI search crawlers; submit sitemap to Google Search Console and Bing Webmaster Tools
