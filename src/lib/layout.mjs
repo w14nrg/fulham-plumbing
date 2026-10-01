@@ -21,6 +21,7 @@ function acts(c,compact=false,waMessage=''){
   return x.join('');
 }
 export const actions=acts;
+export const placeholderPhoto=()=>'';
 export const breadcrumb=i=>`<nav class="breadcrumb" aria-label="Breadcrumb"><ol>${i.map((b,n)=>`<li>${n===i.length-1?`<span aria-current="page">${esc(b.name)}</span>`:`<a href="${b.path}">${esc(b.name)}</a>`}</li>`).join('')}</ol></nav>`;
 export function exclusions(c){const n='En-Suites & Bathrooms',v=c.links.enSuitesAndBathrooms?`<a href="${esc(c.links.enSuitesAndBathrooms)}">${n}</a>`:n;return`<aside class="exclusions" data-exclusions><h2>What we don't do</h2><p>We don't work on boilers or gas appliances, we don't do drain jetting, and we don't fit new bathrooms. For a complete new bathroom or en-suite, see ${v}.</p></aside>`}
 export function sister(c){const n='Kensington Plumbing Services',v=c.links.kensingtonPlumbingServices?`<a href="${esc(c.links.kensingtonPlumbingServices)}">${n}</a>`:n;return`<p class="sister" data-sister>Outside our area? Our sister service ${v} may be able to help.</p>`}
