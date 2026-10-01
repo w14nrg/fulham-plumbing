@@ -52,7 +52,7 @@ export async function render({cfg,meta,path,css,scriptPath}){
    <p class="eyebrow">Local plumber · Fulham SW6</p>
    <h1>${meta.h1}</h1>
    <p class="lede">Leaks, toilets, taps, showers and pumps. Small jobs welcome. Based on Hurlingham Road.</p>
-   <div class="hero-actions">${actions(cfg)}</div>
+   <div class="hero-actions">${actions(cfg)}</div><p class="trust-line">36 Hurlingham Road, Fulham, London SW6 3RQ</p>
    ${trust.length?`<p class="trust-line">${trust.join(' · ')}</p>`:''}
   </div>
   <aside class="home-price-ticket" aria-label="Pricing">
