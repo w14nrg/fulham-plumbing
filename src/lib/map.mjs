@@ -9,6 +9,21 @@ const labelForProblem=k=>({
   'shower-pump':'Shower pump','hot-water':'Hot water','blocked-sink':'Blocked sink',stopcock:'Stopcock'
 }[k]||k);
 
+const shortLabels={
+  'fulham-broadway':'Fulham Broadway',
+  'munster-village':'Munster Village',
+  'eel-brook-walham-green':'Eel Brook',
+  'parsons-green':'Parsons Green',
+  'bishops-park':"Bishop's Park",
+  'peterborough-estate':'Peterborough',
+  'hurlingham':'Hurlingham',
+  'sands-end':'Sands End',
+  'imperial-wharf':'Imperial Wharf',
+  'chelsea-harbour':'Chelsea Harbour',
+  'putney':'Putney',
+  'wandsworth-town':'Wandsworth'
+};
+
 const labelOffsets={
   'fulham-broadway':[18,-30],
   'munster-village':[-122,-18],
@@ -76,7 +91,7 @@ export function renderMap({cfg,variant='full',focus=null}){
     const left=a.pin[0],top=a.pin[1],profile=areaProfiles[a.profileKey]||null,[lx,ly]=labelOffsets[a.slug]||[18,-10];
     const classes=['map-pin-wrap',cfg.areas.nearby.some(x=>x.slug===a.slug)?'is-nearby':'is-core',focus===a.slug?'is-focus':''].filter(Boolean).join(' ');
     const panel=panels?`<section class="map-panel" id="panel-${a.slug}" tabindex="-1" hidden><button class="map-panel__close" type="button" data-map-close aria-label="Close area panel">×</button><p class="eyebrow">${esc(a.postcode||'Local area')}</p><h3 tabindex="-1">${esc(a.name)}</h3>${profileBody({...a,hasPage:a.hasPage},profile,cfg)}</section>`:'';
-    return`<div class="${classes}" data-map-point style="left:${left}%;top:${top}%;--pin-order:${i};--label-x:${lx}px;--label-y:${ly}px"><button type="button" class="map-pin" title="${esc(a.name)}" aria-label="${esc(a.name)}" aria-expanded="false"${panels?` aria-controls="panel-${a.slug}"`:''} data-map-trigger${panels?` data-area-target="list-${a.slug}"`:''}><span class="map-pin__shape" aria-hidden="true"></span><span class="map-pin__label" aria-hidden="true">${esc(a.name)}</span></button>${panel}</div>`;
+    return`<div class="${classes}" data-map-point style="left:${left}%;top:${top}%;--pin-order:${i};--label-x:${lx}px;--label-y:${ly}px"><button type="button" class="map-pin" title="${esc(a.name)}" aria-label="${esc(a.name)}" aria-expanded="false"${panels?` aria-controls="panel-${a.slug}"`:''} data-map-trigger${panels?` data-area-target="list-${a.slug}"`:''}><span class="map-pin__shape" aria-hidden="true"></span><span class="map-pin__label" aria-hidden="true">${esc(shortLabels[a.slug]||a.name)}</span></button>${panel}</div>`;
   }).join('');
   const b=cfg.map.base;
   const base=variant==='about'
