@@ -1,5 +1,2 @@
-import{pageShell}from'../lib/layout.mjs';
-export async function render({cfg,meta,path,css,scriptPath}) {
- const main=`<section class="section"><div class="shell legal"><h1>${meta.h1}</h1><p>Thanks for contacting Fulham Plumbing. We've received your message and will reply as soon as we can during working hours.</p><p><a href="/">Return to the homepage</a> · <a href="/plumbing-services/">See plumbing services</a></p></div></section>`;
- return pageShell({cfg,meta,path,css,scriptPath,main});
-}
+import{pageShell,breadcrumb,actions}from'../lib/layout.mjs';
+export async function render({cfg,meta,path,css,scriptPath}){const crumbs=[{name:'Home',path:'/'},{name:'Message received',path}],hours=cfg.contact.hours||'[PLACEHOLDER: working hours]';const main=`<div class="shell">${breadcrumb(crumbs)}</div><section class="hero"><div class="shell"><p class="eyebrow">Message received</p><h1>${meta.h1}</h1><p class="lede">Thanks for contacting Fulham Plumbing. We've received your message and will reply as soon as we can during working hours.</p><p>${hours}</p>${actions(cfg)}<p><a href="/plumbing-services/">Browse plumbing services →</a></p></div></section>`;return pageShell({cfg,meta,path,css,scriptPath,main,breadcrumbs:crumbs})}
