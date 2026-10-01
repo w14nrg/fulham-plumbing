@@ -141,5 +141,31 @@ qa('[data-map]').forEach(map=>{
   map.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAll(true)}})
 });
 
+
+/* Compact desktop dropdown behaviour: hover, focus and click all work. */
+if(matchMedia('(min-width:900px)').matches){
+  disclosures.forEach(w=>{
+    const b=q('[data-nav-toggle]',w),m=b&&q('#'+b.getAttribute('aria-controls'));if(!b||!m)return;
+    let timer=null;
+    const show=()=>{clearTimeout(timer);closeDisclosures(w);b.setAttribute('aria-expanded','true');m.hidden=false};
+    const hide=()=>{timer=setTimeout(()=>{if(!w.matches(':focus-within')&&!w.matches(':hover')){b.setAttribute('aria-expanded','false');m.hidden=true}},120)};
+    w.addEventListener('pointerenter',show);
+    w.addEventListener('pointerleave',hide);
+    w.addEventListener('focusin',show);
+    w.addEventListener('focusout',hide);
+  });
+}
+
+/* Lightweight scroll reveals. Content remains visible with JS off/reduced motion. */
+const revealTargets=qa('main > section:not(.hero), main article.guide-body .article-shell > section, main .content-block');
+if(!reduce.matches&&'IntersectionObserver'in window){
+  const revealObserver=new IntersectionObserver((entries,observer)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}
+    })
+  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  revealTargets.forEach(el=>{el.dataset.reveal='';revealObserver.observe(el)});
+}else revealTargets.forEach(el=>el.classList.add('is-visible'));
+
 updateWA();
 })();
