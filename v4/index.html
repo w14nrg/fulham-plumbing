@@ -15,10 +15,18 @@
   </aside>
  </div></section>
 
- <section class="problem-section" data-problem-strip><div class="shell">
-  <div class="problem-head"><div><p class="eyebrow">Got a plumbing problem?</p><h2>Tell us what's wrong.</h2></div><p>Tap the problem to get straight to the right advice.</p></div>
-  <div class="problem-strip"><a class="problem-choice" href="/fulham-plumbing/v4/leak-repairs/" data-problem="leak" aria-pressed="false">Leak</a><a class="problem-choice" href="/fulham-plumbing/v4/toilet-repairs/" data-problem="toilet" aria-pressed="false">Toilet</a><a class="problem-choice" href="/fulham-plumbing/v4/tap-repairs/" data-problem="tap" aria-pressed="false">Tap</a><a class="problem-choice" href="/fulham-plumbing/v4/shower-repairs/" data-problem="shower" aria-pressed="false">Shower</a><a class="problem-choice" href="/fulham-plumbing/v4/low-water-pressure/" data-problem="low-pressure" aria-pressed="false">Low pressure</a><a class="problem-choice" href="/fulham-plumbing/v4/shower-pumps/" data-problem="shower-pump" aria-pressed="false">Shower pump</a><a class="problem-choice" href="/fulham-plumbing/v4/hot-water-cylinders/" data-problem="hot-water" aria-pressed="false">Hot water</a><a class="problem-choice" href="/fulham-plumbing/v4/blocked-sinks-wastes/" data-problem="blocked-sink" aria-pressed="false">Blocked sink</a><a class="problem-choice" href="/fulham-plumbing/v4/stopcock-replacement/" data-problem="stopcock" aria-pressed="false">Stopcock</a><a class="problem-choice" href="/fulham-plumbing/v4/small-plumbing-jobs/" data-problem="other" aria-pressed="false">Something else</a></div>
-  <div class="qa-wrap"><div class="qa-wrap__inner"><div class="qa-panel" data-qa-panel aria-live="polite"></div></div></div>
+ <section class="problem-section" data-problem-tool><div class="shell">
+  <div class="problem-tool">
+    <div class="problem-tool__copy"><p class="eyebrow">Need help with something?</p><h2>Tell us the problem.</h2><p>Choose the closest match and we’ll take you straight to the right advice.</p></div>
+    <div class="problem-tool__control">
+      <label for="home-problem">What needs fixing?</label>
+      <select id="home-problem" data-problem-select>
+        <option value="">Choose a plumbing problem</option>
+        <option value="leak">Leak</option><option value="toilet">Toilet</option><option value="tap">Tap</option><option value="shower">Shower</option><option value="low-pressure">Low pressure</option><option value="shower-pump">Shower pump</option><option value="hot-water">Hot water</option><option value="blocked-sink">Blocked sink</option><option value="stopcock">Stopcock</option><option value="other">Something else</option>
+      </select>
+      <div class="problem-tool__stage" data-problem-stage aria-live="polite"></div>
+    </div>
+  </div>
  </div></section>
 
  <section class="band band--pale"><div class="shell"><p class="eyebrow">How pricing works</p><h2>Clear from the first hour.</h2>
