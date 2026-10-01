@@ -50,7 +50,7 @@ export async function render({cfg,meta,path,css,scriptPath}){
  <section class="hero hero--home"><div class="shell hero-home-grid">
   <div>
    <p class="eyebrow">Local plumber · Fulham SW6</p>
-   <h1>${meta.h1}</h1>
+   <h1><span class="home-title-line">Plumber in</span><span class="home-title-line">Fulham, SW6</span></h1>
    <p class="lede">Leaks, toilets, taps, showers and pumps. Small jobs welcome. Based on Hurlingham Road.</p>
    <div class="hero-actions">${actions(cfg)}</div><p class="trust-line">36 Hurlingham Road, Fulham, London SW6 3RQ</p>
    ${trust.length?`<p class="trust-line">${trust.join(' · ')}</p>`:''}
