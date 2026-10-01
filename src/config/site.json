@@ -7,7 +7,7 @@
   },
   "brand": {
     "name": "Fulham Plumbing",
-    "strapline": "Small plumbing jobs · Fulham SW6"
+    "strapline": "Plumbing services · Fulham SW6"
   },
   "company": {
     "legalName": null,
@@ -41,7 +41,7 @@
     "phone": "+447340274956",
     "phoneDisplay": "07340 274956",
     "whatsapp": "447340274956",
-    "whatsappMessage": "Hi Fulham Plumbing, I need a plumber. My postcode is: ",
+    "whatsappMessage": "Hi Fulham Plumbing, I need a plumber. My postcode is: ____. The problem is: ____. I’ll attach a photo or short video in WhatsApp.",
     "email": null,
     "hours": null,
     "availabilityNote": null
@@ -234,8 +234,8 @@
     },
     {
       "slug": "small-plumbing-jobs",
-      "name": "Small plumbing jobs",
-      "tile": "Several small jobs",
+      "name": "General plumbing",
+      "tile": "Multiple plumbing jobs",
       "enabled": true,
       "typicalMinutes": [
         60,
