@@ -46,7 +46,20 @@ export const content={
       ]
     }
   ],
-  "whenToCall": "Call when water is still entering, the source is unclear, the stopcock will not work or access is needed to prove which fitting or pipe has failed.",
+,\n    {
+    "title": "How to narrow the source without making the damage worse",
+    "paragraphs": [
+        "If the leak changes when a particular fitting upstairs is used, stop using that fitting and note the pattern. Water that appears only when a bath drains suggests a different fault from water that continues while every outlet is off. Likewise, a toilet-related leak may appear after a flush rather than while the cistern is simply sitting full.",
+        "Do not repeatedly run showers, baths or appliances just to reproduce a leak once you already know they trigger it. A controlled test by the plumber is safer because the area below can be watched at the same time and the relevant supply can be isolated quickly.",
+        "Where the leak is intermittent, a dry photograph of the ceiling is still useful alongside the wet one. It shows how far the staining spread and whether the mark is growing between events. If the ceiling begins to bow or crack, keep people away from the area and do not puncture it yourself."
+    ],
+    "list": [
+        "Note which upstairs fitting was used immediately before the leak.",
+        "Record whether water continues when every outlet is off.",
+        "Keep dated photos of the wet area and any visible source.",
+        "Stop deliberate testing once the trigger is reasonably clear."
+    ]
+}\n  ],\n  "whenToCall": "Call when water is still entering, the source is unclear, the stopcock will not work or access is needed to prove which fitting or pipe has failed.",
   "faqs": [
     {
       "q": "Is it safe to use the lights?",
