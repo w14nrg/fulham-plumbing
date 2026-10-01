@@ -460,3 +460,15 @@ tbody th a{font-weight:900}
   .feature-guide{grid-template-columns:1fr;padding:22px}
   .feature-strip{display:grid;padding:22px}
 }
+
+
+/* V3 local-area compact notes */
+.area-notes{border-top:3px solid var(--navy)}
+.area-notes details{border-bottom:1px solid var(--line)}
+.area-notes summary{list-style:none;cursor:pointer;padding:18px 42px 18px 0;position:relative}
+.area-notes summary::-webkit-details-marker{display:none}
+.area-notes summary:after{content:"+";position:absolute;right:4px;top:14px;font:900 1.5rem/1 var(--display);color:var(--royal)}
+.area-notes details[open] summary:after{content:"–"}
+.area-notes summary strong{display:block;font:900 1.2rem/1.05 var(--display);color:var(--navy)}
+.area-notes summary small{display:block;margin-top:6px;color:var(--ink-2);max-width:70ch}
+.area-notes__body{padding:0 0 20px;max-width:78ch}
