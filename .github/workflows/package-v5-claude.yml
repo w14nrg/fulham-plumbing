@@ -1,4 +1,5 @@
 name: Package V5 Claude source
+# Handoff package includes latest V5 source
 
 on:
   push:
