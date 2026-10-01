@@ -47,7 +47,7 @@ export async function render({cfg,meta,path,css,scriptPath}){
     <div class="bb-proof"><span>✓ £${cfg.pricing.firstHour} first hour</span><span>✓ No separate call-out fee</span><span>✓ Parts at cost</span></div>
    </div>
 
-   <aside class="bb-checker" data-whatsapp-checker>
+   <aside class="bb-checker" data-whatsapp-checker data-wa-number="${cfg.contact.whatsapp}">
     <div class="bb-checker__title"><span class="bb-checker__icon">◎</span><div><b>INSTANT PLUMBING CHECK</b><h2>Send us the job.</h2></div></div>
     <label class="sr-only" for="bb-postcode">Postcode</label>
     <div class="bb-checker__inputrow">
