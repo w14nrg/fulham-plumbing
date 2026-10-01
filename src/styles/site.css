@@ -12,3 +12,5 @@
 
 .map-pin-wrap{z-index:3}.map-pin-wrap.is-open{z-index:30}.map-pin__label--mobile{display:none}
 @media(max-width:899px){.is-core .map-pin__label--desktop{display:none}.is-core .map-pin__label--mobile{display:block;font-size:10px;line-height:1.1;max-width:70px;text-align:center}.area-eel-brook-walham-green .map-pin__label--mobile{transform:translateX(18px)}.area-parsons-green .map-pin__label--mobile{transform:translateX(-18px)}.area-peterborough-estate .map-pin__label--mobile{transform:translateX(14px)}}
+
+.noscript-nav__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.noscript-nav__grid a{display:block}.js .noscript-nav{display:none}
