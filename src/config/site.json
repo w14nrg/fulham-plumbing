@@ -1,8 +1,20 @@
 {
   "_readme": "Single source of truth. Unknown values stay null and are never rendered or guessed.",
-  "site": { "url": "https://fulhamplumbing.co.uk", "indexable": false, "language": "en-GB" },
-  "brand": { "name": "Fulham Plumbing", "strapline": "Small plumbing jobs · Fulham SW6" },
-  "company": { "legalName": null, "companyNumber": null, "registeredIn": "England and Wales", "vatNumber": null },
+  "site": {
+    "url": "https://fulhamplumbing.co.uk",
+    "indexable": false,
+    "language": "en-GB"
+  },
+  "brand": {
+    "name": "Fulham Plumbing",
+    "strapline": "Small plumbing jobs · Fulham SW6"
+  },
+  "company": {
+    "legalName": null,
+    "companyNumber": null,
+    "registeredIn": "England and Wales",
+    "vatNumber": null
+  },
   "operatingAddress": {
     "streetAddress": "36 Hurlingham Road",
     "locality": "Fulham",
@@ -20,7 +32,10 @@
     "g3Unvented": false,
     "photo": null,
     "photoAlt": null,
-    "bio": null
+    "bio": null,
+    "localStory": null,
+    "school": null,
+    "yearsInFulham": null
   },
   "contact": {
     "phone": null,
@@ -41,51 +56,355 @@
     "parking": null,
     "inspectionFixedPrice": null
   },
-  "reviews": { "googleUrl": null, "rating": null, "count": null, "items": [] },
-  "recentJobs": { "indexable": false },
-  "forms": { "endpoint": null },
-  "analytics": { "provider": null, "domain": null },
+  "reviews": {
+    "googleUrl": null,
+    "rating": null,
+    "count": null,
+    "items": []
+  },
+  "recentJobs": {
+    "indexable": false
+  },
+  "forms": {
+    "endpoint": null
+  },
+  "analytics": {
+    "provider": null,
+    "domain": null
+  },
   "links": {
     "googleBusinessProfile": null,
     "reviewPlatform": null,
     "kensingtonPlumbingServices": null,
     "enSuitesAndBathrooms": null
   },
-  "map": { "base": [51, 55] },
+  "map": {
+    "base": [
+      51,
+      55
+    ]
+  },
   "services": [
-    { "slug": "leak-repairs", "name": "Leak repairs", "tile": "Leak", "enabled": true, "typicalMinutes": [60, 90] },
-    { "slug": "toilet-repairs", "name": "Toilet repairs", "tile": "Toilet keeps running", "enabled": true, "typicalMinutes": [45, 90] },
-    { "slug": "tap-repairs", "name": "Tap repairs and replacement", "tile": "Dripping tap", "enabled": true, "typicalMinutes": [45, 90] },
-    { "slug": "shower-repairs", "name": "Shower repairs", "tile": "Shower not working", "enabled": true, "typicalMinutes": [60, 120] },
-    { "slug": "shower-pumps", "name": "Shower pumps", "tile": "Shower pump", "enabled": true, "typicalMinutes": [90, 150] },
-    { "slug": "low-water-pressure", "name": "Low water pressure", "tile": "Low pressure", "enabled": true, "typicalMinutes": [60, 60] },
-    { "slug": "hot-water-cylinders", "name": "Hot water cylinders", "tile": "No hot water", "enabled": true, "typicalMinutes": [60, 120] },
-    { "slug": "cold-water-tanks", "name": "Cold water tanks", "tile": "Loft tank or overflow", "enabled": true, "typicalMinutes": [60, 240] },
-    { "slug": "stopcock-replacement", "name": "Stopcock replacement", "tile": "Stiff stopcock", "enabled": true, "typicalMinutes": [60, 120] },
-    { "slug": "radiator-valves", "name": "Radiator valves", "tile": "Radiator valve", "enabled": true, "typicalMinutes": [60, 90] },
-    { "slug": "blocked-sinks-wastes", "name": "Blocked sinks and wastes", "tile": "Blocked sink", "enabled": true, "typicalMinutes": [45, 60] },
-    { "slug": "outside-taps", "name": "Outside taps", "tile": "Outside tap", "enabled": true, "typicalMinutes": [60, 120] },
-    { "slug": "appliance-plumbing", "name": "Washing machine and dishwasher plumbing", "tile": "Washing machine", "enabled": true, "typicalMinutes": [60, 90] },
-    { "slug": "macerator-repairs", "name": "Macerator repairs", "tile": "Saniflo", "enabled": false, "typicalMinutes": [60, 120] },
-    { "slug": "plumbing-inspections", "name": "Plumbing inspections", "tile": "Buying a home", "enabled": true, "typicalMinutes": null },
-    { "slug": "small-plumbing-jobs", "name": "Small plumbing jobs", "tile": "Several small jobs", "enabled": true, "typicalMinutes": [60, 120] }
+    {
+      "slug": "leak-repairs",
+      "name": "Leak repairs",
+      "tile": "Leak",
+      "enabled": true,
+      "typicalMinutes": [
+        60,
+        90
+      ]
+    },
+    {
+      "slug": "toilet-repairs",
+      "name": "Toilet repairs",
+      "tile": "Toilet keeps running",
+      "enabled": true,
+      "typicalMinutes": [
+        45,
+        90
+      ]
+    },
+    {
+      "slug": "tap-repairs",
+      "name": "Tap repairs and replacement",
+      "tile": "Dripping tap",
+      "enabled": true,
+      "typicalMinutes": [
+        45,
+        90
+      ]
+    },
+    {
+      "slug": "shower-repairs",
+      "name": "Shower repairs",
+      "tile": "Shower not working",
+      "enabled": true,
+      "typicalMinutes": [
+        60,
+        120
+      ]
+    },
+    {
+      "slug": "shower-pumps",
+      "name": "Shower pumps",
+      "tile": "Shower pump",
+      "enabled": true,
+      "typicalMinutes": [
+        90,
+        150
+      ]
+    },
+    {
+      "slug": "low-water-pressure",
+      "name": "Low water pressure",
+      "tile": "Low pressure",
+      "enabled": true,
+      "typicalMinutes": [
+        60,
+        60
+      ]
+    },
+    {
+      "slug": "hot-water-cylinders",
+      "name": "Hot water cylinders",
+      "tile": "No hot water",
+      "enabled": true,
+      "typicalMinutes": [
+        60,
+        120
+      ]
+    },
+    {
+      "slug": "cold-water-tanks",
+      "name": "Cold water tanks",
+      "tile": "Loft tank or overflow",
+      "enabled": true,
+      "typicalMinutes": [
+        60,
+        240
+      ]
+    },
+    {
+      "slug": "stopcock-replacement",
+      "name": "Stopcock replacement",
+      "tile": "Stiff stopcock",
+      "enabled": true,
+      "typicalMinutes": [
+        60,
+        120
+      ]
+    },
+    {
+      "slug": "radiator-valves",
+      "name": "Radiator valves",
+      "tile": "Radiator valve",
+      "enabled": true,
+      "typicalMinutes": [
+        60,
+        90
+      ]
+    },
+    {
+      "slug": "blocked-sinks-wastes",
+      "name": "Blocked sinks and wastes",
+      "tile": "Blocked sink",
+      "enabled": true,
+      "typicalMinutes": [
+        45,
+        60
+      ]
+    },
+    {
+      "slug": "outside-taps",
+      "name": "Outside taps",
+      "tile": "Outside tap",
+      "enabled": true,
+      "typicalMinutes": [
+        60,
+        120
+      ]
+    },
+    {
+      "slug": "appliance-plumbing",
+      "name": "Washing machine and dishwasher plumbing",
+      "tile": "Washing machine",
+      "enabled": true,
+      "typicalMinutes": [
+        60,
+        90
+      ]
+    },
+    {
+      "slug": "macerator-repairs",
+      "name": "Macerator repairs",
+      "tile": "Saniflo",
+      "enabled": false,
+      "typicalMinutes": [
+        60,
+        120
+      ]
+    },
+    {
+      "slug": "plumbing-inspections",
+      "name": "Plumbing inspections",
+      "tile": "Buying a home",
+      "enabled": true,
+      "typicalMinutes": null
+    },
+    {
+      "slug": "small-plumbing-jobs",
+      "name": "Small plumbing jobs",
+      "tile": "Several small jobs",
+      "enabled": true,
+      "typicalMinutes": [
+        60,
+        120
+      ]
+    }
   ],
   "areas": {
     "core": [
-      { "slug": "parsons-green", "name": "Parsons Green", "postcode": "SW6", "hasPage": false, "home": true, "pin": [56, 48], "note": null },
-      { "slug": "hurlingham", "name": "Hurlingham", "postcode": "SW6", "hasPage": false, "home": true, "pin": [44, 70], "note": null },
-      { "slug": "fulham-broadway", "name": "Fulham Broadway", "postcode": "SW6", "hasPage": true, "pin": [64, 22], "note": null },
-      { "slug": "sands-end-imperial-wharf", "name": "Sands End & Imperial Wharf", "postcode": "SW6", "hasPage": true, "pin": [82, 62], "note": null },
-      { "slug": "munster-village", "name": "Munster Village", "postcode": "SW6", "hasPage": false, "pin": [34, 30], "note": null },
-      { "slug": "peterborough-estate", "name": "Peterborough Estate", "postcode": "SW6", "hasPage": false, "pin": [66, 60], "note": null },
-      { "slug": "eel-brook-walham-green", "name": "Eel Brook Common & Walham Green", "postcode": "SW6", "hasPage": false, "pin": [62, 36], "note": null },
-      { "slug": "bishops-park", "name": "Bishop's Park & Fulham Palace", "postcode": "SW6", "hasPage": false, "pin": [18, 52], "note": null },
-      { "slug": "crabtree-fulham-reach", "name": "Crabtree & Fulham Reach", "postcode": null, "hasPage": false, "pin": [16, 20], "note": null }
+      {
+        "slug": "parsons-green",
+        "name": "Parsons Green",
+        "postcode": "SW6",
+        "hasPage": false,
+        "home": true,
+        "pin": [
+          56,
+          48
+        ],
+        "note": null,
+        "anchor": true,
+        "labelSide": "right"
+      },
+      {
+        "slug": "hurlingham",
+        "name": "Hurlingham",
+        "postcode": "SW6",
+        "hasPage": false,
+        "home": true,
+        "pin": [
+          44,
+          70
+        ],
+        "note": null,
+        "anchor": true,
+        "labelSide": "left"
+      },
+      {
+        "slug": "fulham-broadway",
+        "name": "Fulham Broadway",
+        "postcode": "SW6",
+        "hasPage": true,
+        "pin": [
+          64,
+          22
+        ],
+        "note": null,
+        "anchor": true,
+        "labelSide": "right"
+      },
+      {
+        "slug": "sands-end-imperial-wharf",
+        "name": "Sands End & Imperial Wharf",
+        "postcode": "SW6",
+        "hasPage": true,
+        "pin": [
+          82,
+          62
+        ],
+        "note": null,
+        "anchor": false,
+        "labelSide": "left"
+      },
+      {
+        "slug": "munster-village",
+        "name": "Munster Village",
+        "postcode": "SW6",
+        "hasPage": false,
+        "pin": [
+          34,
+          30
+        ],
+        "note": null,
+        "anchor": false,
+        "labelSide": "left"
+      },
+      {
+        "slug": "peterborough-estate",
+        "name": "Peterborough Estate",
+        "postcode": "SW6",
+        "hasPage": false,
+        "pin": [
+          66,
+          60
+        ],
+        "note": null,
+        "anchor": false,
+        "labelSide": "left"
+      },
+      {
+        "slug": "eel-brook-walham-green",
+        "name": "Eel Brook Common & Walham Green",
+        "postcode": "SW6",
+        "hasPage": false,
+        "pin": [
+          62,
+          36
+        ],
+        "note": null,
+        "anchor": false,
+        "labelSide": "right"
+      },
+      {
+        "slug": "bishops-park",
+        "name": "Bishop's Park & Fulham Palace",
+        "postcode": "SW6",
+        "hasPage": false,
+        "pin": [
+          18,
+          52
+        ],
+        "note": null,
+        "anchor": false,
+        "labelSide": "right"
+      },
+      {
+        "slug": "crabtree-fulham-reach",
+        "name": "Crabtree & Fulham Reach",
+        "postcode": null,
+        "hasPage": false,
+        "pin": [
+          16,
+          20
+        ],
+        "note": null,
+        "anchor": false,
+        "labelSide": "right"
+      }
     ],
     "nearby": [
-      { "slug": "chelsea-harbour", "name": "Chelsea Harbour & Lots Road", "postcode": "SW10", "hasPage": true, "pin": [92, 44], "note": null },
-      { "slug": "putney", "name": "Putney", "postcode": "SW15", "hasPage": true, "pin": [16, 92], "note": null },
-      { "slug": "wandsworth-town", "name": "Wandsworth Town", "postcode": "SW18", "hasPage": true, "pin": [66, 94], "note": null }
+      {
+        "slug": "chelsea-harbour",
+        "name": "Chelsea Harbour & Lots Road",
+        "postcode": "SW10",
+        "hasPage": true,
+        "pin": [
+          92,
+          44
+        ],
+        "note": null,
+        "anchor": false,
+        "labelSide": "left"
+      },
+      {
+        "slug": "putney",
+        "name": "Putney",
+        "postcode": "SW15",
+        "hasPage": true,
+        "pin": [
+          16,
+          92
+        ],
+        "note": null,
+        "anchor": false,
+        "labelSide": "right"
+      },
+      {
+        "slug": "wandsworth-town",
+        "name": "Wandsworth Town",
+        "postcode": "SW18",
+        "hasPage": true,
+        "pin": [
+          66,
+          94
+        ],
+        "note": null,
+        "anchor": false,
+        "labelSide": "left"
+      }
     ]
   }
 }
