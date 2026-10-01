@@ -472,3 +472,136 @@ tbody th a{font-weight:900}
 .area-notes summary strong{display:block;font:900 1.2rem/1.05 var(--display);color:var(--navy)}
 .area-notes summary small{display:block;margin-top:6px;color:var(--ink-2);max-width:70ch}
 .area-notes__body{padding:0 0 20px;max-width:78ch}
+
+
+/* V3 polish — typography, selector icons, permanent map labels and readable map panels */
+:root{
+  --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+body{font-family:var(--sans);font-weight:400}
+p,li,dd,dt,small,.lede,.muted,.directory-link small,.hairline-row small,.area-index,.map-list__body,.map-panel,.qa-step-label,.qa-pill,.problem-chip{
+  font-family:var(--sans)
+}
+.problem-choice{
+  font-family:var(--sans);
+  font-weight:700;
+  letter-spacing:-.01em
+}
+.problem-choice .icon{
+  width:30px;height:30px;padding:6px;border-radius:50%;
+  background:var(--royal-soft);color:var(--royal);
+  stroke-width:1.8;flex:0 0 30px
+}
+.problem-choice[aria-pressed="true"] .icon{
+  background:#fff;color:var(--navy)
+}
+.qa-pill,.problem-chip{
+  font-weight:650;
+  border-width:1.5px
+}
+.button,.desktop-nav,.nav-menu,.site-header__actions,.wordmark__text small{
+  font-family:var(--sans)
+}
+.desktop-nav>a,.nav-disclosure>button{font-weight:750}
+.directory-link strong,.hairline-row strong,.area-index strong{font-family:var(--sans);font-weight:750}
+
+@media(min-width:900px){
+  .map-pin__label{
+    opacity:1;
+    left:50%;
+    bottom:auto;
+    top:50%;
+    transform:translate(var(--label-x,18px),var(--label-y,-10px));
+    background:rgba(7,27,54,.9);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.42);
+    border-radius:5px;
+    box-shadow:none;
+    font-family:var(--sans);
+    font-size:11px;
+    line-height:1.15;
+    font-weight:750;
+    padding:5px 7px;
+    text-align:left;
+    white-space:nowrap;
+    z-index:7
+  }
+  .map-pin:hover .map-pin__label,
+  .map-pin:focus-visible .map-pin__label,
+  .map-pin-wrap.is-open .map-pin__label{
+    opacity:1;
+    transform:translate(var(--label-x,18px),var(--label-y,-10px));
+    background:#fff;
+    color:var(--navy);
+    border-color:var(--navy);
+    box-shadow:3px 4px 0 rgba(7,27,54,.2)
+  }
+  .is-base .map-pin__label{
+    opacity:1;
+    transform:translate(-50%,-38px);
+    background:#fff;color:var(--navy);border-color:var(--navy)
+  }
+}
+.band--navy .map-panel,
+.map-panel{
+  background:#fff!important;
+  color:var(--navy)!important;
+  width:min(410px,48%);
+  padding:28px 30px!important;
+  overflow-y:auto;
+  border-left:3px solid var(--navy);
+  box-shadow:-12px 0 30px rgba(0,0,0,.18)
+}
+.band--navy .map-panel h3,
+.band--navy .map-panel h4,
+.map-panel h3,.map-panel h4{
+  color:var(--navy)!important;
+  font-family:var(--sans)!important;
+  letter-spacing:-.02em!important
+}
+.map-panel h3{
+  font-size:1.45rem!important;
+  line-height:1.12!important;
+  margin:0 44px 16px 0!important;
+  font-weight:800!important
+}
+.map-panel h4{
+  margin:18px 0 7px!important;
+  font-size:.84rem!important;
+  text-transform:uppercase;
+  letter-spacing:.08em!important;
+  font-weight:800!important
+}
+.band--navy .map-panel .eyebrow,
+.map-panel .eyebrow{
+  color:var(--royal)!important;
+  font-family:var(--sans)!important
+}
+.band--navy .map-panel p,
+.band--navy .map-panel li,
+.band--navy .map-panel .map-list__body,
+.map-panel p,.map-panel li,.map-panel .map-list__body{
+  color:#34445C!important;
+  font-family:var(--sans)!important;
+  font-size:.95rem!important;
+  line-height:1.45!important
+}
+.map-panel .map-list__body ul{padding-left:18px;margin:8px 0 14px}
+.map-panel .problem-chip{
+  color:var(--navy)!important;
+  background:var(--royal-soft);
+  border-color:#9BB9EB
+}
+.map-panel__close{
+  background:var(--surface)!important;
+  color:var(--navy)!important;
+  border:1px solid var(--line)!important;
+  font:700 1rem/1 var(--sans)!important
+}
+.map-panel .button--secondary{
+  color:var(--navy)!important;
+  background:#fff!important
+}
+@media(max-width:899px){
+  .problem-choice .icon{width:27px;height:27px;padding:5px;flex-basis:27px}
+}
