@@ -29,7 +29,7 @@ function profileBody(a,profile,cfg){
   const homes=profile?.homes?.length?`<h4>Homes and buildings</h4><ul>${profile.homes.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'';
   const chips=profile?.problems?.length?`<h4>Quick help</h4><div class="symptom-row">${profile.problems.map(k=>`<a class="problem-chip" href="/${problemService(k)}/" data-problem-jump="${esc(k)}">${esc(labelForProblem(k))}</a>`).join('')}</div>`:'';
   const wa=cfg.contact.whatsapp?`<a class="button button--whatsapp button--compact" href="https://wa.me/${esc(cfg.contact.whatsapp)}?text=${encodeURIComponent(`Hi Fulham Plumbing, I'm in ${a.name}. My postcode is ____. I have a plumbing problem and I've attached a photo.`)}">WhatsApp us</a>`:'';
-  return`<div class="map-list__body">${profile?.intro?`<p>${esc(profile.intro)}</p>`:''}${homes}${chips}<div class="map-list__actions"><a class="button button--secondary button--compact" href="${href(a)}">Plumbing in ${esc(a.name)} →</a>${wa}</div></div>`;
+  return`<div class="map-list__body">${profile?.intro?`<p>${esc(profile.intro)}</p>`:''}${homes}${chips}<div class="map-list__actions"><a class="button button--secondary button--compact" href="${areaHref(a)}">Plumbing in ${esc(a.name)} →</a>${wa}</div></div>`;
 }
 function problemService(k){return({
   leak:'leak-repairs',toilet:'toilet-repairs',tap:'tap-repairs',shower:'shower-repairs','low-pressure':'low-water-pressure',
