@@ -1,1 +1,24 @@
-import{pageShell,breadcrumb}from'../lib/layout.mjs';export async function render({cfg,meta,path,css,scriptPath}){const crumbs=[{name:'Home',path:'/'},{name:'Guides',path}],groups=[['Showers',[['shower-pressure-dropped','Why has my shower pressure dropped?'],['shower-pump-not-working','Shower pump not working: what to check']]],['Toilets',[['toilet-keeps-running','Why does my toilet keep running?']]],['Leaks',[['water-through-ceiling','Water coming through the ceiling: what to do first']]],['Water supply and tanks',[['lead-and-old-pipes','Lead and old pipes in Fulham homes'],['loft-water-tank','Do I still need a cold water tank in the loft?']]],['Hot water',[['no-hot-water-cylinder','No hot water from the cylinder: common causes']]],['Buying a home',[['plumbing-checks-before-buying','What to check in the plumbing before you buy a home']]]];const main=`<div class="shell">${breadcrumb(crumbs)}</div><section class="hero"><div class="shell"><h1>${meta.h1}</h1><p class="lede">Practical plumbing guides from a Fulham plumber: low shower pressure, running toilets, leaks from upstairs, loft tanks, old pipes and more.</p></div></section>${groups.map((g,i)=>`<section class="section ${i%2?'section--alt':''}"><div class="shell"><h2>${g[0]}</h2><div class="cards">${g[1].map(x=>`<article class="card"><h3><a href="/guides/${x[0]}/">${x[1]}</a></h3><p>Plain checks, likely causes and a clear point at which DIY should stop.</p></article>`).join('')}</div></div></section>`).join('')}`;return pageShell({cfg,meta,path,css,scriptPath,main,breadcrumbs:crumbs})}
+import{pageShell,breadcrumb}from'../lib/layout.mjs';
+
+export async function render({cfg,meta,path,css,scriptPath}){
+  const crumbs=[{name:'Home',path:'/'},{name:'Guides',path}];
+  const groups=[
+    ['Showers',[['shower-pressure-dropped','Why has my shower pressure dropped?','Low flow, pump issues and what to check first.'],['shower-pump-not-working','Shower pump not working: what to check','Noisy, weak or silent pump? Start here.']]],
+    ['Toilets',[['toilet-keeps-running','Why does my toilet keep running?','Fill valve or flush valve? Work out which side is passing.']]],
+    ['Leaks',[['water-through-ceiling','Water coming through the ceiling','What to isolate first and how the source is traced.']]],
+    ['Water supply & tanks',[['lead-and-old-pipes','Lead and old pipes in Fulham homes','How to recognise older pipework and what replacement involves.'],['loft-water-tank','Do I still need a cold water tank in the loft?','What the tank does and when it can be changed.']]],
+    ['Hot water',[['no-hot-water-cylinder','No hot water from the cylinder','Safe checks before a plumber visits.']]],
+    ['Buying a home',[['plumbing-checks-before-buying','Plumbing checks before you buy','Pressure, pipe materials, tanks, cylinders and visible leaks.']]]
+  ];
+  const featured=groups[0][1][0];
+  const main=`
+  <div class="shell">${breadcrumb(crumbs)}</div>
+  <section class="hero"><div class="shell"><p class="eyebrow">Quick answers first</p><h1>${meta.h1}</h1><p class="lede">Useful answers for the plumbing problems people actually search for — short answer first, detail when you need it.</p></div></section>
+  <section class="compact-page"><div class="shell">
+    <a class="feature-guide" href="/guides/${featured[0]}/"><span><small>Featured guide</small><strong>${featured[1]}</strong><em>${featured[2]}</em></span><b>Read →</b></a>
+    <div class="directory-grid">
+      ${groups.map(([name,items])=>`<section class="directory-group"><p class="eyebrow">${name}</p><div class="directory-list">${items.map(([slug,title,desc])=>`<a class="directory-link" href="/guides/${slug}/"><span><strong>${title}</strong><small>${desc}</small></span><span>→</span></a>`).join('')}</div></section>`).join('')}
+    </div>
+  </div></section>`;
+  return pageShell({cfg,meta,path,css,scriptPath,main,breadcrumbs:crumbs});
+}
