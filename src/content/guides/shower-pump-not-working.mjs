@@ -51,22 +51,23 @@ export const content={
         "Filters, switches, hoses, airlocks and installation issues can sometimes be corrected. Worn bearings, damaged bodies and repeated internal failure make replacement more likely.",
         "The replacement should match the system type, number of outlets and required head. Brand alone is not a specification; the pump needs to suit the stored-water arrangement."
       ]
-    }
-  ],
-,\n    {
-    "title": "What to note before booking a repair",
-    "paragraphs": [
+    },
+    {
+      "title": "What to note before booking a repair",
+      "paragraphs": [
         "A short video can be very useful because pump faults are often about behaviour as much as appearance. Record what happens when the shower is opened: whether the motor starts immediately, hesitates, pulses, runs continuously or stays silent. If the sound changes once the water has been running for a few seconds, mention that too.",
         "Photograph the pump label without removing any cover. The model number and pressure rating help identify the correct replacement and the manufacturer's installation requirements. Also photograph the flexible hoses and nearby valves so the plumber can see how the pump is connected before arriving.",
         "If more than one outlet uses the pump, say which outlets still work. One weak shower with another pumped outlet working normally points more towards a local shower restriction. Everything being weak or silent makes the pump, its feed or the common valves more likely."
-    ],
-    "list": [
+      ],
+      "list": [
         "Model and pressure rating from the external label.",
         "Which outlets are pumped and which still work.",
         "Whether the fault is silence, noise, weak flow or cycling.",
         "Any recent tank, valve or pipework changes."
-    ]
-}\n  ],\n  "whenToCall": "Call when the pump will not start after basic external checks, when it leaks, cycles by itself, becomes very noisy or needs electrical covers removed.",
+      ]
+    }
+  ],
+  "whenToCall": "Call when the pump will not start after basic external checks, when it leaks, cycles by itself, becomes very noisy or needs electrical covers removed.",
   "faqs": [
     {
       "q": "Can I reset a shower pump?",

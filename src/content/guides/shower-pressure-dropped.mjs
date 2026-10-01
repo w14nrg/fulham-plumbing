@@ -51,21 +51,22 @@ export const content={
         "Call when the simple head-and-hose checks do not isolate the problem, when a pump is involved, or when valves feel seized. Proper testing should tell you whether the next step is a cartridge, a valve repair, pump work or a wider supply solution.",
         "Avoid opening pump electrics or removing concealed shower valves without knowing how they are isolated. Water close to electrical equipment is a point to stop DIY rather than experiment."
       ]
-    }
-  ],
-,\n    {
-    "title": "What changed just before the pressure dropped?",
-    "paragraphs": [
+    },
+    {
+      "title": "What changed just before the pressure dropped?",
+      "paragraphs": [
         "Think back to any work carried out immediately before the change. A recently serviced tap, an isolated cylinder, work in the loft or a valve that was turned off and reopened can leave an isolation valve partly closed or introduce air into a stored-water system. That history can save a lot of unnecessary dismantling.",
         "If nothing in the property changed, compare the shower at different times and compare it with a cold kitchen tap. Consistent weakness at every outlet points in a different direction from a shower that fades only on hot water or only after the pump starts. Write down those differences before the visit; they are more useful than simply saying the pressure feels low."
-    ],
-    "list": [
+      ],
+      "list": [
         "Note whether the change was sudden or gradual.",
         "Check if hot, cold or both are affected.",
         "Compare one nearby tap with the shower.",
         "Tell the plumber about recent isolation or plumbing work."
-    ]
-}\n  ],\n  "whenToCall": "Call when the restriction is beyond the removable head or hose, when pressure is poor at several outlets, or when a pump or seized valve is involved.",
+      ]
+    }
+  ],
+  "whenToCall": "Call when the restriction is beyond the removable head or hose, when pressure is poor at several outlets, or when a pump or seized valve is involved.",
   "faqs": [
     {
       "q": "Can limescale really cause it?",

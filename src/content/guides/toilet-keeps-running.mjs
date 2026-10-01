@@ -44,22 +44,23 @@ export const content={
         "A concealed cistern should have a route for maintenance through the flush plate or a service panel. Good access often allows ordinary valve work without disturbing the surrounding finish.",
         "Where no service opening exists, do not force a decorative panel. The access problem should be discussed before any fixed finish is disturbed."
       ]
-    }
-  ],
-,\n    {
-    "title": "What you can check without taking the cistern apart",
-    "paragraphs": [
+    },
+    {
+      "title": "What you can check without taking the cistern apart",
+      "paragraphs": [
         "Start by removing only a lift-off lid or normal service cover if the design clearly allows it. Watch one complete flush and refill. The important observations are where the water level stops, whether the inlet valve becomes silent, and whether movement at the flush valve settles completely after the button is released.",
         "If the cistern has an isolation valve that turns easily, you can close it briefly after the cistern has filled. If the trickle into the pan then continues while no new water enters, that strongly suggests water is escaping through the flush side. If the trickle stops as the level falls, the inlet side or an over-high fill level deserves attention.",
         "Do not force a small isolation valve that is corroded or stiff. These valves can fail at the spindle or body when excessive force is used. A running toilet is irritating, but turning a serviceable valve into an active leak creates a much more urgent problem."
-    ],
-    "list": [
+      ],
+      "list": [
         "Watch whether the inlet ever becomes completely quiet.",
         "Check whether the water level is close to the overflow.",
         "Look for ripples or a constant trickle in the pan.",
         "Do not force a seized isolation valve or hidden service panel."
-    ]
-}\n  ],\n  "whenToCall": "Call when the cistern will not stop filling, water leaks onto the floor, the isolation valve is seized or a concealed mechanism cannot be reached safely.",
+      ]
+    }
+  ],
+  "whenToCall": "Call when the cistern will not stop filling, water leaks onto the floor, the isolation valve is seized or a concealed mechanism cannot be reached safely.",
   "faqs": [
     {
       "q": "Does a running toilet waste much water?",
