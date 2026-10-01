@@ -88,12 +88,13 @@ qa('[data-whatsapp-checker]').forEach(box=>{
   const postcode=q('[data-wa-postcode]',box);
   const problem=q('[data-wa-problem]',box);
   const send=q('[data-wa-send]',box);
-  if(!send||!qaData?.whatsapp)return;
+  const waNumber=box.dataset.waNumber;
+  if(!send||!waNumber)return;
   const refresh=()=>{
     const pc=(postcode?.value||'').trim()||'____';
     const pr=(problem?.value||'').trim()||'____';
-    const message=\`Hi Fulham Plumbing, I need a plumber. My postcode is \${pc}. The problem is: \${pr}\`;
-    send.href=waHref(message);
+    const message=`Hi Fulham Plumbing, I need a plumber. My postcode is ${pc}. The problem is: ${pr}`;
+    send.href=`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
   };
   postcode?.addEventListener('input',refresh);
   problem?.addEventListener('input',refresh);
