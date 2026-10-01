@@ -1,5 +1,5 @@
 export const content={
-  "answer": "Small jobs are most of what we do. Send us one job or a list, and we will plan to do them in one visit: £{firstHour} for the first hour, then {incrementText}.",
+  "answer": "This service is for general plumbing work, including individual repairs and several plumbing jobs planned into one visit. Send us one job or a list, and we will plan to do them in one visit: £{firstHour} for the first hour, then {incrementText}.",
   "signs": [
     "A dripping tap",
     "A running toilet",
@@ -15,7 +15,7 @@ export const content={
   "causes": [
     [
       "Normal wear",
-      "Washers, seals, valves and cartridges are consumable parts. Several small faults can appear over the same few years."
+      "Washers, seals, valves and cartridges are consumable parts. Several plumbing faults can appear over the same few years."
     ],
     [
       "Deferred maintenance",
@@ -27,7 +27,7 @@ export const content={
     ],
     [
       "Poor previous fittings",
-      "Loose traps, missing isolation valves and awkward appliance connections are common small improvements that make later maintenance easier."
+      "Loose traps, missing isolation valves and awkward appliance connections are common plumbing improvements that make later maintenance easier."
     ]
   ],
   "steps": [
@@ -48,13 +48,13 @@ export const content={
       "Labour and parts are shown clearly so a multi-job visit remains easy to follow."
     ]
   ],
-  "scopeNote": "This is plumbing-only work. Non-plumbing odd jobs are not added simply because they are small.",
-  "costExample": "Three small plumbing jobs in one visit",
+  "scopeNote": "This is plumbing-only work. Non-plumbing odd jobs are not added unless they are plumbing work.",
+  "costExample": "Three plumbing jobs in one visit",
   "costNote": "Grouping tasks can make better use of the first hour because travel and setup happen once.",
-  "local": "A common list is two or three small faults saved up in a household or gathered before a tenant moves in or out.",
+  "local": "A common list is two or three plumbing faults grouped together in a household or gathered before a tenant moves in or out.",
   "faqs": [
     {
-      "q": "Will you come out for one small job?",
+      "q": "Will you come out for one plumbing job?",
       "a": "Yes. One leaking tap, one toilet valve or one stiff stopcock is exactly the sort of work this service is for."
     },
     {
