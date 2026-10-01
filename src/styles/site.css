@@ -378,3 +378,69 @@ html:not(.js) .fp-map .map-pin-wrap{opacity:1!important;transform:translate(-50%
   .bb-book-direct small{display:block}
 }
 .bb-base-address{margin:18px 0 0;color:#fff;font-size:.92rem;font-weight:650}
+
+
+/* V5 inner-page system: same bold blue / cream / coral language */
+body.service-page,body.area-page,body.guide-page,body.pricing-page,body.areas-hub,body.guides-hub,body.about-page,body.contact-page,body.landlords-page{background:#fffaf0}
+body.service-page .service-hero,
+body.area-page .hero,
+body.guide-page .hero,
+body.pricing-page .hero,
+body.areas-hub .hero,
+body.guides-hub .hero,
+body.about-page .hero,
+body.contact-page .hero,
+body.landlords-page .hero{background:#1f63ee;color:#fff;border-bottom:7px solid #0a1d36}
+body.service-page .service-hero h1,
+body.area-page .hero h1,
+body.guide-page .hero h1,
+body.pricing-page .hero h1,
+body.areas-hub .hero h1,
+body.guides-hub .hero h1,
+body.about-page .hero h1,
+body.contact-page .hero h1,
+body.landlords-page .hero h1{color:#fff;font-size:clamp(2.9rem,6vw,5.6rem);line-height:.9;letter-spacing:-.06em;text-transform:uppercase}
+body.service-page .service-hero .eyebrow,
+body.area-page .hero .eyebrow,
+body.guide-page .hero .eyebrow,
+body.pricing-page .hero .eyebrow,
+body.areas-hub .hero .eyebrow,
+body.guides-hub .hero .eyebrow,
+body.about-page .hero .eyebrow,
+body.contact-page .hero .eyebrow,
+body.landlords-page .hero .eyebrow{display:inline-block;background:#fff;color:#0a1d36;border:2px solid #0a1d36;border-radius:999px;padding:8px 13px;box-shadow:4px 5px 0 #0a1d36}
+body.service-page .service-subline,
+body.area-page .hero .lede,
+body.guide-page .hero .lede,
+body.pricing-page .hero .lede,
+body.areas-hub .hero .lede,
+body.guides-hub .hero .lede,
+body.about-page .hero .lede,
+body.contact-page .hero .lede,
+body.landlords-page .hero .lede{color:#fff;font-size:1.15rem;font-weight:600}
+body.service-page .answer-box,body.guide-page .answer-box,body.service-page .callout,body.guide-page .callout{background:#fff;border:3px solid #0a1d36;border-left:3px solid #0a1d36;border-radius:20px;box-shadow:6px 7px 0 rgba(8,29,56,.14);padding:22px}
+body.service-page .service-details{border-top:0;display:grid;gap:16px;margin-top:24px}
+body.service-page .service-details details{border:3px solid #0a1d36;border-radius:20px;background:#fff;padding:0 20px}
+body.service-page .service-details summary{padding:20px 38px 20px 0}
+body.service-page .service-details summary:after{color:#ff5b3c;top:16px}
+body.service-page .service-symptoms{border:3px solid #0a1d36;border-radius:20px;background:#dff0ff;padding:22px;margin-top:20px}
+body.service-page .service-rail,body.area-page .inner-rail,body.guide-page .inner-rail{border:3px solid #0a1d36;border-radius:20px;background:#fff;padding:22px;box-shadow:6px 7px 0 rgba(8,29,56,.14)}
+body.service-page .rail-price{font-size:3.5rem;font-weight:900;letter-spacing:-.06em;color:#0a1d36}
+body.service-page .button--primary,body.area-page .button--primary,body.guide-page .button--primary,body.pricing-page .button--primary,body.contact-page .button--primary,body.landlords-page .button--primary{background:#ff5b3c;border-color:#0a1d36;color:#fff;box-shadow:0 5px 0 #c43d27}
+body.service-page .button--whatsapp,body.area-page .button--whatsapp,body.guide-page .button--whatsapp,body.pricing-page .button--whatsapp,body.contact-page .button--whatsapp,body.landlords-page .button--whatsapp{background:#25d366;border-color:#0a1d36;color:#0a1d36}
+body.area-page .area-glance{border:0;gap:14px}
+body.area-page .area-glance>div{background:#fff;border:2px solid #0a1d36!important;border-radius:16px;padding:18px!important}
+body.area-page .section--alt,body.pricing-page .section--alt,body.about-page .section--alt,body.landlords-page .section--alt{background:#dff0ff}
+body.pricing-page .price-card{border:3px solid #0a1d36;border-radius:24px;box-shadow:8px 8px 0 rgba(8,29,56,.15);background:#fff}
+body.pricing-page .price-big{font-size:5rem;color:#0a1d36}
+body.pricing-page .price-block{border:0}
+body.pricing-page .pricing-hero-grid{gap:16px;background:transparent;border:0}
+body.pricing-page .price-block{border:3px solid #0a1d36;border-radius:20px}
+body.pricing-page .price-block--blue{background:#1f63ee}
+body.guides-hub .directory-group,body.areas-hub .directory-group{background:#fff;border:3px solid #0a1d36;border-radius:20px;padding:20px}
+body.guide-page .article-shell>section{background:#fff;border:0;border:2px solid #d7dee8;border-radius:18px;padding:24px;margin-bottom:18px}
+body.guide-page .guide-toc{border-top:3px solid #0a1d36}
+body.about-page .hairline-list,body.landlords-page .hairline-list,body.contact-page .contact-actions{background:#fff;border:3px solid #0a1d36;border-radius:20px;padding:0 20px;overflow:hidden}
+body.contact-page .form-grid{background:#fff;border:3px solid #0a1d36;border-radius:20px;padding:22px}
+body.service-page .cta-band,body.area-page .cta-band,body.guide-page .cta-band,body.pricing-page .cta-band,body.about-page .cta-band,body.contact-page .cta-band,body.landlords-page .cta-band{background:#1f63ee;border-top:7px solid #0a1d36}
+body.service-page .cta-band h2,body.area-page .cta-band h2,body.guide-page .cta-band h2,body.pricing-page .cta-band h2,body.about-page .cta-band h2,body.contact-page .cta-band h2,body.landlords-page .cta-band h2{color:#fff}
