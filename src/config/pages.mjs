@@ -1,7 +1,7 @@
 export const pages = {
   "/": {
     "path": "/",
-    "title": "Plumber in Fulham SW6 | Small Jobs from £75",
+    "title": "Plumber in Fulham SW6 | Fulham Plumbing",
     "h1": "Plumber in Fulham, SW6",
     "description": "Local plumber for leaks, toilets, taps, showers and pumps in Fulham SW6. £75 first hour, no separate call-out fee. Call or WhatsApp a photo.",
     "primary": "plumber Fulham; plumber SW6",
@@ -18,7 +18,7 @@ export const pages = {
     "path": "/plumbing-services/",
     "title": "Plumbing Services in Fulham SW6 | Fulham Plumbing",
     "h1": "Plumbing services in Fulham",
-    "description": "Every plumbing repair and small job we do in Fulham SW6, from leaks and toilets to pumps, tanks and stopcocks. Clear pricing from £75.",
+    "description": "Plumbing services across Fulham SW6, from leaks, toilets and showers to pumps, tanks, cylinders, valves and general plumbing work. Clear pricing from £75.",
     "primary": "plumbing services Fulham",
     "secondary": "plumbing repairs SW6, Fulham plumbing services list",
     "intent": "Browse what's offered",
@@ -239,11 +239,11 @@ export const pages = {
   },
   "/small-plumbing-jobs/": {
     "path": "/small-plumbing-jobs/",
-    "title": "Small Plumbing Jobs Fulham | No Job Too Small",
-    "h1": "Small plumbing jobs",
-    "description": "One small plumbing job or a list of them in Fulham SW6? Send us the list and we'll plan to do them in one visit. £75 first hour.",
-    "primary": "small plumbing jobs Fulham",
-    "secondary": "plumber for small jobs, odd plumbing jobs, plumbing jobs list, no job too small plumber",
+    "title": "General Plumbing Fulham SW6 | Fulham Plumbing",
+    "h1": "General plumbing",
+    "description": "General plumbing work in Fulham SW6, from individual repairs to several plumbing jobs planned into one visit. £75 first hour.",
+    "primary": "general plumbing Fulham",
+    "secondary": "local plumber Fulham, general plumbing repairs, multiple plumbing jobs, plumbing maintenance Fulham",
     "intent": "Hire",
     "schema": [
       "WebPage",
