@@ -65,6 +65,13 @@ export const content={
         "Whether the fault is silence, noise, weak flow or cycling.",
         "Any recent tank, valve or pipework changes."
       ]
+    },
+    {
+      "title": "Why the water supply to the pump matters",
+      "paragraphs": [
+        "A pump can only move the water that reaches it. If the storage tank is low, a feed valve is restricted or an inlet hose is collapsing, the motor may sound as though it is failing when it is actually being starved. That is why the supply side is checked before condemning the pump.",
+        "The same applies after work in the loft or airing cupboard. A valve that was closed for maintenance may not have been reopened fully, or air may have entered the pipework. Those are installation and supply faults, not reasons to replace an otherwise serviceable pump."
+      ]
     }
   ],
   "whenToCall": "Call when the pump will not start after basic external checks, when it leaks, cycles by itself, becomes very noisy or needs electrical covers removed.",

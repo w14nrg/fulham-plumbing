@@ -58,6 +58,14 @@ export const content={
         "Keep dated photos of the wet area and any visible source.",
         "Stop deliberate testing once the trigger is reasonably clear."
       ]
+    },
+    {
+      "title": "What information helps when access involves two properties",
+      "paragraphs": [
+        "When two flats are involved, useful information is simple and factual: which room is wet, when the water first appeared, whether it changes when a particular outlet upstairs is used, and whether either property has already isolated any valves. That lets the visit start with a sensible test plan.",
+        "If the upstairs occupier is not available, tell the landlord, concierge or managing agent that access may be needed to prove the source. A plumber can inspect the affected ceiling below, but many leaks cannot be confirmed or repaired properly without reaching the fitting or pipe that is actually losing water.",
+        "Avoid attributing blame before the source is known. A wet patch below a shower does not prove the shower itself is at fault; nearby pipework, a toilet, an appliance or a waste connection can send water along the same route."
+      ]
     }
   ],
   "whenToCall": "Call when water is still entering, the source is unclear, the stopcock will not work or access is needed to prove which fitting or pipe has failed.",

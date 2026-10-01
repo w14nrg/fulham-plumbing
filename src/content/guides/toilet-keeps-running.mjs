@@ -58,6 +58,14 @@ export const content={
         "Look for ripples or a constant trickle in the pan.",
         "Do not force a seized isolation valve or hidden service panel."
       ]
+    },
+    {
+      "title": "Why the fault sometimes comes and goes",
+      "paragraphs": [
+        "A toilet can behave normally for several flushes and then start running again. Small pieces of scale can move under a seal, a float can catch on the cistern wall, or a push-button cable can return differently depending on how it was pressed. Intermittent faults are still real faults; they just need observing through more than one cycle.",
+        "If the problem is occasional, note what happened immediately beforehand. Did the button stick? Did the cistern take much longer to refill? Did the sound stop after tapping the lid? Those clues help identify whether the moving part is on the inlet or flush side.",
+        "Do not rely on repeatedly jiggling the button as a permanent fix. If that changes the symptom, it is useful diagnostic information, but the mechanism still needs servicing or replacement so the valve closes reliably without intervention."
+      ]
     }
   ],
   "whenToCall": "Call when the cistern will not stop filling, water leaks onto the floor, the isolation valve is seized or a concealed mechanism cannot be reached safely.",
