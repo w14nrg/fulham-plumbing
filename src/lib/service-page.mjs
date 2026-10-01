@@ -35,10 +35,11 @@ export async function renderService({cfg,meta,path,css,scriptPath,service,conten
  const checks=content.steps.map(s=>`<h3>${s[0]}</h3><p>${s[1]}</p>`).join('')+`<p>${content.scopeNote}</p>`;
  const signs=`${ul(content.signs)}<p>${content.signNote}</p><div class="callout"><strong>Before we arrive</strong><p>${content.safety}</p></div>`;
  const priceText=service.slug==='plumbing-inspections'?(cfg.pricing.inspectionFixedPrice!=null?`This inspection is ${p.inspectionPriceText()}.`:`The inspection price is confirmed before booking. General plumbing labour starts at £${cfg.pricing.firstHour} for the first hour.`):`${time?`${time}. `:''}Labour is ${lab}. Parts are charged at cost and shown on the invoice.`;
+ const mobilePrice=service.slug==='plumbing-inspections'?(p.inspectionPriceText()||'Inspection price confirmed before booking'):`£${cfg.pricing.firstHour} first hour · no separate call-out fee · parts at cost`;
  const railGuide=guides[0]?`<p><a href="${guides[0].path}">Read: ${guides[0].name} →</a></p>`:'';
  const main=`<div class="shell">${breadcrumb(crumbs)}</div>
  <section class="service-hero"><div class="shell"><p class="eyebrow">Service · Fulham SW6</p><h1>${meta.h1}</h1>${subline(service.slug)?`<p class="service-subline">${subline(service.slug)}</p>`:''}<div class="hero-actions">${actions(cfg)}</div></div></section>
- <section class="service-body"><div class="shell inner-layout"><div class="content-column">
+ <section class="service-body"><div class="shell mobile-service-price"><strong>${mobilePrice}</strong></div><div class="shell inner-layout"><div class="content-column">
   <div class="answer-box"><h2>Short answer</h2><p>${answer}</p></div>
   ${symptomBlock}
   <div class="service-details">
