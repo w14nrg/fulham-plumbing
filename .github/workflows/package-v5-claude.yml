@@ -1,0 +1,30 @@
+name: Package V5 Claude source
+
+on:
+  push:
+    branches:
+      - redesign/v5-badboiler-inspired
+  workflow_dispatch:
+
+jobs:
+  package-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout V5 source
+        uses: actions/checkout@v4
+        with:
+          ref: redesign/v5-badboiler-inspired
+
+      - name: Package source
+        run: |
+          mkdir -p package
+          rsync -a --exclude='.git' --exclude='package' --exclude='dist' ./ package/
+          cd package
+          zip -qr ../fulham-plumbing-v5-source.zip .
+
+      - name: Upload source package
+        uses: actions/upload-artifact@v4
+        with:
+          name: fulham-plumbing-v5-source
+          path: fulham-plumbing-v5-source.zip
+          retention-days: 14
