@@ -32,7 +32,6 @@ function homeQa(cfg){
 export async function render({cfg,meta,path,css,scriptPath}){
  const p=pricing(cfg),services=cfg.services.filter(s=>s.enabled);
  const trust=[];if(cfg.plumber.since)trust.push(`Plumbing since ${cfg.plumber.since}`);if(cfg.plumber.insured===true)trust.push('Fully insured');if(cfg.reviews.rating&&cfg.reviews.count)trust.push(`★ ${cfg.reviews.rating} (${cfg.reviews.count} Google reviews)`);
- const problemButtons=homeProblems.map(([key,url])=>`<a class="problem-choice" href="${url}" data-problem="${key}" aria-pressed="false">${quickAnswers[key].label}</a>`).join('');
  const examples=[['Toilet fill valve','toilet-repairs'],['Shower pump fault','shower-pumps'],['Several small jobs','small-plumbing-jobs']].map(([name,slug])=>{const s=services.find(x=>x.slug===slug);return`<div class="example"><strong>${name}</strong><span>${p.typicalTimeText(s.typicalMinutes)}</span><span>${p.labourRange(s.typicalMinutes)}</span></div>`}).join('');
  const serviceRows=services.map(s=>`<a class="hairline-row" href="/${s.slug}/"><span><strong>${s.name}</strong><small>${serviceDesc[s.slug]||'View service details and what to expect.'}</small></span><span class="arrow">→</span></a>`);
  const mid=Math.ceil(serviceRows.length/2);
@@ -63,10 +62,18 @@ export async function render({cfg,meta,path,css,scriptPath}){
   </aside>
  </div></section>
 
- <section class="problem-section" data-problem-strip><div class="shell">
-  <div class="problem-head"><div><p class="eyebrow">Got a plumbing problem?</p><h2>Tell us what's wrong.</h2></div><p>${cfg.contact.whatsapp?'Tap the problem. We’ll open WhatsApp with your message ready — just add a photo.':'Tap the problem to get straight to the right advice.'}</p></div>
-  <div class="problem-strip">${problemButtons}</div>
-  <div class="qa-wrap"><div class="qa-wrap__inner"><div class="qa-panel" data-qa-panel aria-live="polite"></div></div></div>
+ <section class="problem-section" data-problem-tool><div class="shell">
+  <div class="problem-tool">
+    <div class="problem-tool__copy"><p class="eyebrow">Need help with something?</p><h2>Tell us the problem.</h2><p>${cfg.contact.whatsapp?'Choose the closest match and we’ll prepare the WhatsApp message for you.':'Choose the closest match and we’ll take you straight to the right advice.'}</p></div>
+    <div class="problem-tool__control">
+      <label for="home-problem">What needs fixing?</label>
+      <select id="home-problem" data-problem-select>
+        <option value="">Choose a plumbing problem</option>
+        ${homeProblems.map(([key])=>`<option value="${key}">${quickAnswers[key].label}</option>`).join('')}
+      </select>
+      <div class="problem-tool__stage" data-problem-stage aria-live="polite"></div>
+    </div>
+  </div>
  </div></section>
 
  <section class="band band--pale"><div class="shell"><p class="eyebrow">How pricing works</p><h2>Clear from the first hour.</h2>
