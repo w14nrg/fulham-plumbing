@@ -29,6 +29,7 @@ export async function renderService({cfg,meta,path,css,scriptPath,service,conten
  const guides=[content.guide,...(content.guides||[])].filter(Boolean).filter((g,i,a)=>a.findIndex(x=>x.path===g.path)===i);
  const answer=content.answer.replaceAll('{labourRange}',lab||'').replaceAll('{typicalTimeText}',time||'').replaceAll('{inspectionPriceText}',p.inspectionPriceText()||'price confirmed before booking').replaceAll('{firstHour}',cfg.pricing.firstHour).replaceAll('{incrementText}',p.incrementText());
  const key=keyBySlug[service.slug],qa=key?qaPayload(cfg,p,key):null;
+ const safeCostNote=content.costNote?.includes('[PLACEHOLDER')?(service.slug==='plumbing-inspections'?'The report price is confirmed before booking.':''):content.costNote;
  const symptomBlock=qa?`<section class="service-symptoms" data-problem-console data-fixed-problem="${key}" aria-label="Quick answer for ${service.name}"><p class="eyebrow">Quick answer</p><h2>What is yours doing?</h2><div class="qa-panel" data-qa-panel aria-live="polite"></div></section>`:'';
  const causes=content.causes.map(c=>`<h3>${c[0]}</h3><p>${c[1]}</p>`).join('');
  const checks=content.steps.map(s=>`<h3>${s[0]}</h3><p>${s[1]}</p>`).join('')+`<p>${content.scopeNote}</p>`;
@@ -44,7 +45,7 @@ export async function renderService({cfg,meta,path,css,scriptPath,service,conten
    <details open><summary><h2>Common signs</h2></summary><div class="service-details__body">${signs}</div></details>
    <details open><summary><h2>Common causes</h2></summary><div class="service-details__body">${causes}</div></details>
    <details><summary><h2>What we check and do</h2></summary><div class="service-details__body">${checks}</div></details>
-   <details open><summary><h2>Pricing</h2></summary><div class="service-details__body"><p>${priceText}</p>${content.costExample?`<p><strong>${content.costExample}</strong>${time?` — ${time}`:''}.</p>`:''}<p>${content.costNote}</p><p><a href="/pricing/">Full pricing and how time is counted →</a></p></div></details>
+   <details open><summary><h2>Pricing</h2></summary><div class="service-details__body"><p>${priceText}</p>${content.costExample?`<p><strong>${content.costExample}</strong>${time?` — ${time}`:''}.</p>`:''}${safeCostNote?`<p>${safeCostNote}</p>`:''}<p><a href="/pricing/">Full pricing and how time is counted →</a></p></div></details>
   </div>
   <section class="local-note"><p class="eyebrow">In Fulham homes</p><h2>Local context matters.</h2><p>${content.local}</p></section>
   <section><p class="eyebrow">Questions</p><h2>Common questions</h2><div class="faq-list">${faqs.map(f=>`<details><summary><h3>${f.q}</h3></summary><p>${f.a}</p></details>`).join('')}</div></section>
