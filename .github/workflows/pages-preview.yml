@@ -1,0 +1,41 @@
+name: GitHub Pages preview
+
+on:
+  push:
+    branches:
+      - feature/chatgpt-build
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build site
+        run: npm run build
+
+      - name: Make project-path preview work
+        run: |
+          find dist -name '*.html' -type f -print0 | xargs -0 sed -i \
+            -e 's|href="/|href="/fulham-plumbing/|g' \
+            -e 's|src="/|src="/fulham-plumbing/|g' \
+            -e 's|action="/|action="/fulham-plumbing/|g'
+          touch dist/.nojekyll
+
+      - name: Publish preview branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          force_orphan: true

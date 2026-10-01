@@ -1,0 +1,14 @@
+import{pageShell,breadcrumb,actions}from'./layout.mjs';import{pricing}from'./pricing.mjs';import{renderMap}from'./map.mjs';
+export async function renderArea({cfg,meta,path,css,scriptPath,area,content}){
+ const p=pricing(cfg),crumbs=[{name:'Home',path:'/'},{name:'Areas',path:'/areas-we-cover/'},{name:area.name,path}],faqs=content.faqs;
+ const main=`<div class="shell">${breadcrumb(crumbs)}</div>
+ <section class="hero"><div class="shell"><p class="eyebrow">${area.postcode} · Local plumber</p><h1>${meta.h1}</h1><p class="lede">${content.lede}</p><div class="price-strip"><strong>£${cfg.pricing.firstHour} first hour</strong><small>${p.priceLine()}</small></div>${actions(cfg)}</div></section>
+ <section class="section section--alt"><div class="shell"><h2>The homes here</h2>${content.homes.map(x=>`<p>${x}</p>`).join('')}</div></section>
+ <section class="section"><div class="shell"><h2>What goes wrong here</h2>${content.faults.map(x=>`<p>${x}</p>`).join('')}</div></section>
+ <section class="section section--alt"><div class="shell"><h2>Jobs we do most here</h2><div class="cards">${content.jobs.map(j=>`<article class="card"><h3><a href="/${j.slug}/">${j.name}</a></h3><p>${j.text}</p></article>`).join('')}</div></div></section>
+ <section class="section"><div class="shell"><h2>Access and parking</h2>${content.access.map(x=>`<p>${x}</p>`).join('')}</div></section>
+ <section class="section section--alt"><div class="shell"><h2>Map</h2>${renderMap({cfg,variant:'area',focus:area.slug})}<p>${content.distance}</p></div></section>
+ <section class="section"><div class="shell"><h2>Local questions</h2><div class="faq-list">${faqs.map(f=>`<details><summary><h3>${f.q}</h3></summary><p>${f.a}</p></details>`).join('')}</div><div class="callout"><h3>A local note</h3><p>${area.note||`[PLACEHOLDER: plumber's first-hand notes on ${area.name}]`}</p></div><p><a href="${content.guide.path}">Useful guide: ${content.guide.name} →</a></p><p><a href="/areas-we-cover/">All areas we cover →</a> · <a href="/pricing/">Pricing →</a></p></div></section>
+ <section class="section cta-band"><div class="shell"><h2>Send us a photo before the visit</h2>${actions(cfg)}</div></section>`;
+ return pageShell({cfg,meta,path,css,scriptPath,main,faqs,breadcrumbs:crumbs,service:{name:`Plumbing in ${area.name}`},area});
+}
