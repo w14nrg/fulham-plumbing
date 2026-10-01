@@ -92,7 +92,7 @@ export async function render({cfg,meta,path,css,scriptPath}){
       <h1>${meta.h1}</h1>
       <p class="lede">Leaks, toilets, taps, showers and pumps. Small jobs welcome. Based on Hurlingham Road.</p>
       <div class="hero-price"><strong>£${cfg.pricing.firstHour} first hour</strong><span>No separate call-out fee · parts at cost</span></div>
-      <div class="hero-actions">${actions(cfg)}</div>
+      <div class="hero-actions">${actions(cfg)}</div><p class="muted" style="margin-top:14px">36 Hurlingham Road, Fulham, London SW6 3RQ</p>
       ${trust.length?`<div class="trust-row">${trust.map(x=>`<span>${x}</span>`).join('')}</div>`:''}
     </div>
     <section class="problem-console" data-problem-console aria-labelledby="problem-heading">
