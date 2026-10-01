@@ -40,35 +40,32 @@ function bindDynamic(root,render){
   qa('[data-symptom]',root).forEach(b=>b.addEventListener('click',()=>{state.symptom=b.dataset.symptom;state.home=null;state.homeLabel=null;save();render()}));
   qa('[data-home]',root).forEach(b=>b.addEventListener('click',()=>{state.home=b.dataset.home==='not-sure'?null:b.dataset.home;state.homeLabel=b.dataset.homeLabel||b.textContent.toLowerCase();save();render()}));
 }
-function renderHome(root){
-  const panel=q('[data-qa-panel]',root),wrap=panel?.closest('.qa-wrap'),p=state.problem&&qaData?.problems?.[state.problem];
-  if(!panel||!p){if(panel)panel.innerHTML='';wrap?.classList.remove('is-open');return}
-  const urgent=state.problem==='leak'?'<p class="problem-urgent">Water coming through now? Turn off your stopcock first. <a href="/stopcock-replacement/">Where is it?</a></p>':'';
+function renderTool(root){
+  const stage=q('[data-problem-stage]',root),select=q('[data-problem-select]',root),p=state.problem&&qaData?.problems?.[state.problem];
+  if(!stage)return;
+  if(!p){stage.innerHTML='';return}
+  if(select&&select.value!==state.problem)select.value=state.problem;
+  const urgent=state.problem==='leak'?'<p class="problem-urgent">Water coming through now? Turn off the stopcock if you can do so safely. <a href="/stopcock-replacement/">Where is it?</a></p>':'';
   if(state.problem==='other'){
-    panel.innerHTML=`${urgent}<div class="problem-actions">${qaData.whatsapp?`<a class="button button--whatsapp" href="#" data-wa>WhatsApp us a photo</a>`:''}<a class="problem-advice" href="${esc(p.serviceUrl)}">See small plumbing jobs →</a></div>`;
-  }else{
-    const symptom=state.symptom&&p.symptoms?.[state.symptom];
-    const label=symptom?.label?`WhatsApp: ${esc(symptom.label.toLowerCase())}`:'WhatsApp this problem';
-    panel.innerHTML=`${urgent}<p class="qa-step-label">What's happening?</p><div class="symptom-row">${symptomButtons(p)}</div><div class="problem-actions">${qaData.callHref&&state.problem==='leak'?`<a class="button button--primary" href="${esc(qaData.callHref)}">Call</a>`:''}${qaData.whatsapp?`<a class="button button--whatsapp" href="#" data-wa>${label}</a>`:''}${adviceLink(p)}</div>`;
+    stage.innerHTML=\`\${urgent}<div class="problem-tool__result"><p><strong>Not sure what to call it?</strong> A photo is usually enough to start.</p><div class="problem-actions">\${qaData.whatsapp?\`<a class="button button--whatsapp" href="#" data-wa>WhatsApp a photo</a>\`:''}\${adviceLink(p)}</div></div>\`;
+    updateWA();return;
   }
-  wrap?.classList.add('is-open');updateWA();bindDynamic(root,()=>renderHome(root))
+  const symptom=state.symptom&&p.symptoms?.[state.symptom];
+  stage.innerHTML=\`\${urgent}<div class="problem-tool__symptoms"><p class="qa-step-label">Which sounds closest?</p><div class="symptom-row">\${symptomButtons(p)}</div></div>\${symptom?\`<div class="problem-tool__result"><p><strong>\${esc(symptom.label)}</strong></p><div class="problem-actions">\${qaData.whatsapp?\`<a class="button button--whatsapp" href="#" data-wa>WhatsApp this problem</a>\`:''}\${adviceLink(p)}</div></div>\`:\`<div class="problem-actions">\${adviceLink(p)}</div>\`}\`;
+  updateWA();bindDynamic(root,()=>renderTool(root))
 }
-function renderService(root){
-  const panel=q('[data-qa-panel]',root),p=state.problem&&qaData?.problems?.[state.problem];if(!panel||!p)return;
-  const s=state.symptom&&p.symptoms?.[state.symptom];
-  panel.innerHTML=`<p class="qa-step-label">What's happening?</p><div class="symptom-row">${symptomButtons(p)}</div>${s?homeRow(p)+fullAnswer(p,s):''}`;
-  updateWA();bindDynamic(root,()=>renderService(root))
-}
-qa('[data-problem-strip]').forEach(root=>{
-  qa('[data-problem]',root).forEach(a=>a.addEventListener('click',e=>{if(!qaData)return;e.preventDefault();state.problem=a.dataset.problem;state.symptom=null;state.home=null;state.homeLabel=null;qa('[data-problem]',root).forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.problem===state.problem)));save();renderHome(root)}));
-  if(state.problem&&qaData?.problems?.[state.problem]){q(`[data-problem="${CSS.escape(state.problem)}"]`,root)?.setAttribute('aria-pressed','true');renderHome(root)}
+qa('[data-problem-tool]').forEach(root=>{
+  const select=q('[data-problem-select]',root);
+  if(!select)return;
+  select.addEventListener('change',()=>{state.problem=select.value||null;state.symptom=null;state.home=null;state.homeLabel=null;save();renderTool(root)});
+  if(state.problem&&qaData?.problems?.[state.problem]){select.value=state.problem;renderTool(root)}
 });
 qa('[data-problem-console][data-fixed-problem]').forEach(root=>{
   state.problem=root.dataset.fixedProblem;renderService(root)
 });
 qa('[data-problem-jump]').forEach(a=>a.addEventListener('click',e=>{
   if(!qaData?.problems?.[a.dataset.problemJump])return;e.preventDefault();state.problem=a.dataset.problemJump;state.symptom=null;save();updateWA();
-  const target=q('[data-problem-strip]');if(target){qa('[data-problem]',target).forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.problem===state.problem)));renderHome(target);target.scrollIntoView({behavior:reduce.matches?'auto':'smooth',block:'start'})}
+  const target=q('[data-problem-tool]');if(target){const select=q('[data-problem-select]',target);if(select)select.value=state.problem;renderTool(target);target.scrollIntoView({behavior:reduce.matches?'auto':'smooth',block:'start'})}
 }));
 
 /* menu */
