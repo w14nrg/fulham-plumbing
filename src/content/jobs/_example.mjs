@@ -1,0 +1,20 @@
+export const content={
+  example:true,
+  slug:"example-job",
+  title:"Example fault fixed in Example Area | Fulham Plumbing",
+  h1:"Example fault fixed in Example Area",
+  description:"Example format only. This file is never built into the site.",
+  area:"Example Area",
+  road:"Example Road",
+  propertyType:"Flat",
+  problem:"Customer wording goes here.",
+  findings:"What was actually found goes here.",
+  fix:"What was actually repaired goes here.",
+  time:"Real time taken",
+  costBand:"Real cost band",
+  photos:[],
+  service:"leak-repairs",
+  areaPath:"/areas-we-cover/",
+  updated:"2026-10-01",
+  published:"2026-10-01"
+};

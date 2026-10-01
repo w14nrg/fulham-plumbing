@@ -1,0 +1,16 @@
+import{pageShell,breadcrumb,actions,placeholderPhoto,exclusions}from'../lib/layout.mjs';import{renderMap}from'../lib/map.mjs';
+export async function render({cfg,meta,path,css,scriptPath}) {
+ const crumbs=[{name:'Home',path:'/'},{name:'About',path}];
+ const name=cfg.plumber.name||'Fulham Plumbing';
+ const bio=cfg.plumber.bio||'[PLACEHOLDER: plumber bio]';
+ const quals=cfg.plumber.qualifications?.length?cfg.plumber.qualifications.join(' · '):'[PLACEHOLDER: qualifications]';
+ const insured=cfg.plumber.insured===true?`Insured${cfg.plumber.publicLiabilityCover?` · public liability cover ${cfg.plumber.publicLiabilityCover}`:''}`:'[PLACEHOLDER: insurance status]';
+ const main=`<div class="shell">${breadcrumb(crumbs)}</div>
+ <section class="hero"><div class="shell hero-grid"><div><p class="eyebrow">Local small-job plumber</p><h1>${meta.h1}</h1><p class="lede">Fulham Plumbing is based on Hurlingham Road, SW6. The business is built around repairs, fault-finding and the smaller plumbing jobs that are easy to postpone but still need doing properly.</p>${actions(cfg)}</div><div>${cfg.plumber.photo?`<img src="${cfg.plumber.photo}" alt="${cfg.plumber.photoAlt||''}" width="720" height="900" fetchpriority="high">`:placeholderPhoto('the plumber at work')}</div></div></section>
+ <section class="section section--alt"><div class="shell content-grid"><div><h2>The plumber</h2><p><strong>${name}</strong></p><p>${bio}</p><p><strong>Qualifications:</strong> ${quals}</p><p><strong>Insurance:</strong> ${insured}</p>${cfg.plumber.since?`<p>Plumbing since ${cfg.plumber.since}.</p>`:''}</div><aside class="callout"><h2>How we work</h2><p>Start with the problem, not a sales package. We ask for a photo where that helps, explain the likely scope, diagnose before replacing parts and show labour and parts clearly on the invoice.</p></aside></div></section>
+ <section class="section"><div class="shell"><h2>Small jobs are the point</h2><p>A dripping tap, a running toilet, a poor shower, a failed pump or a stiff stopcock can be too small for some firms to prioritise. Those are core jobs here, alongside fault-finding on water pressure, tanks, cylinders and leaks.</p><p><a href="/plumbing-services/">See the plumbing services</a> or <a href="/pricing/">check the pricing structure</a> before you contact us.</p></div></section>
+ <section class="section section--alt"><div class="shell"><h2>Based in Fulham</h2><p>36 Hurlingham Road is a genuine working base, not a walk-in shop. All work takes place at the customer's property.</p><div class="map-crop">${renderMap({cfg,variant:'area'})}</div><p><a href="/areas-we-cover/">See the full service area →</a></p></div></section>
+ <section class="section"><div class="shell">${exclusions(cfg)}</div></section>
+ <section class="section cta-band"><div class="shell"><h2>Tell us what needs fixing</h2><p>Send a photo where you can and include the postcode.</p>${actions(cfg)}</div></section>`;
+ return pageShell({cfg,meta,path,css,scriptPath,main,breadcrumbs:crumbs});
+}

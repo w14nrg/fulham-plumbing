@@ -1,0 +1,17 @@
+import{pageShell,breadcrumb,sister}from'../lib/layout.mjs';import{pricing}from'../lib/pricing.mjs';import{esc}from'../lib/util.mjs';
+function form(cfg){
+ if(!cfg.forms.endpoint)return '<div class="placeholder-card"><strong>Online form coming soon</strong><p>Please call or WhatsApp when those contact details are added.</p></div>';
+ return `<form action="${esc(cfg.forms.endpoint)}" method="post" enctype="multipart/form-data" data-track-form><div class="honeypot" aria-hidden="true"><label>Leave this blank<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div><label>Name<input name="name" required autocomplete="name"></label><label>Phone<input name="phone" required autocomplete="tel"></label><label>Postcode<input name="postcode" required autocomplete="postal-code"></label><label>What's the problem?<textarea name="problem" rows="5" required></textarea></label><label>Photo (optional, maximum 10 MB)<input type="file" name="photo" accept="image/*"></label><p>We'll only use your details to reply to you. <a href="/privacy/">Privacy</a>.</p><button class="button button--primary" type="submit">Send message</button></form>`;
+}
+export async function render({cfg,meta,path,css,scriptPath}) {
+ const p=pricing(cfg),crumbs=[{name:'Home',path:'/'},{name:'Contact',path}];
+ const call=cfg.contact.phone?`<a class="card" href="tel:${esc(cfg.contact.phone)}"><h2>Call</h2><p>${esc(cfg.contact.phoneDisplay||cfg.contact.phone)}</p></a>`:'<div class="card"><h2>Call</h2><p>[PLACEHOLDER: phone number]</p></div>';
+ const wa=cfg.contact.whatsapp?`<a class="card" href="https://wa.me/${esc(cfg.contact.whatsapp)}"><h2>WhatsApp a photo</h2><p>Show us the problem and include your postcode.</p></a>`:'<div class="card"><h2>WhatsApp</h2><p>[PLACEHOLDER: WhatsApp number]</p></div>';
+ const email=cfg.contact.email?`<a class="card" href="mailto:${esc(cfg.contact.email)}"><h2>Email</h2><p>${esc(cfg.contact.email)}</p></a>`:'';
+ const main=`<div class="shell">${breadcrumb(crumbs)}</div>
+ <section class="hero"><div class="shell"><p class="eyebrow">Small jobs welcome</p><h1>${meta.h1}</h1><p class="lede">Tell us what's wrong, where the property is and send a photo if it helps. The first hour is £${cfg.pricing.firstHour}. No separate call-out fee.</p><div class="cards">${call}${wa}${email}</div><p class="availability">${cfg.contact.hours||'[PLACEHOLDER: working hours]'}${cfg.contact.availabilityNote?` · ${cfg.contact.availabilityNote}`:' · [PLACEHOLDER: same-day availability note]'}</p></div></section>
+ <section class="section section--alt"><div class="shell content-grid"><div><h2>Send the essentials</h2><ul><li>Your postcode.</li><li>A short description of the fault.</li><li>A clear photo of the fitting or leak where safe.</li><li>Any access instructions for a porter, concierge, tenant or managing agent.</li></ul><p>${p.priceLine()} Parts are charged at cost.</p><p><a href="/pricing/">Full pricing →</a></p></div><aside><h2>Our base</h2><p>Fulham Plumbing<br>36 Hurlingham Road<br>Fulham<br>London SW6 3RQ</p><p>This is a working base, not a walk-in shop. We come to the property.</p><p><a href="/areas-we-cover/">Areas we cover →</a></p></aside></div></section>
+ <section class="section"><div class="shell"><h2>Online message</h2>${form(cfg)}</div></section>
+ <section class="section section--alt"><div class="shell">${sister(cfg)}</div></section>`;
+ return pageShell({cfg,meta,path,css,scriptPath,main,breadcrumbs:crumbs});
+}
