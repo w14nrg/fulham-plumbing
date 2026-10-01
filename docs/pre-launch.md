@@ -39,3 +39,9 @@ The review build deliberately keeps `site.indexable` false.
 ## Launch steps — document only, do not perform in this review build
 
 Complete the facts above, add plumber-written notes and real photos, set `site.indexable` true, merge the approved branch to main, then connect the real domain in the owner's hosting account and submit the sitemap to search engines. Business listings should use identical real-world details.
+
+- [ ] Add the real self-hosted Figtree WOFF2 file if licensed/available; until then the system sans-serif fallback is intentional
+- [ ] Create real `og-default.png` and `apple-touch-icon.png` before referencing them
+
+## Review preview
+Follow `docs/preview.md`. Do not attach the real domain while the review branch is noindex.
