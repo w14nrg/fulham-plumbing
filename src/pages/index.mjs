@@ -1,33 +1,133 @@
-import{pageShell,actions,placeholderPhoto,exclusions}from'../lib/layout.mjs';import{pricing}from'../lib/pricing.mjs';import{renderMap}from'../lib/map.mjs';import{icon}from'../lib/icons.mjs';
-const serviceIcon={ 'leak-repairs':'droplet','toilet-repairs':'toilet','tap-repairs':'tap','shower-repairs':'shower','shower-pumps':'pump','low-water-pressure':'pressure','hot-water-cylinders':'cylinder','cold-water-tanks':'tank','stopcock-replacement':'valve','radiator-valves':'radiator','blocked-sinks-wastes':'sink','outside-taps':'outside','appliance-plumbing':'washer','plumbing-inspections':'clipboard','small-plumbing-jobs':'list'};
+
+import{pageShell,actions,exclusions}from'../lib/layout.mjs';
+import{pricing}from'../lib/pricing.mjs';
+import{renderMap}from'../lib/map.mjs';
+import{icon}from'../lib/icons.mjs';
+import{quickAnswers}from'../content/quick-answers.mjs';
+
+const homeProblems=[
+  ['leak','/leak-repairs/'],['toilet','/toilet-repairs/'],['tap','/tap-repairs/'],['shower','/shower-repairs/'],
+  ['low-pressure','/low-water-pressure/'],['shower-pump','/shower-pumps/'],['hot-water','/hot-water-cylinders/'],
+  ['blocked-sink','/blocked-sinks-wastes/'],['stopcock','/stopcock-replacement/'],['other','/small-plumbing-jobs/']
+];
+const serviceDesc={
+  'leak-repairs':'Pipes, joints, valves and accessible leaks traced and repaired.',
+  'toilet-repairs':'Running cisterns, flush faults, fill valves, seals and leaks.',
+  'tap-repairs':'Dripping, stiff or leaking taps and like-for-like replacements.',
+  'shower-repairs':'Temperature swings, weak flow, dripping valves and cartridges.',
+  'shower-pumps':'Noisy, weak or failed shower pumps diagnosed and replaced.',
+  'low-water-pressure':'Find out whether the restriction is at an outlet, valve, pipe run or supply.',
+  'hot-water-cylinders':'Vented cylinder faults, immersion issues and accessible leaks.',
+  'cold-water-tanks':'Loft tanks, float valves, overflows, lids and replacement.',
+  'stopcock-replacement':'Stiff, seized or leaking internal stopcocks and isolation.',
+  'radiator-valves':'Leaking valves, TRVs, lockshields and radiator removal for decorating.',
+  'blocked-sinks-wastes':'Local sink, basin and bath waste restrictions inside the property.',
+  'outside-taps':'New outside taps and repairs to existing fittings.',
+  'appliance-plumbing':'Water and waste connections for washing machines and dishwashers.',
+  'plumbing-inspections':'A structured visual plumbing inspection and written findings.',
+  'small-plumbing-jobs':'One small job or a list of them planned into one visit.'
+};
+
+function qaPayload(cfg,p){
+  const problems={};
+  for(const [key,def] of Object.entries(quickAnswers)){
+    const symptoms={};
+    for(const [skey,s] of Object.entries(def.symptoms||{})){
+      symptoms[skey]={...s,cost:p.labourRange(s.minutes)};
+    }
+    problems[key]={
+      label:def.label,icon:def.icon,
+      serviceUrl:`/${def.service}/`,
+      guideUrl:def.guide?`/guides/${def.guide}/`:null,
+      symptoms,
+      homeNotes:def.homeNotes||null
+    };
+  }
+  return{
+    problems,
+    whatsapp:cfg.contact.whatsapp,
+    callHref:cfg.contact.phone?`tel:${cfg.contact.phone}`:null,
+    defaultMessage:cfg.contact.whatsappMessage,
+    defaultCost:`£${cfg.pricing.firstHour} first hour; further time in ${cfg.pricing.incrementMinutes}-minute steps; parts at cost`
+  };
+}
+const jsonForHtml=o=>JSON.stringify(o).replace(/</g,'\\u003c');
+
 export async function render({cfg,meta,path,css,scriptPath}){
- const p=pricing(cfg),services=cfg.services.filter(s=>s.enabled);
- const problem=[['/guides/water-through-ceiling/','Water through the ceiling','droplet'],...services.map(s=>[`/${s.slug}/`,s.tile,serviceIcon[s.slug]||'check'])];
- const examples=[['Toilet fill valve','toilet-repairs'],['Shower pump replacement','shower-pumps'],['Several small jobs in one visit','small-plumbing-jobs']].map(([name,slug])=>{const s=services.find(x=>x.slug===slug);return`<div class="example"><strong>${name}</strong><span>${p.typicalTimeText(s.typicalMinutes)}</span><span>${p.labourRange(s.typicalMinutes)}</span></div>`}).join('');
- const pg=cfg.areas.core.find(a=>a.slug==='parsons-green'),hu=cfg.areas.core.find(a=>a.slug==='hurlingham');
- const reviews=cfg.reviews.items.length?`<section class="section"><div class="shell"><h2>What customers say</h2><div class="cards cards--3">${cfg.reviews.items.slice(0,3).map(r=>`<blockquote class="card"><p>“${r.quote}”</p><footer>${r.firstName} · ${r.area} · ${r.date}</footer></blockquote>`).join('')}</div></div></section>`:'';
- const faq=[
- {q:'How much does a plumber cost in Fulham?',a:`£${cfg.pricing.firstHour} for the first hour, ${p.incrementText()}, with parts at cost. There's no separate call-out fee. See our pricing page for worked examples.`},
- {q:'Do you do small jobs?',a:'Yes. Small repairs are most of what we do: a dripping tap, a running toilet, a stiff stopcock. If you have a few, send us the list and we’ll plan to do them in one visit.'},
- {q:'Can you come today?',a:cfg.contact.availabilityNote||'Often, yes, during working hours. Call or send a photo and we’ll tell you honestly when we can get to you.'},
- {q:'Do you bring parts?',a:'Tell us the problem and send a photo if you can, so we bring the right parts. Parts are charged at cost and shown on your invoice.'},
- {q:'Which areas do you cover?',a:'All of Fulham SW6, plus Chelsea Harbour and Lots Road in SW10, Putney in SW15 and Wandsworth Town in SW18.'},
- {q:'Do you work for landlords and agents?',a:'Yes. We can arrange access with tenants, send photos before and after, and invoice the landlord or agent.'}
- ];
- const trust=[];if(cfg.reviews.rating&&cfg.reviews.count)trust.push(`★ ${cfg.reviews.rating} · ${cfg.reviews.count} Google reviews`);if(cfg.plumber.since)trust.push(`Plumbing since ${cfg.plumber.since}`);if(cfg.plumber.insured===true)trust.push('Fully insured');
- const avail=(cfg.contact.hours||cfg.contact.availabilityNote)?[cfg.contact.hours,cfg.contact.availabilityNote].filter(Boolean).join(' · '):'[PLACEHOLDER: working hours and same-day note]';
- const areaLinks=[...cfg.areas.core,...cfg.areas.nearby].map(a=>`<a class="tag" href="${a.hasPage?`/areas/${a.slug}/`:a.home?`/#${a.slug}`:`/areas-we-cover/#${a.slug}`}">${a.name}${a.postcode?` · ${a.postcode}`:''}</a>`).join('');
- const main=`<section class="hero"><div class="shell hero-grid"><div class="hero-copy"><p class="eyebrow">Local plumber · Fulham SW6</p><h1>${meta.h1}</h1><p class="lede">Leaks, toilets, taps, showers, pumps and the small jobs other plumbers turn down.${cfg.plumber.name?` ${cfg.plumber.name}, based on Hurlingham Road.`:' Based on Hurlingham Road, SW6.'}</p><div class="price-strip"><strong>${p.priceLine()}</strong><small>Parts at cost${p.vatText()}.</small></div>${actions(cfg)}<p class="availability">${icon('clock')}${avail}</p>${trust.length?`<p class="trust-line">${trust.join(' · ')}</p>`:''}<p class="hero-address">36 Hurlingham Road, London SW6 3RQ</p></div><div class="hero-photo">${cfg.plumber.photo?`<img src="${cfg.plumber.photo}" alt="${cfg.plumber.photoAlt||''}" width="720" height="900" fetchpriority="high">`:placeholderPhoto('the plumber at work')}</div></div></section>
-<section class="section section--alt"><div class="shell"><p class="eyebrow">Small jobs welcome</p><h2>What's the problem?</h2><p>Pick the closest match. Each page explains what usually causes it, what we do and what it costs.</p><div class="problem-grid">${problem.map(([u,n,i])=>`<a class="problem-tile" href="${u}">${icon(i)}<span>${n}</span></a>`).join('')}</div><p><a href="/plumbing-services/">See all plumbing services →</a></p></div></section>
-<section class="section"><div class="shell"><h2>Clear prices, before we start</h2><div class="price-card"><div class="price-big">£${cfg.pricing.firstHour}</div><p><strong>first hour</strong></p>${cfg.pricing.increment!=null?`<p>then £${cfg.pricing.increment} per ${cfg.pricing.incrementMinutes} minutes</p>`:''}<div class="plain-lines"><p>No separate call-out fee</p><p>Parts at cost, shown on your invoice</p>${p.vatText()?`<p>${p.vatText().trim()}</p>`:''}${cfg.pricing.parking?`<p>${cfg.pricing.parking}</p>`:''}</div><div class="work-examples">${examples}</div><p><a href="/pricing/">Full pricing and how time is counted →</a></p></div></div></section>
-<section class="section section--alt"><div class="shell"><h2>Recent jobs in SW6</h2><div class="placeholder-card">[PLACEHOLDER: recent job — photo, area, fault, fix, time]</div><p>Job write-ups with photos will appear here.</p><p><a href="/recent-jobs/">Recent jobs →</a></p></div></section>
-${reviews}
-<section class="section"><div class="shell"><h2>How it works</h2><div class="steps"><div class="step"><div><h3>Send a photo or call.</h3><p>Tell us what's wrong and your postcode. A photo helps us bring the right parts.</p></div></div><div class="step"><div><h3>We tell you what to expect.</h3><p>If it looks like a one-hour job, we'll say so, and give you a time.</p></div></div><div class="step"><div><h3>Fixed properly.</h3><p>We explain what we found, fix it and leave an itemised invoice.</p></div></div></div></div></section>
-<section class="section section--alt"><div class="shell"><h2>Your plumber in Parsons Green and Hurlingham</h2><p>Fulham Plumbing is based on Hurlingham Road, a few minutes' walk from Parsons Green. Most of our work is within a mile or two of here, in the streets around the green, New King's Road and down towards Hurlingham Park and the river.</p><p>${pg.note||hu.note||"[PLACEHOLDER: plumber's notes on homes and common jobs around Parsons Green and Hurlingham]"}</p><div class="local-cards"><article class="card" id="parsons-green"><h3>Parsons Green</h3><p>Our base is close by, with small repairs and fault-finding across the surrounding streets.</p></article><article class="card" id="hurlingham"><h3>Hurlingham</h3><p>Hurlingham Road is our working base; all visits are carried out at the customer's property.</p></article></div></div></section>
-<section class="section"><div class="shell"><h2>Where we work</h2><p>Based on Hurlingham Road, SW6. Most jobs are within a mile or two.</p>${renderMap({cfg,variant:'full'})}<div class="area-tags">${areaLinks}</div><p><a href="/areas-we-cover/">All areas we cover →</a></p></div></section>
-<section class="section section--alt"><div class="shell"><h2>Useful guides</h2><div class="cards cards--3"><article class="card"><h3><a href="/guides/shower-pressure-dropped/">Why has my shower pressure dropped?</a></h3><p>Work out whether the restriction is at the shower, the supply or a pump.</p></article><article class="card"><h3><a href="/guides/toilet-keeps-running/">Why does my toilet keep running?</a></h3><p>Simple ways to tell whether the fill valve or flush valve is at fault.</p></article><article class="card"><h3><a href="/guides/water-through-ceiling/">Water coming through the ceiling: what to do first</a></h3><p>What to isolate, what to keep away from electrics and how the source is traced.</p></article></div><p><a href="/guides/">All guides →</a></p></div></section>
-<section class="section"><div class="shell"><h2>Questions</h2><div class="faq-list">${faq.map(f=>`<details><summary><h3>${f.q}</h3></summary><p>${f.a}${f.q.startsWith('How much')?' <a href="/pricing/">See pricing.</a>':''}${f.q.startsWith('Do you work for')?' <a href="/landlords-agents/">Landlords and agents.</a>':''}</p></details>`).join('')}</div></div></section>
-<section class="section section--alt"><div class="shell">${exclusions(cfg)}</div></section>
-<section class="section cta-band"><div class="shell"><h2>Send us a photo of the problem</h2><p>We'll tell you what it's likely to be, roughly how long it'll take and when we can come.</p>${actions(cfg)}<p>${avail}</p></div></section>`;
- return pageShell({cfg,meta,path,css,scriptPath,main,faqs:faq,bodyClass:'home'});
+  const p=pricing(cfg),services=cfg.services.filter(s=>s.enabled);
+  const examples=[['Toilet fill valve','toilet-repairs'],['Shower pump fault','shower-pumps'],['Several small jobs','small-plumbing-jobs']].map(([name,slug])=>{
+    const s=services.find(x=>x.slug===slug);
+    return`<div class="example"><strong>${name}</strong><span>${p.typicalTimeText(s.typicalMinutes)}</span><span>${p.labourRange(s.typicalMinutes)}</span></div>`
+  }).join('');
+  const trust=[];
+  if(cfg.reviews.rating&&cfg.reviews.count)trust.push(`★ ${cfg.reviews.rating} · ${cfg.reviews.count} Google reviews`);
+  if(cfg.plumber.since)trust.push(`Plumbing since ${cfg.plumber.since}`);
+  if(cfg.plumber.insured===true)trust.push('Fully insured');
+
+  const problemButtons=homeProblems.map(([key,url])=>{
+    const def=quickAnswers[key];
+    return`<a class="problem-choice" href="${url}" data-problem="${key}" aria-pressed="false" aria-controls="qa-panel">${icon(def.icon)}<span>${def.label}</span></a>`
+  }).join('');
+
+  const areaRows=[...cfg.areas.core,...cfg.areas.nearby].filter(a=>a.slug!=='crabtree-fulham-reach').slice(0,9).map(a=>`<a href="${a.hasPage?`/areas/${a.slug}/`:a.home?`/#${a.slug}`:`/areas-we-cover/#${a.slug}`}"><strong>${a.name}</strong><span>${a.postcode||''}</span></a>`).join('');
+
+  const serviceRows=services.map(s=>`<a class="hairline-row" href="/${s.slug}/"><span><strong>${s.name}</strong><small>${serviceDesc[s.slug]||'View service details and what to expect.'}</small></span><span class="arrow">→</span></a>`);
+  const mid=Math.ceil(serviceRows.length/2);
+
+  const faq=[
+    {q:'How much does a plumber cost in Fulham?',a:`£${cfg.pricing.firstHour} for the first hour, ${p.incrementText()}, with parts at cost. There is no separate call-out fee.`},
+    {q:'Do you do small jobs?',a:'Yes. Small repairs are the core of the service: taps, toilets, valves, wastes, pumps and lists of smaller jobs.'},
+    {q:'Can you come today?',a:cfg.contact.availabilityNote||'Availability varies. Contact us with the problem and postcode and we will tell you the earliest realistic time.'},
+    {q:'Do you bring parts?',a:'Send a clear photo if you can. It helps identify the fitting and improves the chance of bringing the right parts on the first visit.'},
+    {q:'Which areas do you cover?',a:'Fulham SW6 is the core area, with selected nearby work in Chelsea Harbour and Lots Road, Putney and Wandsworth Town.'},
+    {q:'Do you work for landlords and agents?',a:'Yes. Access can be arranged with tenants, with photos and clear invoicing for the landlord or agent.'}
+  ];
+
+  const reviews=cfg.reviews.items?.length?`<section class="band"><div class="shell"><p class="eyebrow">Customer feedback</p><h2>What customers say</h2><div class="two-col">${cfg.reviews.items.slice(0,3).map(r=>`<blockquote><p>“${r.quote}”</p><footer>${r.firstName} · ${r.area} · ${r.date}</footer></blockquote>`).join('')}</div></div></section>`:'';
+  const jobs=cfg.recentJobs?.items?.length?`<section class="band band--surface"><div class="shell"><p class="eyebrow">Recent work</p><h2>Jobs around Fulham</h2></div></section>`:'';
+
+  const main=`<section class="hero hero--home"><div class="shell hero-home-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Fulham Plumbing · SW6</p>
+      <h1>${meta.h1}</h1>
+      <p class="lede">Leaks, toilets, taps, showers and pumps. Small jobs welcome. Based on Hurlingham Road.</p>
+      <div class="hero-price"><strong>£${cfg.pricing.firstHour} first hour</strong><span>No separate call-out fee · parts at cost</span></div>
+      <div class="hero-actions">${actions(cfg)}</div>
+      ${trust.length?`<div class="trust-row">${trust.map(x=>`<span>${x}</span>`).join('')}</div>`:''}
+    </div>
+    <section class="problem-console" data-problem-console aria-labelledby="problem-heading">
+      <div class="problem-console__head"><div><p class="eyebrow">Quick answer</p><h2 id="problem-heading">What's the problem?</h2></div><p>Pick the closest match.</p></div>
+      <div class="problem-grid">${problemButtons}</div>
+      <div class="qa-wrap"><div class="qa-wrap__inner"><div class="qa-panel" id="qa-panel" data-qa-panel aria-live="polite" aria-label="Quick answer"></div></div></div>
+    </section>
+  </div></section>
+
+  <section class="band band--navy"><div class="shell map-band-grid">
+    <div><p class="eyebrow">Where we work</p><h2>Your plumber in Fulham</h2><p class="muted">Based on Hurlingham Road, SW6. Tap a pin to see the character of the area and jump straight to the kind of help you need.</p><div class="area-index">${areaRows}</div><p style="margin-top:16px"><a href="/areas-we-cover/">Explore every area →</a></p></div>
+    <div>${renderMap({cfg,variant:'full'})}</div>
+  </div></section>
+
+  <section class="band"><div class="shell"><p class="eyebrow">Clear pricing</p><h2>Know how the visit is charged.</h2>
+    <div class="pricing-grid"><div class="pricing-stat"><strong>£${cfg.pricing.firstHour}</strong><span>first hour</span></div><div class="pricing-stat"><strong>${cfg.pricing.incrementMinutes} min</strong><span>steps after the first hour</span></div><div class="pricing-stat"><strong>At cost</strong><span>parts shown on the invoice</span></div></div>
+    <div class="work-examples">${examples}</div><p><a href="/pricing/">Full pricing and how time is counted →</a></p>
+  </div></section>
+
+  ${jobs}${reviews}
+
+  <section class="band band--surface"><div class="shell two-col"><div><p class="eyebrow">Local to SW6</p><h2>Parsons Green and Hurlingham are on the doorstep.</h2><p>Fulham Plumbing is based on Hurlingham Road, close to Parsons Green. The area mixes period terraces, converted flats, mansion blocks and newer riverside apartments, so the right first question is often how the property is laid out and how the water is supplied.</p><p><a href="/areas-we-cover/">See the local map and area pages →</a></p></div><div>${renderMap({cfg,variant:'about'})}</div></div></section>
+
+  <section class="band"><div class="shell"><p class="eyebrow">Services</p><h2>Find the job quickly.</h2><div class="two-col"><div class="hairline-list">${serviceRows.slice(0,mid).join('')}</div><div class="hairline-list">${serviceRows.slice(mid).join('')}</div></div></div></section>
+
+  <section class="band band--surface"><div class="shell two-col"><div><p class="eyebrow">Useful guides</p><h2>Quick answers before you call.</h2><div class="hairline-list">
+    <a class="hairline-row" href="/guides/shower-pressure-dropped/"><span><strong>Why has my shower pressure dropped?</strong><small>Separate an outlet problem from the supply or pump.</small></span><span class="arrow">→</span></a>
+    <a class="hairline-row" href="/guides/toilet-keeps-running/"><span><strong>Why does my toilet keep running?</strong><small>Work out whether the fill or flush side is passing water.</small></span><span class="arrow">→</span></a>
+    <a class="hairline-row" href="/guides/water-through-ceiling/"><span><strong>Water coming through the ceiling</strong><small>What to isolate first and how the source is traced.</small></span><span class="arrow">→</span></a>
+    </div><p><a href="/guides/">All plumbing guides →</a></p></div>
+    <div><p class="eyebrow">Questions</p><h2>What people ask first.</h2><div class="faq-list">${faq.map(f=>`<details><summary><h3>${f.q}</h3></summary><p>${f.a}</p></details>`).join('')}</div>${exclusions(cfg)}</div>
+  </div></section>
+
+  <section class="cta-band"><div class="shell"><p class="eyebrow">Need help?</p><h2>Send us a photo of the problem.</h2><p>A clear photo and your postcode are often enough for us to tell you what the first visit is likely to involve.</p><div class="hero-actions">${actions(cfg)}</div></div></section>
+  <script type="application/json" id="qa-data">${jsonForHtml(qaPayload(cfg,p))}</script>`;
+
+  return pageShell({cfg,meta,path,css,scriptPath,main,faqs:faq,bodyClass:'home'});
 }
