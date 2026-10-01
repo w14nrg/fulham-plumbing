@@ -27,12 +27,13 @@ export function exclusions(c){const n='En-Suites & Bathrooms',v=c.links.enSuites
 export function sister(c){const n='Kensington Plumbing Services',v=c.links.kensingtonPlumbingServices?`<a href="${esc(c.links.kensingtonPlumbingServices)}">${n}</a>`:n;return`<p class="sister" data-sister>Outside our area? Our sister service ${v} may be able to help.</p>`}
 
 function servicesDisclosure(c){
-  const items=c.services.filter(s=>s.enabled).map(s=>`<li><a href="/${s.slug}/">${esc(s.name)}</a></li>`).join('');
-  return`<div class="nav-disclosure services-disclosure"><a class="nav-fallback" href="/plumbing-services/">Services</a><button type="button" data-nav-toggle aria-expanded="false" aria-controls="services-menu">Services ${icon('arrow')}</button><div class="nav-menu" id="services-menu" hidden><ul>${items}</ul><a class="services-menu__all" href="/plumbing-services/">All services →</a></div></div>`;
+  const featured=['leak-repairs','toilet-repairs','tap-repairs','shower-repairs','shower-pumps','low-water-pressure','small-plumbing-jobs'];
+  const items=featured.map(slug=>c.services.find(s=>s.slug===slug)).filter(Boolean).map(s=>`<li><a href="/${s.slug}/">${esc(s.name)}</a></li>`).join('');
+  return`<div class="nav-disclosure services-disclosure"><a class="nav-fallback" href="/plumbing-services/">Services</a><button type="button" data-nav-toggle aria-expanded="false" aria-controls="services-menu">Services ${icon('arrow')}</button><div class="nav-menu nav-menu--compact" id="services-menu" hidden><ul>${items}</ul><a class="services-menu__all" href="/plumbing-services/">View all plumbing services →</a></div></div>`;
 }
 function areasDisclosure(){
   const items=[['/areas/fulham-broadway/','Fulham Broadway'],['/areas/sands-end-imperial-wharf/','Sands End & Imperial Wharf'],['/areas/chelsea-harbour/','Chelsea Harbour & Lots Road'],['/areas/putney/','Putney'],['/areas/wandsworth-town/','Wandsworth Town']].map(([u,n])=>`<li><a href="${u}">${n}</a></li>`).join('');
-  return`<div class="nav-disclosure areas-disclosure"><a class="nav-fallback" href="/areas-we-cover/">Areas</a><button type="button" data-nav-toggle aria-expanded="false" aria-controls="areas-menu">Areas ${icon('arrow')}</button><div class="nav-menu" id="areas-menu" hidden><ul>${items}</ul><a class="services-menu__all" href="/areas-we-cover/">All areas →</a></div></div>`;
+  return`<div class="nav-disclosure areas-disclosure"><a class="nav-fallback" href="/areas-we-cover/">Areas</a><button type="button" data-nav-toggle aria-expanded="false" aria-controls="areas-menu">Areas ${icon('arrow')}</button><div class="nav-menu nav-menu--compact" id="areas-menu" hidden><ul>${items}</ul><a class="services-menu__all" href="/areas-we-cover/">See the Fulham map →</a></div></div>`;
 }
 function header(c,p){
   const current=u=>p===u?' aria-current="page"':'';
