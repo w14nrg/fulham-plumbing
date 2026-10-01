@@ -13,6 +13,7 @@ const svgArt=(viewBox)=>`<svg viewBox="${viewBox}" preserveAspectRatio="xMidYMid
 <g class="map-stations" aria-hidden="true"><g transform="translate(650 160)"><circle r="7" fill="#fff" stroke="var(--ink)" stroke-width="2"/><rect x="-8" y="-2" width="16" height="4" fill="var(--copper)"/></g><g transform="translate(570 330)"><circle r="7" fill="#fff" stroke="var(--ink)" stroke-width="2"/><rect x="-8" y="-2" width="16" height="4" fill="var(--copper)"/></g><g transform="translate(140 505)"><circle r="7" fill="#fff" stroke="var(--ink)" stroke-width="2"/><rect x="-8" y="-2" width="16" height="4" fill="var(--copper)"/></g><g transform="translate(840 500)"><circle r="7" fill="#fff" stroke="var(--ink)" stroke-width="2"/><rect x="-8" y="-2" width="16" height="4" fill="var(--copper)"/></g></g>
 <g class="map-edge-labels" fill="var(--ink-2)" opacity=".7" font-family="Figtree,system-ui,sans-serif" font-size="15" font-weight="700"><text x="55" y="690">PUTNEY</text><text x="565" y="710">WANDSWORTH TOWN</text><text x="825" y="390">CHELSEA HARBOUR</text></g></svg>`;
 
+const mobileNames={'crabtree-fulham-reach':'Crabtree','fulham-broadway':'Broadway','munster-village':'Munster','eel-brook-walham-green':'Eel Brook','bishops-park':"Bishop's Park",'parsons-green':'Parsons Green','peterborough-estate':'Peterborough','sands-end-imperial-wharf':'Sands End','hurlingham':'Hurlingham'};
 export function renderMap({cfg,variant='full',focus=null}){
  const all=[...cfg.areas.core,...cfg.areas.nearby].sort((a,b)=>a.pin[1]-b.pin[1]||a.pin[0]-b.pin[0]);
  const focusArea=focus?all.find(a=>a.slug===focus):null;
@@ -24,7 +25,7 @@ export function renderMap({cfg,variant='full',focus=null}){
  const pins=showAreas.map(a=>{
    const left=a.pin[0],top=a.pin[1],classes=['map-pin-wrap',cfg.areas.nearby.includes(a)?'is-nearby':'is-core',focus===a.slug?'is-focus':'',left>60?'panel-left':'',top>70?'panel-up':''].filter(Boolean).join(' ');
    const panel=panels?`<section class="map-panel" id="panel-${a.slug}" tabindex="-1" hidden><h3 tabindex="-1">${esc(a.name)}</h3>${a.postcode?`<p class="map-postcode">${esc(a.postcode)}</p>`:''}<p>${a.note?esc(a.note):'[PLACEHOLDER: local note]'}</p><a href="${href(a)}">View this area →</a></section>`:'';
-   return `<div class="${classes}" data-map-point style="left:${left}%;top:${top}%"><button type="button" class="map-pin" aria-expanded="false"${panels?` aria-controls="panel-${a.slug}"`:''} data-map-trigger${panels?` data-area-target="list-${a.slug}"`:''}><span class="map-pin__shape"></span><span class="map-pin__label">${esc(a.name)}</span></button>${panel}</div>`;
+   return `<div class="${classes}" data-map-point style="left:${left}%;top:${top}%"><button type="button" class="map-pin" aria-label="${esc(a.name)}" aria-expanded="false"${panels?` aria-controls="panel-${a.slug}"`:''} data-map-trigger${panels?` data-area-target="list-${a.slug}"`:''}><span class="map-pin__shape" aria-hidden="true"></span><span class="map-pin__label map-pin__label--desktop" aria-hidden="true">${esc(a.name)}</span><span class="map-pin__label map-pin__label--mobile" aria-hidden="true">${esc(mobileNames[a.slug]||a.name)}</span></button>${panel}</div>`;
  }).join('');
  const b=cfg.map.base;
  const base=variant==='about'
