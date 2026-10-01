@@ -172,3 +172,5 @@ html:not(.js) .menu-button{display:none!important}
 .placeholder-card,.photo-placeholder{display:none!important}
 @media(min-width:900px){.guide-toc--desktop{display:block}.guide-toc--mobile{display:none}}
 @media(max-width:650px){.example{grid-template-columns:1fr}.feature-strip{padding:20px}}
+
+@media(max-width:1023px){.map-info__areas{display:none}}
