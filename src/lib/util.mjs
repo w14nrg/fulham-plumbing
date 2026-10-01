@@ -1,0 +1,1 @@
+export const esc=(s='')=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');export const join=(...p)=>p.flat().filter(Boolean).join('\n');
