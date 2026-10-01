@@ -1,120 +1,216 @@
 (()=>{'use strict';
-const q=(s,c=document)=>c.querySelector(s),qa=(s,c=document)=>[...c.querySelectorAll(s)];
-const reduce=matchMedia('(prefers-reduced-motion: reduce)');
-const desktopMap=matchMedia('(min-width:1024px)');
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const dataNode=q('#qa-data');let qaData=null;
-try{qaData=dataNode?JSON.parse(dataNode.textContent):null}catch{}
-let state={problem:null,symptom:null,home:null,homeLabel:null};
-try{const saved=JSON.parse(sessionStorage.getItem('fp-context')||'null');if(saved&&typeof saved==='object')state={...state,...saved}}catch{}
-const save=()=>{try{sessionStorage.setItem('fp-context',JSON.stringify(state))}catch{}};
-const track=n=>{try{window.plausible?.(n)}catch{}};
 
-function waText(){
-  if(!qaData)return null;
-  const p=state.problem&&qaData.problems?.[state.problem],s=p&&state.symptom&&p.symptoms?.[state.symptom];
+const q=(s,c=document)=>c.querySelector(s);
+const qa=(s,c=document)=>Array.from(c.querySelectorAll(s));
+const reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+const desktopMap=window.matchMedia('(min-width:1024px)');
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+let qaData=null;
+const qaNode=q('#qa-data');
+try{qaData=qaNode?JSON.parse(qaNode.textContent):null}catch(e){qaData=null}
+
+const state={problem:null,symptom:null};
+const waHref=(message)=>{
+  if(!qaData?.whatsapp)return'';
+  return`https://wa.me/${qaData.whatsapp}?text=${encodeURIComponent(message)}`;
+};
+const messageFor=(problem,symptom)=>{
+  const p=qaData?.problems?.[problem];
+  const s=p?.symptoms?.[symptom];
   if(s?.wa)return`Hi Fulham Plumbing, ${s.wa}. My postcode is ____. I've attached a photo.`;
   if(p)return`Hi Fulham Plumbing, I have a problem with my ${p.label.toLowerCase()}. My postcode is ____. I've attached a photo.`;
-  return qaData.defaultMessage||null
-}
-function updateWA(){
-  if(!qaData?.whatsapp)return;
-  const text=waText()||qaData.defaultMessage||'Hi Fulham Plumbing, I have a plumbing problem. My postcode is: ';
-  qa('[data-wa]').forEach(a=>a.href=`https://wa.me/${qaData.whatsapp}?text=${encodeURIComponent(text)}`);
-}
-function symptomButtons(p){
-  return Object.entries(p.symptoms||{}).map(([k,v])=>`<button type="button" class="qa-pill" data-symptom="${esc(k)}" aria-pressed="${state.symptom===k?'true':'false'}">${esc(v.label)}</button>`).join('')
-}
-function adviceLink(p){return p.serviceUrl?`<a class="problem-advice" href="${esc(p.serviceUrl)}">See ${esc(p.label.toLowerCase())} advice →</a>`:''}
-function homeRow(p){
-  if(!['low-pressure','shower','hot-water'].includes(state.problem)||!p.homeNotes)return'';
-  const opts=[['house','House'],['converted','Converted flat'],['purpose','Purpose-built flat'],['newer','Newer apartment'],['not-sure','Not sure']];
-  return`<p class="qa-step-label">Your home <span class="muted">· optional</span></p><div class="home-row">${opts.map(([k,n])=>`<button type="button" class="qa-pill" data-home="${k}" data-home-label="${esc(n.toLowerCase())}" aria-pressed="${state.home===k?'true':'false'}">${n}</button>`).join('')}</div>`
-}
-function fullAnswer(p,s){
-  const home=state.home&&p.homeNotes?.[state.home]?`<p><strong>In a ${esc(state.homeLabel||state.home)}:</strong> ${esc(p.homeNotes[state.home])}</p>`:'';
-  const causes=(s.causes||[]).map(esc).join(' · ');
-  return`<div class="quick-answer"><dl><dt>Likely causes</dt><dd>${causes}</dd><dt>What we check</dt><dd>${esc(s.checks||'')}</dd><dt>Typical cost</dt><dd>${esc(s.cost||qaData.defaultCost||'')}</dd></dl>${home}<div class="problem-actions">${qaData.callHref?`<a class="button button--primary button--compact" href="${esc(qaData.callHref)}">Call</a>`:''}${qaData.whatsapp?`<a class="button button--whatsapp button--compact" href="#" data-wa>WhatsApp this problem</a>`:''}${adviceLink(p)}</div></div>`
-}
-function bindDynamic(root,render){
-  qa('[data-symptom]',root).forEach(b=>b.addEventListener('click',()=>{state.symptom=b.dataset.symptom;state.home=null;state.homeLabel=null;save();render()}));
-  qa('[data-home]',root).forEach(b=>b.addEventListener('click',()=>{state.home=b.dataset.home==='not-sure'?null:b.dataset.home;state.homeLabel=b.dataset.homeLabel||b.textContent.toLowerCase();save();render()}));
-}
-function renderTool(root){
-  const stage=q('[data-problem-stage]',root),select=q('[data-problem-select]',root),p=state.problem&&qaData?.problems?.[state.problem];
-  if(!stage)return;
-  if(!p){stage.innerHTML='';return}
-  if(select&&select.value!==state.problem)select.value=state.problem;
-  const urgent=state.problem==='leak'?'<p class="problem-urgent">Water coming through now? Turn off the stopcock if you can do so safely. <a href="/stopcock-replacement/">Where is it?</a></p>':'';
-  if(state.problem==='other'){
-    stage.innerHTML=\`\${urgent}<div class="problem-tool__result"><p><strong>Not sure what to call it?</strong> A photo is usually enough to start.</p><div class="problem-actions">\${qaData.whatsapp?\`<a class="button button--whatsapp" href="#" data-wa>WhatsApp a photo</a>\`:''}\${adviceLink(p)}</div></div>\`;
-    updateWA();return;
+  return qaData?.defaultMessage||'Hi Fulham Plumbing, I have a plumbing problem. My postcode is: ';
+};
+const symptomButtons=p=>Object.entries(p?.symptoms||{}).map(([key,item])=>`<button type="button" class="qa-pill" data-symptom="${esc(key)}">${esc(item.label)}</button>`).join('');
+
+function renderHomeChecker(root){
+  const select=q('[data-problem-select]',root);
+  const stage=q('[data-problem-stage]',root);
+  const go=q('[data-problem-go]',root);
+  if(!select||!stage)return;
+
+  const problem=select.value;
+  const p=qaData?.problems?.[problem];
+  state.problem=problem||null;
+  state.symptom=null;
+
+  if(!p){
+    stage.innerHTML='';
+    if(go)go.disabled=true;
+    return;
   }
-  const symptom=state.symptom&&p.symptoms?.[state.symptom];
-  stage.innerHTML=\`\${urgent}<div class="problem-tool__symptoms"><p class="qa-step-label">Which sounds closest?</p><div class="symptom-row">\${symptomButtons(p)}</div></div>\${symptom?\`<div class="problem-tool__result"><p><strong>\${esc(symptom.label)}</strong></p><div class="problem-actions">\${qaData.whatsapp?\`<a class="button button--whatsapp" href="#" data-wa>WhatsApp this problem</a>\`:''}\${adviceLink(p)}</div></div>\`:\`<div class="problem-actions">\${adviceLink(p)}</div>\`}\`;
-  updateWA();bindDynamic(root,()=>renderTool(root))
+
+  if(go){
+    go.disabled=false;
+    go.onclick=()=>{
+      if(qaData?.whatsapp){
+        window.location.href=waHref(messageFor(problem,null));
+      }else if(p.serviceUrl){
+        window.location.href=p.serviceUrl;
+      }
+    };
+  }
+
+  if(problem==='other'){
+    stage.innerHTML=`<div class="v5-checker__result"><strong>Not sure what to call it?</strong><p>Use the small-jobs page and tell us what needs sorting.</p><a class="v5-inline-link" href="${esc(p.serviceUrl)}">See small plumbing jobs →</a></div>`;
+    return;
+  }
+
+  stage.innerHTML=`<div class="v5-checker__symptoms"><span>Which sounds closest?</span><div class="v5-symptom-list">${symptomButtons(p)}</div></div><div class="v5-checker__result" data-checker-result hidden></div>`;
+
+  qa('[data-symptom]',stage).forEach(btn=>btn.addEventListener('click',()=>{
+    qa('[data-symptom]',stage).forEach(x=>x.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    state.symptom=btn.dataset.symptom;
+    const item=p.symptoms?.[state.symptom];
+    const result=q('[data-checker-result]',stage);
+    if(!result)return;
+    const primary=qaData?.whatsapp
+      ? `<a class="v5-main-cta v5-main-cta--small" href="${waHref(messageFor(problem,state.symptom))}">WhatsApp this problem <span>→</span></a>`
+      : `<a class="v5-main-cta v5-main-cta--small" href="${esc(p.serviceUrl)}">See ${esc(p.label.toLowerCase())} help <span>→</span></a>`;
+    result.hidden=false;
+    result.innerHTML=`<strong>${esc(item?.label||'Selected problem')}</strong><div class="v5-checker__result-actions">${primary}<a class="v5-inline-link" href="${esc(p.serviceUrl)}">Read the service page →</a></div>`;
+  }));
 }
+
 qa('[data-problem-tool]').forEach(root=>{
   const select=q('[data-problem-select]',root);
   if(!select)return;
-  select.addEventListener('change',()=>{state.problem=select.value||null;state.symptom=null;state.home=null;state.homeLabel=null;save();renderTool(root)});
-  if(state.problem&&qaData?.problems?.[state.problem]){select.value=state.problem;renderTool(root)}
+  select.addEventListener('change',()=>renderHomeChecker(root));
+  renderHomeChecker(root);
 });
+
+/* Service-page symptom helper */
 qa('[data-problem-console][data-fixed-problem]').forEach(root=>{
-  state.problem=root.dataset.fixedProblem;renderService(root)
+  const problem=root.dataset.fixedProblem;
+  const p=qaData?.problems?.[problem];
+  const panel=q('[data-qa-panel]',root);
+  if(!p||!panel)return;
+  panel.innerHTML=`<div class="v5-symptom-list">${symptomButtons(p)}</div><div data-service-result></div>`;
+  qa('[data-symptom]',panel).forEach(btn=>btn.addEventListener('click',()=>{
+    qa('[data-symptom]',panel).forEach(x=>x.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    const item=p.symptoms?.[btn.dataset.symptom];
+    const result=q('[data-service-result]',panel);
+    if(!result)return;
+    const causes=(item?.causes||[]).join(' · ');
+    const wa=qaData?.whatsapp?`<a class="button button--whatsapp button--compact" href="${waHref(messageFor(problem,btn.dataset.symptom))}">WhatsApp this problem</a>`:'';
+    result.innerHTML=`<div class="quick-answer"><dl><dt>Likely causes</dt><dd>${esc(causes)}</dd><dt>What we check</dt><dd>${esc(item?.checks||'')}</dd><dt>Typical cost</dt><dd>${esc(item?.cost||qaData?.defaultCost||'')}</dd></dl><div class="problem-actions">${wa}<a class="problem-advice" href="${esc(p.serviceUrl)}">Service details →</a></div></div>`;
+  }));
 });
-qa('[data-problem-jump]').forEach(a=>a.addEventListener('click',e=>{
-  if(!qaData?.problems?.[a.dataset.problemJump])return;e.preventDefault();state.problem=a.dataset.problemJump;state.symptom=null;save();updateWA();
-  const target=q('[data-problem-tool]');if(target){const select=q('[data-problem-select]',target);if(select)select.value=state.problem;renderTool(target);target.scrollIntoView({behavior:reduce.matches?'auto':'smooth',block:'start'})}
-}));
 
-/* menu */
-const open=q('[data-menu-open]'),drawer=q('#mobile-drawer'),close=q('[data-menu-close]');
+/* Mobile drawer */
+const open=q('[data-menu-open]');
+const drawer=q('#mobile-drawer');
+const close=q('[data-menu-close]');
 if(open&&drawer){
-  const focusables=()=>qa('a[href],button:not([disabled]),summary,input:not([disabled]),textarea:not([disabled]),select:not([disabled])',drawer).filter(x=>!x.hasAttribute('hidden'));
-  open.addEventListener('click',()=>{drawer.showModal();open.setAttribute('aria-expanded','true');focusables()[0]?.focus()});
-  close?.addEventListener('click',()=>drawer.close());drawer.addEventListener('close',()=>{open.setAttribute('aria-expanded','false');open.focus()});
-  drawer.addEventListener('keydown',e=>{if(e.key==='Escape'){drawer.close();return}if(e.key!=='Tab')return;const f=focusables();if(!f.length)return;const first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}})
+  open.addEventListener('click',()=>{
+    if(typeof drawer.showModal==='function')drawer.showModal();
+    else drawer.setAttribute('open','');
+    open.setAttribute('aria-expanded','true');
+  });
+  close?.addEventListener('click',()=>drawer.close?.());
+  drawer.addEventListener('close',()=>open.setAttribute('aria-expanded','false'));
 }
-const disclosures=qa('.nav-disclosure');
-const closeMenus=except=>disclosures.forEach(w=>{if(w===except)return;const b=q('[data-nav-toggle]',w),m=b&&q('#'+b.getAttribute('aria-controls'));b?.setAttribute('aria-expanded','false');if(m)m.hidden=true});
-disclosures.forEach(w=>{const b=q('[data-nav-toggle]',w),m=b&&q('#'+b.getAttribute('aria-controls'));if(!b||!m)return;b.addEventListener('click',()=>{const on=b.getAttribute('aria-expanded')==='true';closeMenus(w);b.setAttribute('aria-expanded',String(!on));m.hidden=on});w.addEventListener('focusout',()=>setTimeout(()=>{if(!w.contains(document.activeElement)){b.setAttribute('aria-expanded','false');m.hidden=true}},0))});
-document.addEventListener('click',e=>{if(!e.target.closest('.nav-disclosure'))closeMenus()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenus()});
 
-/* map */
-qa('[data-map]').forEach(map=>{
-  if(!reduce.matches&&'IntersectionObserver'in window){const ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){map.classList.add('is-drawn');ob.disconnect()}}),{threshold:.2});ob.observe(map)}else map.classList.add('is-drawn');
-  if(map.dataset.mapVariant!=='full')return;
-  let data=[];try{data=JSON.parse(q('.map-data',map)?.textContent||'[]')}catch{}
-  const byKey=Object.fromEntries(data.map(x=>[x.key,x])),points=qa('[data-map-trigger]',map),rows=qa('[data-area-row]',map),defaultPanel=q('[data-map-default]',map),statePanel=q('[data-map-state]',map),mobileSelect=q('[data-map-mobile-select]',map),mobileCard=q('[data-map-mobile-card]',map);
-  let selected=null,previewTimer=null,lastFocus=null;
-  const setSelected=k=>{selected=k;qa('[data-map-point]',map).forEach(p=>p.classList.toggle('is-selected',p.dataset.areaKey===k))};
-  const copy=(d,detail=false)=>{
-    if(!statePanel||!d)return;
-    q('[data-map-postcode]',statePanel).textContent=d.postcode||'Local area';q('[data-map-name]',statePanel).textContent=d.name;
-    const homes=d.homes?.length?`<p><strong>${detail?'Homes and buildings':'Common homes'}:</strong> ${d.homes.map(esc).join(detail?'</p><p>':' · ')}</p>`:'';
-    const probs=detail&&d.problems?.length?`<p><strong>Common plumbing calls</strong></p><div class="area-tags">${d.problems.map(k=>`<a class="tag" href="/${({leak:'leak-repairs',toilet:'toilet-repairs',tap:'tap-repairs',shower:'shower-repairs','low-pressure':'low-water-pressure','shower-pump':'shower-pumps','hot-water':'hot-water-cylinders','blocked-sink':'blocked-sinks-wastes',stopcock:'stopcock-replacement'}[k]||'small-plumbing-jobs')}/" data-problem-jump="${esc(k)}">${esc(k.replaceAll('-',' '))}</a>`).join('')}</div>`:'';
-    const actions=detail?`<div class="map-info__actions"><a class="button button--secondary button--compact" href="${esc(d.href)}">Plumbing in ${esc(d.name)} →</a>${d.wa?`<a class="button button--whatsapp button--compact" href="${esc(d.wa)}" data-wa>WhatsApp us</a>`:''}</div>`:'<p><strong>Click for more →</strong></p>';
-    q('[data-map-copy]',statePanel).innerHTML=`<p>${esc(d.intro||'')}</p>${homes}${probs}${actions}`;
-    defaultPanel.hidden=true;statePanel.hidden=false
-  };
-  const reset=()=>{selected=null;setSelected(null);if(statePanel)statePanel.hidden=true;if(defaultPanel)defaultPanel.hidden=false};
-  const preview=k=>{if(selected||!desktopMap.matches)return;clearTimeout(previewTimer);copy(byKey[k],false)};
-  const leave=()=>{if(selected||!desktopMap.matches)return;clearTimeout(previewTimer);previewTimer=setTimeout(reset,300)};
-  const mobileCopy=d=>{if(!mobileCard||!d)return;const homes=d.homes?.length?`<h4>Homes and buildings</h4><ul>${d.homes.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'';const probs=d.problems?.length?`<h4>Common plumbing calls</h4><div class="area-tags">${d.problems.map(k=>`<a class="tag" href="/${({leak:'leak-repairs',toilet:'toilet-repairs',tap:'tap-repairs',shower:'shower-repairs','low-pressure':'low-water-pressure','shower-pump':'shower-pumps','hot-water':'hot-water-cylinders','blocked-sink':'blocked-sinks-wastes',stopcock:'stopcock-replacement'}[k]||'small-plumbing-jobs')}/">${esc(k.replaceAll('-',' '))}</a>`).join('')}</div>`:'';mobileCard.innerHTML=`<p class="eyebrow">${esc(d.postcode||'Local area')}</p><h3>${esc(d.name)}</h3><p>${esc(d.intro||'')}</p>${homes}${probs}<div class="map-info__actions"><a class="button button--secondary button--compact" href="${esc(d.href)}">Plumbing in ${esc(d.name)} →</a>${d.wa?`<a class="button button--whatsapp button--compact" href="${esc(d.wa)}" data-wa>WhatsApp us</a>`:''}</div>`};
-  const detail=k=>{const d=byKey[k];if(!d)return;lastFocus=document.activeElement;if(!desktopMap.matches){if(mobileSelect)mobileSelect.value=k;mobileCopy(d);setSelected(k);mobileCard?.scrollIntoView({block:'nearest',behavior:reduce.matches?'auto':'smooth'});return}selected=k;setSelected(k);copy(d,true)};
-  points.forEach((b,i)=>{b.tabIndex=i===0?0:-1;b.addEventListener('pointerenter',()=>preview(b.dataset.areaKey));b.addEventListener('pointerleave',leave);b.addEventListener('focus',()=>preview(b.dataset.areaKey));b.addEventListener('click',()=>detail(b.dataset.areaKey));b.addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','ArrowLeft','ArrowUp','Home','End'].includes(e.key)){e.preventDefault();let n=i;if(e.key==='Home')n=0;else if(e.key==='End')n=points.length-1;else n=(i+(e.key==='ArrowRight'||e.key==='ArrowDown'?1:-1)+points.length)%points.length;points.forEach((x,j)=>x.tabIndex=j===n?0:-1);points[n].focus()}else if(e.key==='Enter'||e.key===' '){e.preventDefault();detail(b.dataset.areaKey)}})});
-  rows.forEach(b=>{b.addEventListener('pointerenter',()=>preview(b.dataset.areaKey));b.addEventListener('pointerleave',leave);b.addEventListener('focus',()=>preview(b.dataset.areaKey));b.addEventListener('click',()=>detail(b.dataset.areaKey))});
-  if(mobileSelect){mobileSelect.addEventListener('change',()=>{const d=byKey[mobileSelect.value];if(d){mobileCopy(d);setSelected(d.key)}});const initial=byKey[mobileSelect.value]||data.find(x=>x.key==='parsons-green')||data[0];if(initial)mobileCopy(initial)}
-  q('[data-map-back]',map)?.addEventListener('click',()=>{reset();lastFocus?.focus()});map.addEventListener('keydown',e=>{if(e.key==='Escape'&&selected){reset();lastFocus?.focus()}});
+/* Desktop dropdowns */
+qa('.nav-disclosure').forEach(w=>{
+  const b=q('[data-nav-toggle]',w);
+  const m=b?q('#'+b.getAttribute('aria-controls')):null;
+  if(!b||!m)return;
+  b.addEventListener('click',()=>{
+    const on=b.getAttribute('aria-expanded')==='true';
+    qa('.nav-disclosure').forEach(other=>{
+      if(other===w)return;
+      const ob=q('[data-nav-toggle]',other);
+      const om=ob?q('#'+ob.getAttribute('aria-controls')):null;
+      if(ob)ob.setAttribute('aria-expanded','false');
+      if(om)om.hidden=true;
+    });
+    b.setAttribute('aria-expanded',String(!on));
+    m.hidden=on;
+  });
+});
+document.addEventListener('click',e=>{
+  if(e.target.closest('.nav-disclosure'))return;
+  qa('.nav-disclosure').forEach(w=>{
+    const b=q('[data-nav-toggle]',w);
+    const m=b?q('#'+b.getAttribute('aria-controls')):null;
+    if(b)b.setAttribute('aria-expanded','false');
+    if(m)m.hidden=true;
+  });
 });
 
-/* safe decorative reveal */
-const reveal=qa('main > section:not(.hero--home):not(.problem-section),main article > section');
+/* Interactive map */
+qa('[data-map]').forEach(map=>{
+  map.classList.add('is-drawn');
+  if(map.dataset.mapVariant!=='full')return;
+
+  let items=[];
+  try{items=JSON.parse(q('.map-data',map)?.textContent||'[]')}catch(e){items=[]}
+  const byKey=Object.fromEntries(items.map(x=>[x.key,x]));
+  const desktopDefault=q('[data-map-default]',map);
+  const desktopState=q('[data-map-state]',map);
+  const mobileSelect=q('[data-map-mobile-select]',map);
+  const mobileCard=q('[data-map-mobile-card]',map);
+
+  const serviceHref=k=>({
+    leak:'leak-repairs',toilet:'toilet-repairs',tap:'tap-repairs',shower:'shower-repairs',
+    'low-pressure':'low-water-pressure','shower-pump':'shower-pumps','hot-water':'hot-water-cylinders',
+    'blocked-sink':'blocked-sinks-wastes',stopcock:'stopcock-replacement'
+  }[k]||'small-plumbing-jobs');
+
+  const detailHtml=d=>{
+    const homes=d.homes?.length?`<div class="map-detail-block"><h4>Homes and buildings</h4><ul>${d.homes.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:'';
+    const probs=d.problems?.length?`<div class="map-detail-block"><h4>Common plumbing calls</h4><div class="area-tags">${d.problems.map(k=>`<a class="tag" href="/${serviceHref(k)}/">${esc(k.replaceAll('-',' '))}</a>`).join('')}</div></div>`:'';
+    const wa=d.wa?`<a class="button button--whatsapp button--compact" href="${esc(d.wa)}">WhatsApp us</a>`:'';
+    return`<p>${esc(d.intro||'')}</p>${homes}${probs}<div class="map-info__actions"><a class="button button--secondary button--compact" href="${esc(d.href)}">Plumbing in ${esc(d.name)} →</a>${wa}</div>`;
+  };
+
+  const selectPoint=key=>{
+    const d=byKey[key];
+    if(!d)return;
+    qa('[data-map-point]',map).forEach(p=>p.classList.toggle('is-selected',p.dataset.areaKey===key));
+
+    if(desktopMap.matches&&desktopState){
+      q('[data-map-postcode]',desktopState).textContent=d.postcode||'Local area';
+      q('[data-map-name]',desktopState).textContent=d.name;
+      q('[data-map-copy]',desktopState).innerHTML=detailHtml(d);
+      if(desktopDefault)desktopDefault.hidden=true;
+      desktopState.hidden=false;
+    }else if(mobileCard){
+      if(mobileSelect&&mobileSelect.value!==key)mobileSelect.value=key;
+      mobileCard.innerHTML=`<p class="eyebrow">${esc(d.postcode||'Local area')}</p><h3>${esc(d.name)}</h3>${detailHtml(d)}`;
+      mobileCard.scrollIntoView({behavior:reduce.matches?'auto':'smooth',block:'nearest'});
+    }
+  };
+
+  qa('[data-map-trigger]',map).forEach(btn=>{
+    btn.addEventListener('click',()=>selectPoint(btn.dataset.areaKey));
+    btn.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();selectPoint(btn.dataset.areaKey)}
+    });
+  });
+  qa('[data-area-row]',map).forEach(btn=>btn.addEventListener('click',()=>selectPoint(btn.dataset.areaKey)));
+  mobileSelect?.addEventListener('change',()=>selectPoint(mobileSelect.value));
+  q('[data-map-back]',map)?.addEventListener('click',()=>{
+    qa('[data-map-point]',map).forEach(p=>p.classList.remove('is-selected'));
+    if(desktopState)desktopState.hidden=true;
+    if(desktopDefault)desktopDefault.hidden=false;
+  });
+
+  const first=mobileSelect?.value||items.find(x=>x.key==='parsons-green')?.key||items[0]?.key;
+  if(first&&!desktopMap.matches)selectPoint(first);
+});
+
+/* Reveal animation is decorative only; content is visible by default. */
 if(!reduce.matches&&'IntersectionObserver'in window){
-  const ob=new IntersectionObserver((entries,observer)=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');observer.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px -4% 0px'});
-  reveal.forEach(el=>{el.dataset.reveal='';ob.observe(el)});setTimeout(()=>reveal.forEach(el=>el.classList.add('is-visible')),1500)
-}else reveal.forEach(el=>el.classList.add('is-visible'));
-qa('[data-track]').forEach(a=>a.addEventListener('click',()=>track(a.dataset.track)));
-updateWA();
+  const targets=qa('[data-reveal]');
+  const io=new IntersectionObserver(entries=>entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add('is-visible');io.unobserve(entry.target)}
+  }),{threshold:.08});
+  targets.forEach(el=>io.observe(el));
+}
+
 })();
