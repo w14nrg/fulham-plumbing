@@ -1,3 +1,10 @@
+# SUPERSEDED
+
+This Phase 1 planning document is superseded by **FULHAM-PLUMBING-BUILD-THE-COMPLETE-SITE.md** and the authoritative amendment approving the fourth Chelsea Harbour checker fix.
+
+The original Phase 1 plan remains below for history.
+
+
 # Phase 1 plan
 
 No site code is built in Phase 1. This document records the agreed architecture and the visual directions to approve before foundations begin.

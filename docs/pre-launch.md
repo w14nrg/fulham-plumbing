@@ -1,22 +1,41 @@
 # Pre-launch checklist
 
-- [ ] Keyword volumes sanity-checked in Keyword Planner; titles tuned if needed (still ≤60 characters)
-- [ ] Phone, WhatsApp, email, hours, availability note filled in
-- [ ] Plumber name, photo, start year, qualifications, insurance, G3 status
-- [ ] Services switched on/off to match what the plumber really does (macerators, unvented cylinders)
-- [ ] `typicalMinutes` confirmed by the plumber for every service
-- [ ] 30-minute rate, VAT status, parking policy, inspection price
-- [ ] Legal trading entity and company number
-- [ ] Map pins checked against a real map; every area `note` written by the plumber
-- [ ] Every service page's "In Fulham homes" note written by the plumber
-- [ ] Five area pages have plumber-written local content; checker shows no shared sentences
-- [ ] 20+ real job photos; 6 permissioned jobs before `recentJobs.indexable` becomes true
-- [ ] Google Business Profile: name exactly "Fulham Plumbing", primary category Plumber, services matching the enabled service pages, service areas = core + nearby, address hidden if customers don't visit, 20+ photos
-- [ ] Bing Places, Apple Business Connect, one review platform; identical name, phone, hours and area everywhere
-- [ ] Review request routine after every job (WhatsApp with direct Google review link)
-- [ ] Form endpoint tested, spam handling, confirmation message
-- [ ] Analytics with `call_click`, `whatsapp_click`, `form_submit`; cookie notice matches the real tools
-- [ ] Schema checked in Google's Rich Results Test with real data
-- [ ] Real-device checks: iPhone and Android, keyboard only, reduced motion, JavaScript switched off
-- [ ] `npm run check` passes with 0 errors and no placeholder warnings
-- [ ] `site.indexable` → true; rebuild; robots.txt now allows search engines and AI search crawlers; submit sitemap to Google Search Console and Bing Webmaster Tools
+The review build deliberately keeps `site.indexable` false.
+
+- [ ] Phone and display format
+- [ ] WhatsApp number
+- [ ] Email
+- [ ] Working hours
+- [ ] Availability / same-day wording
+- [ ] Plumber name
+- [ ] Plumber photo and alt text
+- [ ] Plumber start year
+- [ ] Qualifications
+- [ ] Insurance status and any public-liability amount
+- [ ] Short plumber bio
+- [ ] G3 unvented status
+- [ ] 30-minute labour rate
+- [ ] VAT position
+- [ ] Parking policy
+- [ ] Fixed plumbing-inspection price
+- [ ] Legal trading entity, company number and VAT number if applicable
+- [ ] Google Business Profile URL
+- [ ] Review platform URL
+- [ ] Real Google rating/count and verbatim reviews
+- [ ] Sister-site URLs
+- [ ] Map geo coordinates and every area note
+- [ ] First-hand local note for every service
+- [ ] Confirm every `typicalMinutes` starting estimate
+- [ ] Real plumber/work photography for all image slots
+- [ ] At least six real, permissioned, photographed recent jobs before enabling job indexing
+- [ ] Form endpoint and spam handling
+- [ ] Analytics provider/domain if used; privacy/cookie copy rechecked
+- [ ] Real Figtree WOFF2 file, or keep the documented system fallback
+- [ ] Keyword Planner sanity-check and title tuning if necessary while staying ≤60 characters
+- [ ] Schema validation on Home, one service, one area, one guide and Pricing
+- [ ] Real-device checks: iPhone, Android, keyboard only, reduced motion, JavaScript disabled
+- [ ] `npm run check` returns 0 errors and placeholder warnings have been resolved for launch
+
+## Launch steps — document only, do not perform in this review build
+
+Complete the facts above, add plumber-written notes and real photos, set `site.indexable` true, merge the approved branch to main, then connect the real domain in the owner's hosting account and submit the sitemap to search engines. Business listings should use identical real-world details.

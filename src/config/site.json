@@ -1,17 +1,27 @@
 {
-  "_readme": "Single source of truth. Unknown values stay null and are never rendered.",
+  "_readme": "Single source of truth. Unknown values stay null and are never rendered or guessed.",
   "site": { "url": "https://fulhamplumbing.co.uk", "indexable": false, "language": "en-GB" },
   "brand": { "name": "Fulham Plumbing", "strapline": "Small plumbing jobs · Fulham SW6" },
-  "company": { "legalName": null, "companyNumber": null, "registeredIn": "England and Wales" },
+  "company": { "legalName": null, "companyNumber": null, "registeredIn": "England and Wales", "vatNumber": null },
   "operatingAddress": {
     "streetAddress": "36 Hurlingham Road",
     "locality": "Fulham",
     "city": "London",
     "postcode": "SW6 3RQ",
     "geo": null,
-    "_note": "Genuine working base, not walk-in. Work is at the customer's property."
+    "_note": "Genuine working base, not walk-in. All work is at the customer's property."
   },
-  "plumber": { "name": null, "since": null, "qualifications": [], "insured": null, "g3Unvented": false, "photo": null, "bio": null },
+  "plumber": {
+    "name": null,
+    "since": null,
+    "qualifications": [],
+    "insured": null,
+    "publicLiabilityCover": null,
+    "g3Unvented": false,
+    "photo": null,
+    "photoAlt": null,
+    "bio": null
+  },
   "contact": {
     "phone": null,
     "phoneDisplay": null,
@@ -34,15 +44,21 @@
   "reviews": { "googleUrl": null, "rating": null, "count": null, "items": [] },
   "recentJobs": { "indexable": false },
   "forms": { "endpoint": null },
-  "analytics": { "provider": null },
-  "links": { "googleBusinessProfile": null, "reviewPlatform": null, "kensingtonPlumbingServices": null, "enSuitesAndBathrooms": null },
+  "analytics": { "provider": null, "domain": null },
+  "links": {
+    "googleBusinessProfile": null,
+    "reviewPlatform": null,
+    "kensingtonPlumbingServices": null,
+    "enSuitesAndBathrooms": null
+  },
+  "map": { "base": [51, 55] },
   "services": [
     { "slug": "leak-repairs", "name": "Leak repairs", "tile": "Leak", "enabled": true, "typicalMinutes": [60, 90] },
     { "slug": "toilet-repairs", "name": "Toilet repairs", "tile": "Toilet keeps running", "enabled": true, "typicalMinutes": [45, 90] },
     { "slug": "tap-repairs", "name": "Tap repairs and replacement", "tile": "Dripping tap", "enabled": true, "typicalMinutes": [45, 90] },
     { "slug": "shower-repairs", "name": "Shower repairs", "tile": "Shower not working", "enabled": true, "typicalMinutes": [60, 120] },
     { "slug": "shower-pumps", "name": "Shower pumps", "tile": "Shower pump", "enabled": true, "typicalMinutes": [90, 150] },
-    { "slug": "low-water-pressure", "name": "Low water pressure", "tile": "Weak shower or low pressure", "enabled": true, "typicalMinutes": [60, 60] },
+    { "slug": "low-water-pressure", "name": "Low water pressure", "tile": "Low pressure", "enabled": true, "typicalMinutes": [60, 60] },
     { "slug": "hot-water-cylinders", "name": "Hot water cylinders", "tile": "No hot water", "enabled": true, "typicalMinutes": [60, 120] },
     { "slug": "cold-water-tanks", "name": "Cold water tanks", "tile": "Loft tank or overflow", "enabled": true, "typicalMinutes": [60, 240] },
     { "slug": "stopcock-replacement", "name": "Stopcock replacement", "tile": "Stiff stopcock", "enabled": true, "typicalMinutes": [60, 120] },
@@ -68,8 +84,8 @@
     ],
     "nearby": [
       { "slug": "chelsea-harbour", "name": "Chelsea Harbour & Lots Road", "postcode": "SW10", "hasPage": true, "pin": [92, 44], "note": null },
-      { "slug": "putney", "name": "Putney", "postcode": "SW15", "hasPage": true, "pin": [20, 88], "note": null },
-      { "slug": "wandsworth-town", "name": "Wandsworth Town", "postcode": "SW18", "hasPage": true, "pin": [62, 90], "note": null }
+      { "slug": "putney", "name": "Putney", "postcode": "SW15", "hasPage": true, "pin": [16, 92], "note": null },
+      { "slug": "wandsworth-town", "name": "Wandsworth Town", "postcode": "SW18", "hasPage": true, "pin": [66, 94], "note": null }
     ]
   }
 }
