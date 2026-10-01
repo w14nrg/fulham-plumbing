@@ -81,6 +81,26 @@ qa('[data-problem-tool]').forEach(root=>{
   renderHomeChecker(root);
 });
 
+
+
+/* Homepage postcode + problem -> WhatsApp */
+qa('[data-whatsapp-checker]').forEach(box=>{
+  const postcode=q('[data-wa-postcode]',box);
+  const problem=q('[data-wa-problem]',box);
+  const send=q('[data-wa-send]',box);
+  if(!send||!qaData?.whatsapp)return;
+  const refresh=()=>{
+    const pc=(postcode?.value||'').trim()||'____';
+    const pr=(problem?.value||'').trim()||'____';
+    const message=\`Hi Fulham Plumbing, I need a plumber. My postcode is \${pc}. The problem is: \${pr}\`;
+    send.href=waHref(message);
+  };
+  postcode?.addEventListener('input',refresh);
+  problem?.addEventListener('input',refresh);
+  send.addEventListener('click',refresh);
+  refresh();
+});
+
 /* Service-page symptom helper */
 qa('[data-problem-console][data-fixed-problem]').forEach(root=>{
   const problem=root.dataset.fixedProblem;
