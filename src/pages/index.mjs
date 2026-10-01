@@ -44,7 +44,7 @@ export async function render({cfg,meta,path,css,scriptPath}){
       <a class="bb-primary-cta" href="${wa(cfg,'Hi Fulham Plumbing, I need a plumber. My postcode is ____ and the problem is: ')}">WhatsApp a plumbing job <span>→</span></a>
       <a class="bb-text-link" href="/pricing/">See every price</a>
     </div>
-    <div class="bb-proof"><span>✓ £${cfg.pricing.firstHour} first hour</span><span>✓ No separate call-out fee</span><span>✓ Parts at cost</span></div>
+    <div class="bb-proof"><span>✓ £${cfg.pricing.firstHour} first hour</span><span>✓ No separate call-out fee</span><span>✓ Parts at cost</span></div><p class="bb-base-address">36 Hurlingham Road, Fulham, London SW6 3RQ</p>
    </div>
 
    <aside class="bb-checker" data-whatsapp-checker data-wa-number="${cfg.contact.whatsapp}">
