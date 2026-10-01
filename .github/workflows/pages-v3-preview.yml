@@ -1,0 +1,62 @@
+name: Publish V3 bold-blue preview
+
+on:
+  push:
+    branches:
+      - redesign/v3-bold-blue
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-v3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout V3
+        uses: actions/checkout@v4
+        with:
+          ref: redesign/v3-bold-blue
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build
+        run: npm run build
+
+      - name: Rewrite links for GitHub Pages V3 path
+        run: |
+          find dist -name '*.html' -type f -print0 | xargs -0 sed -i \
+            -e 's|href="/|href="/fulham-plumbing/v3/|g' \
+            -e 's|src="/|src="/fulham-plumbing/v3/|g' \
+            -e 's|action="/|action="/fulham-plumbing/v3/|g' \
+            -e 's|"serviceUrl":"/|"serviceUrl":"/fulham-plumbing/v3/|g' \
+            -e 's|"guideUrl":"/|"guideUrl":"/fulham-plumbing/v3/|g'
+          touch dist/.nojekyll
+
+      - name: Checkout existing Pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: pages
+
+      - name: Replace only V3 preview
+        run: |
+          rm -rf pages/v3
+          mkdir -p pages/v3
+          cp -a dist/. pages/v3/
+
+      - name: Commit preview
+        run: |
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add v3
+          if git diff --cached --quiet; then
+            echo "No preview changes"
+          else
+            git commit -m "Preview: publish Fulham Plumbing V3 bold blue"
+            git push origin gh-pages
+          fi
