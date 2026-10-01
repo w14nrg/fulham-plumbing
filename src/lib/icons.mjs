@@ -1,1 +1,26 @@
-const p={droplet:'M12 2C9 7 6 10 6 14a6 6 0 0 0 12 0c0-4-3-7-6-12Z',toilet:'M7 3h10v6c0 2-2 3-5 3s-5-1-5-3V3Zm2 9v3c0 4 6 6 6 0v-3M8 21h8',tap:'M5 11h14v5H5zM8 11V8c0-2 2-3 4-3h2',shower:'M6 7a6 6 0 0 1 12 0M18 7H6M8 11v1m4-1v2m4-2v1',pump:'M5 7h11v10H5zM16 10h3v4h-3',pressure:'M5 17a7 7 0 1 1 14 0M12 12l3-3',cylinder:'M8 3h8a2 2 0 0 1 2 2v14H6V5a2 2 0 0 1 2-2Z',tank:'M4 6h16v12H4zM7 6V4h10v2',valve:'M4 12h16M9 7h6v10H9z',radiator:'M5 5h14v14H5zM8 7v10m4-10v10m4-10v10',sink:'M4 10h16v3c0 4-3 7-8 7s-8-3-8-7v-3Z',outside:'M5 9h14v5H5zM10 9V5h6',washer:'M5 3h14v18H5zM9 14a3 3 0 1 0 6 0 3 3 0 0 0-6 0Z',clipboard:'M8 5H5v16h14V5h-3M9 3h6v4H9zM8 11h8m-8 4h6',list:'M8 6h11M8 12h11M8 18h11',key:'M14 8a4 4 0 1 0-3 4l-7 7h4l2-2h2l2-2',phone:'M6 3l3 4-2 2c1 4 4 7 8 8l2-2 4 3-2 3C10 23 1 14 3 5l3-2Z',chat:'M4 5h16v12H9l-5 4V5Z',clock:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4v5l3 2',pin:'M12 21s6-6 6-12a6 6 0 1 0-12 0c0 6 6 12 6 12Z',check:'m5 12 4 4L19 6',arrow:'m9 6 6 6-6 6',close:'M6 6l12 12M18 6 6 18'};export const icon=(n,c='icon')=>`<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${p[n]||p.check}"/></svg>`;
+const p={
+droplet:'M12 2.5S5.5 10.2 5.5 15a6.5 6.5 0 0 0 13 0C18.5 10.2 12 2.5 12 2.5Z',
+toilet:'M7 3h10v5H7V3Zm1 5h8v3a4 4 0 0 1-8 0V8Zm2 7v4h4v-4M9 21h6',
+tap:'M4 12h16M8 12V9a4 4 0 0 1 4-4h2M14 3v4M18 3v4M18 12v4',
+shower:'M6 8a6 6 0 0 1 12 0H6Zm2 4v1m4-1v2m4-2v1',
+pump:'M5 7h11v10H5V7Zm3 3h5v4H8v-4Zm8 1h3v3h-3',
+pressure:'M4 18a8 8 0 0 1 16 0M12 18l4-6M7 14l-2-2m12 2 2-2',
+cylinder:'M8 3h8a2 2 0 0 1 2 2v14H6V5a2 2 0 0 1 2-2Zm1 4h6m-6 4h6',
+tank:'M4 6h16v12H4V6Zm3 0V4h10v2M8 10h8',
+valve:'M4 12h16M9 8h6v8H9V8Zm3-4v4m-3-4h6',
+radiator:'M5 5h14v14H5V5Zm3 2v10m4-10v10m4-10v10',
+sink:'M4 10h16v3a8 6 0 0 1-16 0v-3Zm8 10v2',
+outside:'M5 10h14v4H5v-4Zm4 0V7a3 3 0 0 1 3-3h3M16 4v4',
+washer:'M5 3h14v18H5V3Zm4 11a3 3 0 1 0 6 0 3 3 0 0 0-6 0ZM8 6h.01M11 6h.01',
+clipboard:'M8 5H5v16h14V5h-3M9 3h6v4H9V3Zm-1 8h8m-8 4h6',
+list:'M9 6h10M9 12h10M9 18h10M5 6h.01M5 12h.01M5 18h.01',
+key:'M14 8a4 4 0 1 0-3 4l-7 7h4l2-2h2l2-2',
+phone:'M6 3l3 4-2 2c1 4 4 7 8 8l2-2 4 3-2 3C10 23 1 14 3 5l3-2Z',
+chat:'M4 5h16v12H9l-5 4V5Z',
+clock:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4v5l3 2',
+pin:'M12 21s6-6 6-12a6 6 0 1 0-12 0c0 6 6 12 6 12Zm0-9a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
+check:'m5 12 4 4L19 6',
+arrow:'m9 6 6 6-6 6',
+close:'M6 6l12 12M18 6 6 18'
+};
+export const icon=(n,c='icon')=>`<svg class="${c}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${p[n]||p.check}"/></svg>`;
