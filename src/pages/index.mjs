@@ -88,9 +88,9 @@ export async function render({cfg,meta,path,css,scriptPath}){
 
   const main=`<section class="hero hero--home"><div class="shell hero-home-grid">
     <div class="hero-copy">
-      <p class="eyebrow">Fulham Plumbing · SW6</p>
+      <p class="eyebrow">Local plumbing · Fulham SW6</p>
       <h1>${meta.h1}</h1>
-      <p class="lede">Leaks, toilets, taps, showers and pumps. Small jobs welcome. Based on Hurlingham Road.</p>
+      <p class="lede"><strong>Problem first. Answer fast.</strong> Leaks, toilets, taps, showers, pumps and the small jobs other plumbers turn down.</p>
       <div class="hero-price"><strong>£${cfg.pricing.firstHour} first hour</strong><span>No separate call-out fee · parts at cost</span></div>
       <div class="hero-actions">${actions(cfg)}</div><p class="muted" style="margin-top:14px">36 Hurlingham Road, Fulham, London SW6 3RQ</p>
       ${trust.length?`<div class="trust-row">${trust.map(x=>`<span>${x}</span>`).join('')}</div>`:''}
@@ -103,11 +103,11 @@ export async function render({cfg,meta,path,css,scriptPath}){
   </div></section>
 
   <section class="band band--navy"><div class="shell map-band-grid">
-    <div><p class="eyebrow">Where we work</p><h2>Your plumber in Fulham</h2><p class="muted">Based on Hurlingham Road, SW6. Tap a pin to see the character of the area and jump straight to the kind of help you need.</p><div class="area-index">${areaRows}</div><p style="margin-top:16px"><a href="/areas-we-cover/">Explore every area →</a></p></div>
+    <div><p class="eyebrow">Local where it matters</p><h2>Fulham street by street.</h2><p class="muted">Based on Hurlingham Road, SW6. Tap a pin to see the area, the type of homes around it and the plumbing problems we commonly deal with.</p><div class="area-index">${areaRows}</div><p style="margin-top:16px"><a href="/areas-we-cover/">Explore every area →</a></p></div>
     <div>${renderMap({cfg,variant:'full'})}</div>
   </div></section>
 
-  <section class="band"><div class="shell"><p class="eyebrow">Clear pricing</p><h2>Know how the visit is charged.</h2>
+  <section class="band"><div class="shell"><p class="eyebrow">No mystery pricing</p><h2>Know what the visit starts at.</h2>
     <div class="pricing-grid"><div class="pricing-stat"><strong>£${cfg.pricing.firstHour}</strong><span>first hour</span></div><div class="pricing-stat"><strong>${cfg.pricing.incrementMinutes} min</strong><span>steps after the first hour</span></div><div class="pricing-stat"><strong>At cost</strong><span>parts shown on the invoice</span></div></div>
     <div class="work-examples">${examples}</div><p><a href="/pricing/">Full pricing and how time is counted →</a></p>
   </div></section>
