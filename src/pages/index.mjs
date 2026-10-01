@@ -2,7 +2,6 @@
 import{pageShell,actions,exclusions}from'../lib/layout.mjs';
 import{pricing}from'../lib/pricing.mjs';
 import{renderMap}from'../lib/map.mjs';
-import{icon}from'../lib/icons.mjs';
 import{quickAnswers}from'../content/quick-answers.mjs';
 
 const homeProblems=[
@@ -66,7 +65,7 @@ export async function render({cfg,meta,path,css,scriptPath}){
 
   const problemButtons=homeProblems.map(([key,url])=>{
     const def=quickAnswers[key];
-    return`<a class="problem-choice" href="${url}" data-problem="${key}" aria-pressed="false" aria-controls="qa-panel">${icon(def.icon)}<span>${def.label}</span></a>`
+    return`<a class="problem-choice" href="${url}" data-problem="${key}" aria-pressed="false" aria-controls="qa-panel"><span>${def.label}</span></a>`
   }).join('');
 
   const areaRows=[...cfg.areas.core,...cfg.areas.nearby].filter(a=>a.slug!=='crabtree-fulham-reach').slice(0,9).map(a=>`<a href="${a.hasPage?`/areas/${a.slug}/`:a.home?`/#${a.slug}`:`/areas-we-cover/#${a.slug}`}"><strong>${a.name}</strong><span>${a.postcode||''}</span></a>`).join('');
