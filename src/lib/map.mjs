@@ -85,7 +85,9 @@ export function renderMap({cfg,variant='full',focus=null}){
     return`<div class="fp-map fp-map--${variant}" data-map data-map-variant="${variant}"><div class="fp-map__art">${svgArt(viewBox)}<div class="map-pins">${pins}${base}</div></div></div>`;
   }
   const rows=data.map(d=>`<button class="map-info__row" type="button" data-area-row data-area-key="${esc(d.key)}"><strong>${esc(d.name)}</strong><span>${esc(d.postcode)}</span></button>`).join('');
-  const mobile=data.map(d=>`<details id="area-${esc(d.key)}" data-area-detail data-area-key="${esc(d.key)}"><summary>${esc(d.name)} ${d.postcode?`<span>${esc(d.postcode)}</span>`:''}</summary><div class="map-mobile-list__body">${detailBody(d)}</div></details>`).join('');
+  const defaultMobile=data.find(d=>d.key==='parsons-green')||data[0];
+  const mobileOptions=data.map(d=>`<option value="${esc(d.key)}">${esc(d.name)}${d.postcode?` · ${esc(d.postcode)}`:''}</option>`).join('');
+  const mobile=`<div class="map-mobile-control"><label for="mobile-area-select">Choose an area</label><select id="mobile-area-select" data-map-mobile-select>${mobileOptions}</select><div class="map-mobile-card" data-map-mobile-card>${detailBody(defaultMobile)}</div></div>`;
   const baseData={key:'local-base',name:'Our Fulham base',shortName:"We're here",postcode:'SW6',href:'/about/',intro:'Fulham Plumbing is based on Hurlingham Road. This is a working base rather than a walk-in shop; plumbing visits are carried out at the customer’s property.',homes:[],problems:[],anchor:true,labelSide:'top',wa:''};
   return`<div class="map-explorer" data-map data-map-variant="full">
     <section class="map-info" aria-live="polite" aria-label="Area information">
