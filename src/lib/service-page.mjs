@@ -48,7 +48,7 @@ export async function renderService({cfg,meta,path,css,scriptPath,service,conten
   const answer=content.answer.replaceAll('{labourRange}',lab||'').replaceAll('{typicalTimeText}',time||'').replaceAll('{inspectionPriceText}',p.inspectionPriceText()).replaceAll('{firstHour}',cfg.pricing.firstHour).replaceAll('{incrementText}',p.incrementText());
   const key=keyBySlug[service.slug],qa=key?qaPayload(cfg,p,key):null;
   const cost=service.slug==='plumbing-inspections'?p.inspectionPriceText():`£${cfg.pricing.firstHour} first hour`;
-  const more=service.slug==='plumbing-inspections'?'Fixed inspection price shown when confirmed':`${cfg.pricing.incrementMinutes}-minute steps after the first hour · parts at cost`;
+  const more=service.slug==='plumbing-inspections'?`General plumbing labour starts at £${cfg.pricing.firstHour} for the first hour; the inspection itself is a separate fixed-price service.`:`${cfg.pricing.incrementMinutes}-minute steps after the first hour · parts at cost`;
 
   const symptomBlock=qa?`<section class="problem-console service-symptoms" data-problem-console data-fixed-problem="${key}" aria-label="Quick answer for ${service.name}"><p class="eyebrow">Quick answer</p><h2>What is yours doing?</h2><div class="qa-wrap is-open"><div class="qa-wrap__inner"><div class="qa-panel" data-qa-panel aria-live="polite"></div></div></div></section>`:'';
 
