@@ -8,7 +8,7 @@ export function schemaGraph({cfg,meta,path,faqs=[],breadcrumbs=[],service=null,a
   const same=[cfg.links.googleBusinessProfile,cfg.links.reviewPlatform].filter(Boolean);
   const business=clean({
     '@type':'Plumber','@id':businessId,name:cfg.brand.name,url:cfg.site.url,logo:cfg.site.url+'/brand/mark.svg',
-    description:'Small plumbing jobs and repairs in Fulham SW6.',
+    description:'Plumbing repairs, maintenance and general plumbing work in Fulham SW6.',
     address:{'@type':'PostalAddress',streetAddress:cfg.operatingAddress.streetAddress,addressLocality:cfg.operatingAddress.locality,addressRegion:cfg.operatingAddress.city,postalCode:cfg.operatingAddress.postcode,addressCountry:'GB'},
     geo:cfg.operatingAddress.geo?{'@type':'GeoCoordinates',latitude:cfg.operatingAddress.geo.lat,longitude:cfg.operatingAddress.geo.lng}:null,
     telephone:cfg.contact.phone,email:cfg.contact.email,priceRange:'£75 first hour',
