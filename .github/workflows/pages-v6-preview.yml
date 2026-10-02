@@ -1,0 +1,60 @@
+name: Publish V6 Claude preview
+
+on:
+  push:
+    branches:
+      - redesign/v6-claude
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-v6:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout V6
+        uses: actions/checkout@v4
+        with:
+          ref: redesign/v6-claude
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check and build
+        run: npm run check
+
+      - name: Rewrite links for GitHub Pages V6 path
+        run: |
+          find dist -name '*.html' -type f -print0 | xargs -0 sed -i \
+            -e 's|href="/|href="/fulham-plumbing/v6/|g' \
+            -e 's|src="/|src="/fulham-plumbing/v6/|g' \
+            -e 's|action="/|action="/fulham-plumbing/v6/|g'
+          touch dist/.nojekyll
+
+      - name: Checkout existing Pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: pages
+
+      - name: Replace only V6 preview
+        run: |
+          rm -rf pages/v6
+          mkdir -p pages/v6
+          cp -a dist/. pages/v6/
+
+      - name: Commit preview
+        run: |
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add v6
+          if git diff --cached --quiet; then
+            echo "No preview changes"
+          else
+            git commit -m "Preview: publish Fulham Plumbing V6"
+            git push origin gh-pages
+          fi
