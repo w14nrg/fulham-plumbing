@@ -47,7 +47,7 @@ export const content={
   ],
   "scopeNote": "If the restriction proves to be in the external drain or shared below-ground system, we stop and explain that a drainage specialist is the right trade.",
   "costExample": "Clear and refit a kitchen sink trap",
-  "costNote": "Most accessible trap work is small-job labour plus any replacement fitting at cost.",
+  "costNote": "Most accessible trap work is standard first-hour labour plus any replacement fitting at cost.",
   "local": "Compact flat kitchens often put the sink and two appliances onto one waste connection. Poor layout can make that arrangement drain slowly and smell.",
   "faqs": [
     {
@@ -75,9 +75,9 @@ export const content={
       "text": "For appliance wastes sharing the under-sink connection."
     },
     {
-      "slug": "small-plumbing-jobs",
-      "name": "Small plumbing jobs",
-      "text": "Group a waste repair with other small work."
+      "slug": "general-plumbing",
+      "name": "General plumbing",
+      "text": "Group a waste repair with other plumbing work."
     }
   ],
   "guide": null,

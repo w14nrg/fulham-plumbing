@@ -237,8 +237,8 @@ export const pages = {
       "FAQPage"
     ]
   },
-  "/small-plumbing-jobs/": {
-    "path": "/small-plumbing-jobs/",
+  "/general-plumbing/": {
+    "path": "/general-plumbing/",
     "title": "General Plumbing Fulham SW6 | Fulham Plumbing",
     "h1": "General plumbing",
     "description": "General plumbing work in Fulham SW6, from individual repairs to several plumbing jobs planned into one visit. £75 first hour.",
@@ -286,7 +286,7 @@ export const pages = {
     "path": "/about/",
     "title": "About Fulham Plumbing | Local Plumber SW6",
     "h1": "About Fulham Plumbing",
-    "description": "Fulham Plumbing is a local small-jobs plumber based on Hurlingham Road, SW6. Who we are, how we work and what we do and don't do.",
+    "description": "Fulham Plumbing is a local plumber based on Hurlingham Road, SW6. Who we are, how we work and what we do and don't do.",
     "primary": "Fulham Plumbing",
     "secondary": "Fulham Plumbing reviews, local plumber Hurlingham Road",
     "intent": "Trust check",
@@ -299,7 +299,7 @@ export const pages = {
     "path": "/contact/",
     "title": "Contact Fulham Plumbing | Call or WhatsApp",
     "h1": "Contact Fulham Plumbing",
-    "description": "Call, WhatsApp a photo of the problem or send a message. Fulham Plumbing, Hurlingham Road, SW6. £75 first hour, small jobs welcome.",
+    "description": "Call, WhatsApp a photo of the problem or send a message. Fulham Plumbing, Hurlingham Road, SW6. £75 first hour, no separate call-out fee.",
     "primary": "contact Fulham Plumbing",
     "secondary": "Fulham plumber phone number",
     "intent": "Get in touch",
@@ -325,7 +325,7 @@ export const pages = {
     "path": "/areas/fulham-broadway/",
     "title": "Plumber Fulham Broadway | Fulham Plumbing",
     "h1": "Plumber in Fulham Broadway",
-    "description": "Local plumber for Fulham Broadway flats, conversions and homes around Fulham Road and North End Road. £75 first hour. Small jobs welcome.",
+    "description": "Local plumber for Fulham Broadway flats, conversions and homes around Fulham Road and North End Road. £75 first hour, no separate call-out fee.",
     "primary": "plumber Fulham Broadway",
     "secondary": "plumber Walham Green, plumber North End Road, plumber for flats SW6",
     "intent": "Hire",
@@ -355,7 +355,7 @@ export const pages = {
     "path": "/areas/chelsea-harbour/",
     "title": "Plumber Chelsea Harbour & Lots Road | SW10",
     "h1": "Plumber in Chelsea Harbour and Lots Road",
-    "description": "Small plumbing jobs and repairs in Chelsea Harbour, Lots Road and World's End, SW10. Managed-building access handled. £75 first hour.",
+    "description": "Plumbing repairs and general plumbing in Chelsea Harbour, Lots Road and World's End, SW10. Managed-building access handled. £75 first hour.",
     "primary": "plumber Chelsea Harbour",
     "secondary": "plumber Lots Road, plumber World's End, plumber SW10",
     "intent": "Hire",
@@ -368,11 +368,11 @@ export const pages = {
   },
   "/areas/putney/": {
     "path": "/areas/putney/",
-    "title": "Plumber in Putney SW15 | Small Jobs from £75",
+    "title": "Plumber in Putney SW15 | £75 First Hour",
     "h1": "Plumber in Putney, SW15",
     "description": "Local plumber just over Putney Bridge for leaks, toilets, taps, showers and pumps in Putney SW15. £75 first hour, no separate call-out fee.",
     "primary": "plumber Putney",
-    "secondary": "plumber SW15, local plumber Putney, small plumbing jobs Putney",
+    "secondary": "plumber SW15, local plumber Putney, plumbing repairs Putney",
     "intent": "Hire",
     "schema": [
       "WebPage",

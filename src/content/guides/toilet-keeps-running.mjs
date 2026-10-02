@@ -89,8 +89,8 @@ export const content={
   },
   "secondary": [
     {
-      "path": "/small-plumbing-jobs/",
-      "label": "Small plumbing jobs"
+      "path": "/general-plumbing/",
+      "label": "General plumbing"
     }
   ],
   "relatedGuides": [

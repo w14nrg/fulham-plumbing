@@ -74,8 +74,8 @@ export const content={
       "text": "For water escaping behind or below an appliance."
     },
     {
-      "slug": "small-plumbing-jobs",
-      "name": "Small plumbing jobs",
+      "slug": "general-plumbing",
+      "name": "General plumbing",
       "text": "Add the connection to other repairs."
     }
   ],

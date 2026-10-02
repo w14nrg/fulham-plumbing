@@ -8,7 +8,7 @@ SEO titles, H1s, descriptions, search intent and schema are implemented in `src/
 - Services hub: plumbing services Fulham.
 - Service pages: one hire-intent cluster each, never duplicated.
 - Pricing: plumber prices Fulham and cost intent.
-- Small plumbing jobs: small plumbing jobs Fulham.
+- General plumbing (/general-plumbing/): general plumbing Fulham, plumbing repairs Fulham, plumbing maintenance Fulham. (Route moved from /small-plumbing-jobs/ before launch; see decisions.md.)
 - Landlords: landlord plumber Fulham.
 - Five area pages own only their named place searches.
 - Guides own question searches rather than "[service] Fulham" searches.

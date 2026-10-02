@@ -74,9 +74,9 @@ export const content={
   ],
   "related": [
     {
-      "slug": "small-plumbing-jobs",
-      "name": "Small plumbing jobs",
-      "text": "Add the toilet repair to other small repairs in one visit."
+      "slug": "general-plumbing",
+      "name": "General plumbing",
+      "text": "Add the toilet repair to other plumbing jobs in one visit."
     },
     {
       "slug": "leak-repairs",

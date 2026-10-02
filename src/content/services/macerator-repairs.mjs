@@ -53,8 +53,8 @@ export const content={
       "text": "For ordinary toilet faults."
     },
     {
-      "slug": "small-plumbing-jobs",
-      "name": "Small plumbing jobs",
+      "slug": "general-plumbing",
+      "name": "General plumbing",
       "text": "For other minor repairs."
     }
   ],

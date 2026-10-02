@@ -73,9 +73,9 @@ export const content={
       "text": "For water escaping from associated pipework."
     },
     {
-      "slug": "small-plumbing-jobs",
-      "name": "Small plumbing jobs",
-      "text": "Add valve work to a list of smaller repairs."
+      "slug": "general-plumbing",
+      "name": "General plumbing",
+      "text": "Add valve work to other plumbing jobs in one visit."
     },
     {
       "slug": "stopcock-replacement",

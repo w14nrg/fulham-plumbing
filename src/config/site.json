@@ -7,7 +7,7 @@
   },
   "brand": {
     "name": "Fulham Plumbing",
-    "strapline": "Plumbing services · Fulham SW6"
+    "strapline": "Plumbing services \u00b7 Fulham SW6"
   },
   "company": {
     "legalName": null,
@@ -41,7 +41,7 @@
     "phone": "+447340274956",
     "phoneDisplay": "07340 274956",
     "whatsapp": "447340274956",
-    "whatsappMessage": "Hi Fulham Plumbing, I need a plumber. My postcode is: ____. The problem is: ____. I’ll attach a photo or short video in WhatsApp.",
+    "whatsappMessage": "Hi Fulham Plumbing, I need a plumber. My postcode is: ____. The problem is: ____. I\u2019ll attach a photo or short video in WhatsApp.",
     "email": null,
     "hours": null,
     "availabilityNote": null
@@ -75,8 +75,7 @@
   "links": {
     "googleBusinessProfile": null,
     "reviewPlatform": null,
-    "kensingtonPlumbingServices": null,
-    "enSuitesAndBathrooms": null
+    "kensingtonPlumbingServices": null
   },
   "map": {
     "base": [
@@ -233,9 +232,9 @@
       "typicalMinutes": null
     },
     {
-      "slug": "small-plumbing-jobs",
+      "slug": "general-plumbing",
       "name": "General plumbing",
-      "tile": "Multiple plumbing jobs",
+      "tile": "General plumbing",
       "enabled": true,
       "typicalMinutes": [
         60,

@@ -1,5 +1,5 @@
 export const content={
-  "lede": "Putney is just over Putney Bridge from our base, and we cover it mainly north of the Upper Richmond Road. Expect the same clear pricing and small-jobs service as in Fulham.",
+  "lede": "Putney is just over Putney Bridge from our base, and we cover it mainly north of the Upper Richmond Road. Expect the same clear pricing and plumbing service as in Fulham.",
   "homes": [
     "Putney mixes Victorian and Edwardian terraces with mansion blocks, 1930s purpose-built flats and larger houses nearer the river. Those building types produce a wide range of water-supply arrangements within a relatively compact area.",
     "Period houses may still use loft storage and pumps for upstairs showers. Purpose-built blocks can have longer shared supply routes, while larger houses often have several floors and more isolation points to identify."

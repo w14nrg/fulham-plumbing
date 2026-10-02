@@ -105,6 +105,6 @@ export const quickAnswers={
     }
   },
   other:{
-    label:'Something else',icon:'list',service:'small-plumbing-jobs',symptoms:{}
+    label:'Something else',icon:'list',service:'general-plumbing',symptoms:{}
   }
 };

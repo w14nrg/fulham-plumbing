@@ -1,237 +1,150 @@
 (()=>{'use strict';
-
 const q=(s,c=document)=>c.querySelector(s);
 const qa=(s,c=document)=>Array.from(c.querySelectorAll(s));
 const reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
-const desktopMap=window.matchMedia('(min-width:1024px)');
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-let qaData=null;
-const qaNode=q('#qa-data');
-try{qaData=qaNode?JSON.parse(qaNode.textContent):null}catch(e){qaData=null}
-
-const state={problem:null,symptom:null};
-const waHref=(message)=>{
-  if(!qaData?.whatsapp)return'';
-  return`https://wa.me/${qaData.whatsapp}?text=${encodeURIComponent(message)}`;
-};
-const messageFor=(problem,symptom)=>{
-  const p=qaData?.problems?.[problem];
-  const s=p?.symptoms?.[symptom];
-  if(s?.wa)return`Hi Fulham Plumbing, ${s.wa}. My postcode is ____. I've attached a photo.`;
-  if(p)return`Hi Fulham Plumbing, I have a problem with my ${p.label.toLowerCase()}. My postcode is ____. I've attached a photo.`;
-  return qaData?.defaultMessage||'Hi Fulham Plumbing, I have a plumbing problem. My postcode is: ';
-};
-const symptomButtons=p=>Object.entries(p?.symptoms||{}).map(([key,item])=>`<button type="button" class="qa-pill" data-symptom="${esc(key)}">${esc(item.label)}</button>`).join('');
-
-function renderHomeChecker(root){
-  const select=q('[data-problem-select]',root);
-  const stage=q('[data-problem-stage]',root);
-  const go=q('[data-problem-go]',root);
-  if(!select||!stage)return;
-
-  const problem=select.value;
-  const p=qaData?.problems?.[problem];
-  state.problem=problem||null;
-  state.symptom=null;
-
-  if(!p){
-    stage.innerHTML='';
-    if(go)go.disabled=true;
-    return;
-  }
-
-  if(go){
-    go.disabled=false;
-    go.onclick=()=>{
-      if(qaData?.whatsapp){
-        window.location.href=waHref(messageFor(problem,null));
-      }else if(p.serviceUrl){
-        window.location.href=p.serviceUrl;
-      }
-    };
-  }
-
-  if(problem==='other'){
-    stage.innerHTML=`<div class="v5-checker__result"><strong>Not sure what to call it?</strong><p>Use the small-jobs page and tell us what needs sorting.</p><a class="v5-inline-link" href="${esc(p.serviceUrl)}">See small plumbing jobs →</a></div>`;
-    return;
-  }
-
-  stage.innerHTML=`<div class="v5-checker__symptoms"><span>Which sounds closest?</span><div class="v5-symptom-list">${symptomButtons(p)}</div></div><div class="v5-checker__result" data-checker-result hidden></div>`;
-
-  qa('[data-symptom]',stage).forEach(btn=>btn.addEventListener('click',()=>{
-    qa('[data-symptom]',stage).forEach(x=>x.classList.remove('is-active'));
-    btn.classList.add('is-active');
-    state.symptom=btn.dataset.symptom;
-    const item=p.symptoms?.[state.symptom];
-    const result=q('[data-checker-result]',stage);
-    if(!result)return;
-    const primary=qaData?.whatsapp
-      ? `<a class="v5-main-cta v5-main-cta--small" href="${waHref(messageFor(problem,state.symptom))}">WhatsApp this problem <span>→</span></a>`
-      : `<a class="v5-main-cta v5-main-cta--small" href="${esc(p.serviceUrl)}">See ${esc(p.label.toLowerCase())} help <span>→</span></a>`;
-    result.hidden=false;
-    result.innerHTML=`<strong>${esc(item?.label||'Selected problem')}</strong><div class="v5-checker__result-actions">${primary}<a class="v5-inline-link" href="${esc(p.serviceUrl)}">Read the service page →</a></div>`;
-  }));
-}
-
-qa('[data-problem-tool]').forEach(root=>{
-  const select=q('[data-problem-select]',root);
-  if(!select)return;
-  select.addEventListener('change',()=>renderHomeChecker(root));
-  renderHomeChecker(root);
-});
-
-
-
-/* Homepage postcode + problem -> WhatsApp */
-qa('[data-whatsapp-checker]').forEach(box=>{
-  const postcode=q('[data-wa-postcode]',box);
-  const problem=q('[data-wa-problem]',box);
-  const send=q('[data-wa-send]',box);
-  const waNumber=box.dataset.waNumber;
-  if(!send||!waNumber)return;
-  const refresh=()=>{
-    const pc=(postcode?.value||'').trim()||'____';
-    const pr=(problem?.value||'').trim()||'____';
-    const message=`Hi Fulham Plumbing, I need a plumber. My postcode is ${pc}. The problem is: ${pr}`;
-    send.href=`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
-  };
-  postcode?.addEventListener('input',refresh);
-  problem?.addEventListener('input',refresh);
-  send.addEventListener('click',refresh);
-  refresh();
-});
-
-/* Service-page symptom helper */
-qa('[data-problem-console][data-fixed-problem]').forEach(root=>{
-  const problem=root.dataset.fixedProblem;
-  const p=qaData?.problems?.[problem];
-  const panel=q('[data-qa-panel]',root);
-  if(!p||!panel)return;
-  panel.innerHTML=`<div class="v5-symptom-list">${symptomButtons(p)}</div><div data-service-result></div>`;
-  qa('[data-symptom]',panel).forEach(btn=>btn.addEventListener('click',()=>{
-    qa('[data-symptom]',panel).forEach(x=>x.classList.remove('is-active'));
-    btn.classList.add('is-active');
-    const item=p.symptoms?.[btn.dataset.symptom];
-    const result=q('[data-service-result]',panel);
-    if(!result)return;
-    const causes=(item?.causes||[]).join(' · ');
-    const wa=qaData?.whatsapp?`<a class="button button--whatsapp button--compact" href="${waHref(messageFor(problem,btn.dataset.symptom))}">WhatsApp this problem</a>`:'';
-    result.innerHTML=`<div class="quick-answer"><dl><dt>Likely causes</dt><dd>${esc(causes)}</dd><dt>What we check</dt><dd>${esc(item?.checks||'')}</dd><dt>Typical cost</dt><dd>${esc(item?.cost||qaData?.defaultCost||'')}</dd></dl><div class="problem-actions">${wa}<a class="problem-advice" href="${esc(p.serviceUrl)}">Service details →</a></div></div>`;
-  }));
-});
-
-/* Mobile drawer */
-const open=q('[data-menu-open]');
+/* ---------- Mobile drawer ---------- */
+const openBtn=q('[data-menu-open]');
 const drawer=q('#mobile-drawer');
-const close=q('[data-menu-close]');
-if(open&&drawer){
-  open.addEventListener('click',()=>{
-    if(typeof drawer.showModal==='function')drawer.showModal();
-    else drawer.setAttribute('open','');
-    open.setAttribute('aria-expanded','true');
-  });
-  close?.addEventListener('click',()=>drawer.close?.());
-  drawer.addEventListener('close',()=>open.setAttribute('aria-expanded','false'));
-}
+if(openBtn&&drawer&&typeof drawer.showModal==='function'){
+  const shut=()=>{if(drawer.open)drawer.close();};
+  openBtn.addEventListener('click',()=>{drawer.showModal();openBtn.setAttribute('aria-expanded','true');document.body.classList.add('drawer-open');});
+  q('[data-menu-close]',drawer)?.addEventListener('click',shut);
+  drawer.addEventListener('click',e=>{if(e.target===drawer)shut();});
+  drawer.addEventListener('close',()=>{openBtn.setAttribute('aria-expanded','false');document.body.classList.remove('drawer-open');openBtn.focus();});
+  qa('a',drawer).forEach(a=>a.addEventListener('click',shut));
+}else if(openBtn){openBtn.hidden=true;document.documentElement.classList.add('no-dialog');}
 
-/* Desktop dropdowns */
-qa('.nav-disclosure').forEach(w=>{
-  const b=q('[data-nav-toggle]',w);
-  const m=b?q('#'+b.getAttribute('aria-controls')):null;
+/* ---------- Desktop dropdowns ---------- */
+const drops=qa('.nav-drop');
+const closeDrops=(except)=>drops.forEach(w=>{if(w===except)return;const b=q('[data-nav-toggle]',w),m=q('.nav-drop__panel',w);if(b)b.setAttribute('aria-expanded','false');if(m)m.hidden=true;});
+drops.forEach(w=>{
+  const b=q('[data-nav-toggle]',w),m=q('.nav-drop__panel',w);
   if(!b||!m)return;
-  b.addEventListener('click',()=>{
-    const on=b.getAttribute('aria-expanded')==='true';
-    qa('.nav-disclosure').forEach(other=>{
-      if(other===w)return;
-      const ob=q('[data-nav-toggle]',other);
-      const om=ob?q('#'+ob.getAttribute('aria-controls')):null;
-      if(ob)ob.setAttribute('aria-expanded','false');
-      if(om)om.hidden=true;
-    });
-    b.setAttribute('aria-expanded',String(!on));
-    m.hidden=on;
-  });
+  b.addEventListener('click',()=>{const on=b.getAttribute('aria-expanded')==='true';closeDrops(w);b.setAttribute('aria-expanded',String(!on));m.hidden=on;});
+  w.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDrops();b.focus();}});
+  w.addEventListener('focusout',e=>{if(!w.contains(e.relatedTarget)){b.setAttribute('aria-expanded','false');m.hidden=true;}});
 });
-document.addEventListener('click',e=>{
-  if(e.target.closest('.nav-disclosure'))return;
-  qa('.nav-disclosure').forEach(w=>{
-    const b=q('[data-nav-toggle]',w);
-    const m=b?q('#'+b.getAttribute('aria-controls')):null;
-    if(b)b.setAttribute('aria-expanded','false');
-    if(m)m.hidden=true;
-  });
-});
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-drop'))closeDrops();});
 
-/* Interactive map */
-qa('[data-map]').forEach(map=>{
-  map.classList.add('is-drawn');
-  if(map.dataset.mapVariant!=='full')return;
-
-  let items=[];
-  try{items=JSON.parse(q('.map-data',map)?.textContent||'[]')}catch(e){items=[]}
-  const byKey=Object.fromEntries(items.map(x=>[x.key,x]));
-  const desktopDefault=q('[data-map-default]',map);
-  const desktopState=q('[data-map-state]',map);
-  const mobileSelect=q('[data-map-mobile-select]',map);
-  const mobileCard=q('[data-map-mobile-card]',map);
-
-  const serviceHref=k=>({
-    leak:'leak-repairs',toilet:'toilet-repairs',tap:'tap-repairs',shower:'shower-repairs',
-    'low-pressure':'low-water-pressure','shower-pump':'shower-pumps','hot-water':'hot-water-cylinders',
-    'blocked-sink':'blocked-sinks-wastes',stopcock:'stopcock-replacement'
-  }[k]||'small-plumbing-jobs');
-
-  const detailHtml=d=>{
-    const homes=d.homes?.length?`<div class="map-detail-block"><h4>Homes and buildings</h4><ul>${d.homes.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:'';
-    const probs=d.problems?.length?`<div class="map-detail-block"><h4>Common plumbing calls</h4><div class="area-tags">${d.problems.map(k=>`<a class="tag" href="/${serviceHref(k)}/">${esc(k.replaceAll('-',' '))}</a>`).join('')}</div></div>`:'';
-    const wa=d.wa?`<a class="button button--whatsapp button--compact" href="${esc(d.wa)}">WhatsApp us</a>`:'';
-    return`<p>${esc(d.intro||'')}</p>${homes}${probs}<div class="map-info__actions"><a class="button button--secondary button--compact" href="${esc(d.href)}">Plumbing in ${esc(d.name)} →</a>${wa}</div>`;
+/* ---------- WhatsApp job checker ---------- */
+const checker=q('[data-checker]');
+const waLinks=qa('[data-wa]');
+const defaults=new Map(waLinks.map(a=>[a,a.href]));
+if(checker){
+  const number=(checker.getAttribute('action')||'').split('/').pop();
+  const pc=q('[data-ck-postcode]',checker),pr=q('[data-ck-problem]',checker),file=q('[data-ck-file]',checker);
+  const area=q('[data-ck-area]',checker),fileText=q('[data-ck-file-text]',checker),preview=q('[data-ck-preview]',checker);
+  const note=q('[data-ck-note]',checker),steps=q('[data-ck-steps]',checker);
+  let chosen=null,objectUrl=null;
+  const normal=v=>v.toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const pretty=v=>{const n=normal(v);return n.length>4?n.slice(0,-3)+' '+n.slice(-3):n;};
+  const outward=v=>{const n=normal(v);const m=n.match(/^([A-Z]{1,2}\d[A-Z\d]?)(\d[A-Z]{2})$/)||n.match(/^([A-Z]{1,2}\d[A-Z\d]?)$/);return m?m[1]:'';};
+  const areaHint=()=>{
+    const o=outward(pc.value);
+    if(!o){area.textContent='';area.className='checker__area';return;}
+    if(o==='SW6'){area.textContent='SW6 · our core area';area.className='checker__area is-good';}
+    else if(['SW10','SW15','SW18'].includes(o)){area.textContent=o+' · nearby, we cover parts of it';area.className='checker__area is-good';}
+    else{area.textContent=o+' · outside our usual area, send it and we\u2019ll tell you';area.className='checker__area is-warn';}
   };
-
-  const selectPoint=key=>{
-    const d=byKey[key];
-    if(!d)return;
-    qa('[data-map-point]',map).forEach(p=>p.classList.toggle('is-selected',p.dataset.areaKey===key));
-
-    if(desktopMap.matches&&desktopState){
-      q('[data-map-postcode]',desktopState).textContent=d.postcode||'Local area';
-      q('[data-map-name]',desktopState).textContent=d.name;
-      q('[data-map-copy]',desktopState).innerHTML=detailHtml(d);
-      if(desktopDefault)desktopDefault.hidden=true;
-      desktopState.hidden=false;
-    }else if(mobileCard){
-      if(mobileSelect&&mobileSelect.value!==key)mobileSelect.value=key;
-      mobileCard.innerHTML=`<p class="eyebrow">${esc(d.postcode||'Local area')}</p><h3>${esc(d.name)}</h3>${detailHtml(d)}`;
-      mobileCard.scrollIntoView({behavior:reduce.matches?'auto':'smooth',block:'nearest'});
-    }
+  const message=()=>{
+    const p=pretty(pc.value.trim()),t=pr.value.trim().replace(/\s+/g,' ');
+    let m='Hi Fulham Plumbing, I need a plumber.';
+    if(p)m+=' My postcode is '+p+'.';
+    if(t)m+=' The problem is: '+t.replace(/[.!?]*$/,'')+'.';
+    if(chosen)m+=' I have a '+(chosen.type.startsWith('video')?'video':'photo')+' to attach.';
+    return m;
   };
-
-  qa('[data-map-trigger]',map).forEach(btn=>{
-    btn.addEventListener('click',()=>selectPoint(btn.dataset.areaKey));
-    btn.addEventListener('keydown',e=>{
-      if(e.key==='Enter'||e.key===' '){e.preventDefault();selectPoint(btn.dataset.areaKey)}
-    });
+  const url=()=>'https://wa.me/'+number+'?text='+encodeURIComponent(message());
+  const sync=()=>{
+    const touched=pc.value.trim()||pr.value.trim()||chosen;
+    waLinks.forEach(a=>{a.href=touched?url():defaults.get(a);});
+  };
+  const fmt=n=>n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';
+  const showFile=()=>{
+    if(objectUrl){URL.revokeObjectURL(objectUrl);objectUrl=null;}
+    if(!chosen){preview.hidden=true;preview.innerHTML='';fileText.innerHTML='<strong>Add a photo or short video</strong><small>It helps us identify the fitting and fault.</small>';checker.classList.remove('has-file');return;}
+    const isVid=chosen.type.startsWith('video');
+    objectUrl=URL.createObjectURL(chosen);
+    const thumb=isVid?'<span class="checker__thumb checker__thumb--video" aria-hidden="true">\u25B6</span>':'<img class="checker__thumb" alt="" src="'+objectUrl+'">';
+    preview.innerHTML=thumb+'<span class="checker__file-meta"><strong>'+esc(chosen.name)+'</strong><small>'+(isVid?'Video':'Photo')+' \u00b7 '+fmt(chosen.size)+' \u00b7 you\u2019ll add this in WhatsApp</small></span><button type="button" class="checker__remove" data-ck-remove>Remove</button>';
+    preview.hidden=false;
+    fileText.innerHTML='<strong>Change photo or video</strong><small>Selected below.</small>';
+    checker.classList.add('has-file');
+    q('[data-ck-remove]',preview).addEventListener('click',()=>{chosen=null;file.value='';showFile();sync();steps.hidden=true;note.hidden=false;});
+  };
+  pc.addEventListener('input',()=>{areaHint();sync();});
+  pc.addEventListener('blur',()=>{if(pc.value.trim())pc.value=pretty(pc.value);areaHint();sync();});
+  pr.addEventListener('input',()=>{pr.classList.remove('is-invalid');sync();});
+  file.addEventListener('change',()=>{chosen=file.files&&file.files[0]?file.files[0]:null;showFile();sync();steps.hidden=true;note.hidden=false;});
+  checker.addEventListener('submit',e=>{
+    e.preventDefault();
+    if(!pr.value.trim()){pr.classList.add('is-invalid');pr.setAttribute('aria-invalid','true');pr.focus();note.textContent='Tell us what\u2019s wrong first, even in a few words.';return;}
+    pr.removeAttribute('aria-invalid');
+    const link=url();
+    if(!chosen){window.location.href=link;return;}
+    const canShare=!!(navigator.canShare&&navigator.canShare({files:[chosen]}));
+    const kind=chosen.type.startsWith('video')?'video':'photo';
+    steps.innerHTML='<p class="checker__steps-title">Your message is ready. One more step for the '+kind+':</p><ol><li>Tap <strong>Open WhatsApp chat</strong>. Your postcode and problem are already written.</li><li>In the chat, tap the <strong>paperclip</strong> (Android) or <strong>+</strong> (iPhone) and choose the same '+kind+'.</li><li>Press send.</li></ol><a class="btn btn--wa btn--block" href="'+link+'" data-track="whatsapp_click">Open WhatsApp chat \u2192</a>'+(canShare?'<button type="button" class="checker__share" data-ck-share>Or share the '+kind+' using your phone\u2019s share menu</button><small class="checker__share-note">You\u2019ll then choose WhatsApp and Fulham Plumbing ('+esc(number.replace(/^44/,'0').replace(/^(\d{5})(\d{6})$/,'$1 $2'))+') yourself.</small>':'');
+    steps.hidden=false;note.hidden=true;
+    steps.scrollIntoView({behavior:reduce.matches?'auto':'smooth',block:'nearest'});
+    const share=q('[data-ck-share]',steps);
+    if(share)share.addEventListener('click',()=>{navigator.share({files:[chosen],text:message()}).catch(()=>{});});
   });
-  qa('[data-area-row]',map).forEach(btn=>btn.addEventListener('click',()=>selectPoint(btn.dataset.areaKey)));
-  mobileSelect?.addEventListener('change',()=>selectPoint(mobileSelect.value));
-  q('[data-map-back]',map)?.addEventListener('click',()=>{
-    qa('[data-map-point]',map).forEach(p=>p.classList.remove('is-selected'));
-    if(desktopState)desktopState.hidden=true;
-    if(desktopDefault)desktopDefault.hidden=false;
-  });
-
-  const first=mobileSelect?.value||items.find(x=>x.key==='parsons-green')?.key||items[0]?.key;
-  if(first&&!desktopMap.matches)selectPoint(first);
-});
-
-/* Reveal animation is decorative only; content is visible by default. */
-if(!reduce.matches&&'IntersectionObserver'in window){
-  const targets=qa('[data-reveal]');
-  const io=new IntersectionObserver(entries=>entries.forEach(entry=>{
-    if(entry.isIntersecting){entry.target.classList.add('is-visible');io.unobserve(entry.target)}
-  }),{threshold:.08});
-  targets.forEach(el=>io.observe(el));
+  areaHint();
 }
 
+/* ---------- Service-page symptom helper ---------- */
+let qaData=null;
+try{const n=q('#qa-data');qaData=n?JSON.parse(n.textContent):null;}catch(e){qaData=null;}
+qa('[data-problem-console][data-fixed-problem]').forEach(root=>{
+  const key=root.dataset.fixedProblem,p=qaData?.problems?.[key],panel=q('[data-qa-panel]',root);
+  if(!p||!panel)return;
+  const waFor=s=>qaData.whatsapp?'https://wa.me/'+qaData.whatsapp+'?text='+encodeURIComponent('Hi Fulham Plumbing, '+(s?.wa||('I have a problem with my '+p.label.toLowerCase()))+'. My postcode is ____.'):'';
+  panel.innerHTML='<div class="pill-row">'+Object.entries(p.symptoms||{}).map(([k,s])=>'<button type="button" class="pill" aria-pressed="false" data-symptom="'+esc(k)+'">'+esc(s.label)+'</button>').join('')+'</div><div class="qa-result" data-qa-result aria-live="polite"></div>';
+  qa('[data-symptom]',panel).forEach(btn=>btn.addEventListener('click',()=>{
+    qa('[data-symptom]',panel).forEach(x=>x.setAttribute('aria-pressed','false'));
+    btn.setAttribute('aria-pressed','true');
+    const s=p.symptoms[btn.dataset.symptom],out=q('[data-qa-result]',panel),wa=waFor(s);
+    out.innerHTML='<dl><dt>Likely causes</dt><dd>'+esc((s.causes||[]).join(' \u00b7 '))+'</dd><dt>What we check</dt><dd>'+esc(s.checks||'')+'</dd><dt>Typical cost</dt><dd>'+esc(s.cost||qaData.defaultCost||'')+'</dd></dl>'+(wa?'<a class="btn btn--wa btn--sm" href="'+wa+'" data-track="whatsapp_click">WhatsApp this problem \u2192</a>':'');
+    const sticky=q('[data-sticky-wa]');if(sticky&&wa)sticky.href=wa;
+  }));
+});
+
+/* ---------- Interactive map ---------- */
+qa('[data-map]').forEach(map=>{
+  const draw=()=>map.classList.add('is-drawn');
+  if(reduce.matches||!('IntersectionObserver'in window))draw();
+  else{const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){draw();io.disconnect();}}),{threshold:.25});io.observe(map);setTimeout(draw,2500);}
+  if(map.dataset.mapVariant!=='full')return;
+  let data={areas:[],base:null};
+  try{data=JSON.parse(q('.map-data',map).textContent);}catch(e){}
+  const by=Object.fromEntries(data.areas.map(a=>[a.key,a]));
+  const card=q('[data-map-card]',map),pins=qa('[data-map-pin]',map),chips=qa('[data-map-chip]',map);
+  const original=card.innerHTML;
+  const render=d=>'<p class="map-card__kicker">'+esc(d.postcode||'Local area')+(d.nearby?' \u00b7 Nearby':' \u00b7 Fulham')+'</p><h3>'+esc(d.name)+'</h3>'+(d.intro?'<p>'+esc(d.intro)+'</p>':'')+'<div class="map-card__cols">'+(d.homes.length?'<div><h4>Typical homes</h4><ul>'+d.homes.map(h=>'<li>'+esc(h)+'</li>').join('')+'</ul></div>':'')+(d.problems.length?'<div><h4>Common plumbing calls</h4><p class="map-card__tags">'+d.problems.map(x=>'<a href="'+esc(x.href)+'">'+esc(x.label)+'</a>').join('')+'</p></div>':'')+'</div><div class="map-card__actions"><a class="btn btn--light btn--sm" href="'+esc(d.href)+'">Plumbing in '+esc(d.name)+' \u2192</a>'+(d.wa?'<a class="btn btn--wa btn--sm" href="'+esc(d.wa)+'" data-track="whatsapp_click">WhatsApp us</a>':'')+'</div>';
+  const select=(key,from)=>{
+    const d=by[key];if(!d)return;
+    pins.forEach(p=>{const on=p.dataset.mapPin===key;p.classList.toggle('is-selected',on);p.setAttribute('aria-pressed',String(on));});
+    chips.forEach(c=>{const on=c.dataset.mapChip===key;c.classList.toggle('is-selected',on);if(on)c.setAttribute('aria-current','true');else c.removeAttribute('aria-current');});
+    card.innerHTML=render(d);card.classList.add('is-area');
+    const r=card.getBoundingClientRect();
+    if(from!=='key'&&(r.top<0||r.bottom>window.innerHeight))card.scrollIntoView({behavior:reduce.matches?'auto':'smooth',block:'nearest'});
+  };
+  const reset=()=>{pins.forEach(p=>{p.classList.remove('is-selected');p.setAttribute('aria-pressed','false');});chips.forEach(c=>{c.classList.remove('is-selected');c.removeAttribute('aria-current');});card.innerHTML=original;card.classList.remove('is-area');};
+  pins.forEach((p,i)=>{
+    p.addEventListener('click',()=>select(p.dataset.mapPin,'pin'));
+    p.addEventListener('keydown',e=>{
+      const k=e.key;let n=null;
+      if(k==='ArrowRight'||k==='ArrowDown')n=pins[(i+1)%pins.length];
+      else if(k==='ArrowLeft'||k==='ArrowUp')n=pins[(i-1+pins.length)%pins.length];
+      else if(k==='Home')n=pins[0];else if(k==='End')n=pins[pins.length-1];
+      else if(k==='Escape'){reset();return;}
+      if(n){e.preventDefault();n.focus();}
+    });
+  });
+  chips.forEach(c=>c.addEventListener('click',e=>{e.preventDefault();select(c.dataset.mapChip,'chip');}));
+  map.addEventListener('keydown',e=>{if(e.key==='Escape'&&card.classList.contains('is-area')){const sel=q('.map-pin.is-selected',map);reset();sel?.focus();}});
+});
 })();

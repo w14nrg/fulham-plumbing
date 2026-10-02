@@ -73,8 +73,8 @@ export const content={
       "text": "For reliable whole-property isolation."
     },
     {
-      "slug": "small-plumbing-jobs",
-      "name": "Small plumbing jobs",
+      "slug": "general-plumbing",
+      "name": "General plumbing",
       "text": "Combine an outside tap with other repairs."
     },
     {

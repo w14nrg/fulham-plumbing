@@ -69,9 +69,9 @@ export const content={
   ],
   "related": [
     {
-      "slug": "small-plumbing-jobs",
-      "name": "Small plumbing jobs",
-      "text": "Combine taps with other small repairs."
+      "slug": "general-plumbing",
+      "name": "General plumbing",
+      "text": "Combine taps with other plumbing repairs."
     },
     {
       "slug": "stopcock-replacement",

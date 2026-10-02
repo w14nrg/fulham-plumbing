@@ -42,7 +42,7 @@ export function schemaGraph({cfg,meta,path,faqs=[],breadcrumbs=[],service=null,a
     '@type':'Article','@id':abs(cfg,path)+'#article',headline:meta.h1,description:meta.description,
     author:cfg.plumber.name?{'@type':'Person',name:cfg.plumber.name,jobTitle:'Plumber',worksFor:{'@id':businessId}}:{'@id':businessId},
     publisher:{'@id':businessId},datePublished:article.published||article.updated,dateModified:article.updated,
-    mainEntityOfPage:{'@id':pageId},image:article.image||cfg.site.url+'/brand/og-default.svg'
+    mainEntityOfPage:{'@id':pageId},image:article.image||cfg.site.url+'/brand/og-default.png'
   }));
   if(path==='/about/'&&cfg.plumber.name)g.push(clean({
     '@type':'Person','@id':cfg.site.url+'/#plumber',name:cfg.plumber.name,jobTitle:'Plumber',worksFor:{'@id':businessId},

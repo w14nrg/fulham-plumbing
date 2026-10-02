@@ -5,7 +5,7 @@ import{quickAnswers}from'../content/quick-answers.mjs';
 const keyBySlug={
  'leak-repairs':'leak','toilet-repairs':'toilet','tap-repairs':'tap','shower-repairs':'shower',
  'shower-pumps':'shower-pump','low-water-pressure':'low-pressure','hot-water-cylinders':'hot-water',
- 'blocked-sinks-wastes':'blocked-sink','stopcock-replacement':'stopcock','small-plumbing-jobs':'other'
+ 'blocked-sinks-wastes':'blocked-sink','stopcock-replacement':'stopcock','general-plumbing':'other'
 };
 const ul=xs=>`<ul>${xs.map(x=>`<li>${x}</li>`).join('')}</ul>`;
 const json=o=>JSON.stringify(o).replace(/</g,'\\u003c');
@@ -19,7 +19,7 @@ function subline(slug){return{
  'tap-repairs':'Dripping, stiff, loose or leaking around the base?','shower-repairs':'Weak flow, temperature swings, dripping or not working?',
  'shower-pumps':"Won't start, very noisy, weak or cutting in and out?",'low-water-pressure':'Weak at one outlet, upstairs, on the hot side or throughout the property?',
  'hot-water-cylinders':'No hot water, lukewarm water or a leak in the airing cupboard?','blocked-sinks-wastes':'Slow, blocked, gurgling or smelling from the waste?',
- 'stopcock-replacement':"Stiff, leaking, won't close or you cannot find it?",'small-plumbing-jobs':'One small job or a list of things you want sorted in one visit?'
+ 'stopcock-replacement':"Stiff, leaking, won't close or you cannot find it?",'general-plumbing':'Repairs, maintenance or several plumbing jobs sorted in one visit?'
 }[slug]||''}
 
 export async function renderService({cfg,meta,path,css,scriptPath,service,content}){
