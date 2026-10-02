@@ -29,6 +29,7 @@ jobs:
           tar -xzf /tmp/fulham-v6.tar.gz -C .
           rm -rf .v6-bootstrap
           rm -f .github/workflows/bootstrap-v6.yml
+          rm -f .github/workflows/pages-v6-preview.yml
 
       - name: Verify no unrelated postcode
         shell: bash
